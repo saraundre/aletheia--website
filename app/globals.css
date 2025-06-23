@@ -59,6 +59,10 @@
   .body-text-small {
     @apply text-base md:text-lg leading-relaxed;
   }
+
+  .quote-text {
+    @apply text-xl md:text-2xl lg:text-3xl font-light italic leading-relaxed;
+  }
 }
 
 @layer utilities {
@@ -75,4 +79,4 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
-} 
+}
