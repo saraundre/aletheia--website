@@ -1,0 +1,19 @@
+import ContactHeroSection from '@/components/sections/ContactHeroSection'
+import ContactFormSection from '@/components/sections/ContactFormSection'
+import ContactInfoSection from '@/components/sections/ContactInfoSection'
+
+export const metadata = {
+  title: 'Contact - Let\'s Talk | Aletheia',
+  description: 'Interested in piloting Spark.OS? Want to support ethical tech development? Let\'s connect and build something that matters.',
+  keywords: ['contact', 'collaboration', 'partnership', 'pilot program', 'research collaboration'],
+}
+
+export default function ContactPage() {
+  return (
+    <div className="min-h-screen">
+      <ContactHeroSection />
+      <ContactFormSection />
+      <ContactInfoSection />
+    </div>
+  )
+} 
