@@ -1,5 +1,3 @@
-const { logger } = require('./lib/logger');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -20,14 +18,6 @@ const nextConfig = {
 
   // Log build information
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    logger.info('Webpack configuration', {
-      buildId,
-      dev,
-      isServer,
-      mode: config.mode,
-      target: config.target,
-    });
-
     // Add build timestamp
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -50,25 +40,6 @@ const nextConfig = {
     // Will be available on both server and client
     staticFolder: '/static',
   },
-
-  // Add experimental features for better debugging
-  experimental: {
-    // Enable more detailed logging
-    logging: {
-      level: 'verbose',
-    },
-  },
 }
-
-// Log configuration on startup
-logger.info('Next.js configuration loaded', {
-  config: {
-    images: nextConfig.images,
-    compress: nextConfig.compress,
-    poweredByHeader: nextConfig.poweredByHeader,
-    reactStrictMode: nextConfig.reactStrictMode,
-    swcMinify: nextConfig.swcMinify,
-  },
-});
 
 module.exports = nextConfig 

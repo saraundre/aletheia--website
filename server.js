@@ -1,7 +1,22 @@
 const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
-const { logger } = require('./lib/logger');
+
+// Import logger with fallback
+let logger;
+try {
+  const loggerModule = require('./lib/logger');
+  logger = loggerModule.logger;
+} catch (error) {
+  // Fallback logger if the module is not available
+  logger = {
+    info: (message, data) => console.log(`[INFO] ${message}`, data || ''),
+    debug: (message, data) => console.log(`[DEBUG] ${message}`, data || ''),
+    error: (message, data) => console.error(`[ERROR] ${message}`, data || ''),
+    logEnvironmentVariables: () => console.log('[INFO] Environment variables logged'),
+    logRequestInfo: (req) => console.log(`[DEBUG] Request: ${req.method} ${req.url}`)
+  };
+}
 
 // Log startup information
 logger.info('Custom server starting...', {
