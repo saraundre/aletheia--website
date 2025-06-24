@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import { Shield, Users, Heart, Eye } from 'lucide-react'
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { Shield, Users, Heart, Eye } from "lucide-react"
 
 const CoreValuesSection = () => {
   const [ref, inView] = useInView({
@@ -12,33 +12,40 @@ const CoreValuesSection = () => {
 
   const values = [
     {
-      title: 'Ethics by Design',
-      description: 'Every algorithm starts with the question: \'Who does this serve?\' We don\'t bolt on ethics as an afterthought.',
-      principle: 'Core Principle: Justice over profit',
+      title: "Ethics by Design",
+      description:
+        "Every algorithm starts with the question: 'Who does this serve?' We don't bolt on ethics as an afterthought.",
+      principle: "Core Principle: Justice over profit",
       icon: Shield,
-      color: 'from-blue-500 to-cyan-500'
+      gradient: "from-blue-500/20 to-cyan-500/20",
+      iconBg: "from-blue-500 to-cyan-500",
     },
     {
-      title: 'Access for All',
-      description: 'Technology should be a bridge, not a wall. We build for the margins, the overlooked, the brilliant minds.',
-      principle: 'Core Principle: Community over competition',
+      title: "Access for All",
+      description:
+        "Technology should be a bridge, not a wall. We build for the margins, the overlooked, the brilliant minds.",
+      principle: "Core Principle: Community over competition",
       icon: Users,
-      color: 'from-green-500 to-emerald-500'
+      gradient: "from-green-500/20 to-emerald-500/20",
+      iconBg: "from-green-500 to-emerald-500",
     },
     {
-      title: 'Community Driven',
-      description: 'Our solutions emerge from real conversations with real communities facing real challenges.',
-      principle: 'Core Principle: Purpose over performance',
+      title: "Community Driven",
+      description: "Our solutions emerge from real conversations with real communities facing real challenges.",
+      principle: "Core Principle: Purpose over performance",
       icon: Heart,
-      color: 'from-pink-500 to-rose-500'
+      gradient: "from-pink-500/20 to-rose-500/20",
+      iconBg: "from-pink-500 to-rose-500",
     },
     {
-      title: 'Radical Transparency',
-      description: 'Open processes, honest failures, clear communication. Transparency isn\'t just practice—it\'s revolutionary.',
-      principle: 'Core Principle: Truth over convenience',
+      title: "Radical Transparency",
+      description:
+        "Open processes, honest failures, clear communication. Transparency isn't just practice—it's revolutionary.",
+      principle: "Core Principle: Truth over convenience",
       icon: Eye,
-      color: 'from-purple-500 to-violet-500'
-    }
+      gradient: "from-purple-500/20 to-violet-500/20",
+      iconBg: "from-purple-500 to-violet-500",
+    },
   ]
 
   const containerVariants = {
@@ -64,46 +71,33 @@ const CoreValuesSection = () => {
     },
   }
 
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  }
-
   return (
-    <section className="section-padding bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 text-white relative overflow-hidden">
-      {/* Background Elements */}
+    <section className="section-padding bg-neutral-900 text-white relative overflow-hidden">
+      {/* Enhanced Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-900/10 to-accent-900/10" />
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
+            scale: [1, 1.1, 1],
+            opacity: [0.05, 0.1, 0.05],
           }}
           transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear",
+            duration: 12,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
           }}
-          className="absolute top-1/4 right-1/4 w-64 h-64 bg-primary-500/5 rounded-full blur-3xl"
+          className="absolute top-1/3 right-1/3 w-96 h-96 bg-white rounded-full blur-3xl"
         />
         <motion.div
           animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [360, 180, 0],
+            scale: [1.1, 1, 1.1],
+            opacity: [0.03, 0.08, 0.03],
           }}
           transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear",
+            duration: 15,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
           }}
-          className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"
+          className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"
         />
       </div>
 
@@ -117,10 +111,9 @@ const CoreValuesSection = () => {
         >
           {/* Section Header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="heading-2 mb-6">
-              Core Values
-            </h2>
-            <p className="body-text text-gray-300 max-w-3xl mx-auto">
+            <div className="w-12 h-px bg-white/30 mx-auto mb-8" />
+            <h2 className="heading-2 mb-6 text-white">Core Values</h2>
+            <p className="body-text text-white/70 max-w-3xl mx-auto">
               The principles that guide every decision we make and every line of code we write.
             </p>
           </motion.div>
@@ -130,50 +123,59 @@ const CoreValuesSection = () => {
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
-                variants={cardVariants}
-                whileHover={{ 
+                variants={itemVariants}
+                whileHover={{
+                  y: -8,
                   scale: 1.02,
-                  y: -5,
-                  transition: { duration: 0.3 }
+                  transition: { duration: 0.3 },
                 }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 group cursor-pointer"
+                className="group relative"
               >
-                {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-br ${value.color} rounded-2xl flex items-center justify-center mb-6 group-hover:shadow-lg transition-all duration-300`}>
-                  <value.icon size={32} className="text-white" />
-                </div>
+                {/* Gradient Background on Hover */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${value.gradient} rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-500`}
+                />
 
-                {/* Content */}
-                <h3 className="heading-3 text-white mb-4 group-hover:text-gradient transition-all duration-300">
-                  {value.title}
-                </h3>
-                
-                <p className="text-gray-300 mb-6 leading-relaxed">
-                  {value.description}
-                </p>
+                <div className="relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 group-hover:border-white/20 transition-all duration-300 h-full">
+                  {/* Icon */}
+                  <div
+                    className={`w-16 h-16 bg-gradient-to-br ${value.iconBg} rounded-2xl flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-white/10 transition-all duration-300`}
+                  >
+                    <value.icon size={28} className="text-white" />
+                  </div>
 
-                {/* Principle */}
-                <div className="border-t border-white/10 pt-4">
-                  <p className="text-sm font-medium text-gradient italic">
-                    {value.principle}
+                  {/* Content */}
+                  <h3 className="heading-3 text-white mb-4 group-hover:text-white/95 transition-colors duration-300">
+                    {value.title}
+                  </h3>
+
+                  <p className="text-white/70 mb-6 leading-relaxed group-hover:text-white/80 transition-colors duration-300">
+                    {value.description}
                   </p>
-                </div>
 
-                {/* Hover Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-accent-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                  {/* Principle */}
+                  <div className="border-t border-white/10 group-hover:border-white/20 pt-4 transition-colors duration-300">
+                    <p className="text-sm font-medium text-white/60 group-hover:text-white/70 italic transition-colors duration-300">
+                      {value.principle}
+                    </p>
+                  </div>
+
+                  {/* Decorative Element */}
+                  <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 group-hover:bg-white/10 transition-all duration-300" />
+                </div>
               </motion.div>
             ))}
           </div>
 
           {/* Bottom Message */}
-          <motion.div
-            variants={itemVariants}
-            className="text-center mt-16"
-          >
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              These values aren't just words on a page—they're the foundation of everything we build, 
-              every decision we make, and every relationship we cultivate.
-            </p>
+          <motion.div variants={itemVariants} className="text-center mt-16">
+            <div className="max-w-4xl mx-auto">
+              <div className="w-24 h-px bg-white/30 mx-auto mb-8" />
+              <p className="text-xl text-white/80 leading-relaxed">
+                These values aren't just words on a page—they're the foundation of everything we build, every decision
+                we make, and every relationship we cultivate.
+              </p>
+            </div>
           </motion.div>
         </motion.div>
       </div>
@@ -181,4 +183,4 @@ const CoreValuesSection = () => {
   )
 }
 
-export default CoreValuesSection 
+export default CoreValuesSection

@@ -1,79 +1,53 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
+import { ArrowRight, Play, Star } from "lucide-react"
 import Link from "next/link"
 
 const HeroSection = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  }
-
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-subtle">
-      <div className="container-custom relative z-10">
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center max-w-5xl mx-auto"
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-bg-primary">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-40 left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 text-center px-4">
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl font-extrabold text-gradient mb-6"
         >
-          {/* Main Heading */}
-          <motion.div variants={itemVariants} className="mb-12">
-            <h1 className="heading-1 text-primary-900 mb-8">
-              <span className="block">No white noise.</span>
-              <span className="block">No BS.</span>
-            </h1>
-          </motion.div>
-
-          {/* Subtitle */}
-          <motion.div variants={itemVariants} className="mb-16">
-            <p className="body-text text-primary-600 max-w-3xl mx-auto">
-              A collective of creative adults whom the 'child' in each of us survived. Building brands and bridging
-              communities through world-class artistry and technologies.
-            </p>
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Link href="/contact" className="btn-primary">
-              Start a Conversation
-            </Link>
-            <Link href="/stem-for-all" className="btn-secondary">
-              Explore Our Work
-            </Link>
-          </motion.div>
-
-          {/* Status Indicator */}
-          <motion.div variants={itemVariants} className="mt-16 flex items-center justify-center space-x-3">
-            <div className="status-online animate-pulse" />
-            <span className="text-primary-500 text-sm">Available for new projects</span>
-          </motion.div>
+          Welcome to Aletheia
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="text-lg md:text-2xl text-neutral-700 mb-10 max-w-2xl mx-auto"
+        >
+          Building ethical, sentient-first technology for a better world.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+        >
+          <Link href="/stem-for-all">
+            <span className="btn-primary inline-flex items-center gap-2 px-8 py-4 rounded-lg text-lg font-semibold shadow-lg hover:scale-105 transition-transform">
+              Explore STEM for All <ArrowRight size={20} />
+            </span>
+          </Link>
+          <Link href="/contact">
+            <span className="btn-secondary inline-flex items-center gap-2 px-8 py-4 rounded-lg text-lg font-semibold shadow-lg hover:scale-105 transition-transform">
+              Contact Us <Play size={20} />
+            </span>
+          </Link>
         </motion.div>
       </div>
     </section>

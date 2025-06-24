@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const InspirationalQuoteSection = () => {
   const [ref, inView] = useInView({
@@ -46,35 +46,7 @@ const InspirationalQuoteSection = () => {
   }
 
   return (
-    <section className="section-padding bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-200 rounded-full opacity-20 blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1.1, 1, 1.1],
-            rotate: [0, -5, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-200 rounded-full opacity-20 blur-3xl"
-        />
-      </div>
-
+    <section className="section-padding bg-white relative overflow-hidden">
       <div className="container-custom relative z-10">
         <motion.div
           ref={ref}
@@ -84,17 +56,17 @@ const InspirationalQuoteSection = () => {
           className="text-center max-w-4xl mx-auto"
         >
           {/* Quote Lines */}
-          <div className="space-y-6 mb-12">
+          <div className="space-y-6 mb-16">
             {[
               "You may say I'm a dreamer",
               "But I'm not the only one",
               "I hope someday you'll join us",
-              "And the world will be as one"
+              "And the world will be as one",
             ].map((line, index) => (
               <motion.div
                 key={index}
                 variants={lineVariants}
-                className="text-2xl md:text-3xl lg:text-4xl font-light text-dark-800 leading-relaxed"
+                className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-700 leading-relaxed"
               >
                 {line}
               </motion.div>
@@ -102,45 +74,18 @@ const InspirationalQuoteSection = () => {
           </div>
 
           {/* Song Title */}
-          <motion.div
-            variants={lineVariants}
-            className="mb-8"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gradient italic">
-              "Imagine"
-            </h2>
+          <motion.div variants={lineVariants} className="mb-2">
+            <h2 className="text-2xl md:text-3xl font-light italic text-neutral-600">"Imagine"</h2>
+          </motion.div>
+
+          {/* Song Title Repeat */}
+          <motion.div variants={lineVariants} className="mb-8">
+            <h3 className="text-xl md:text-2xl font-light italic text-neutral-500">Imagine</h3>
           </motion.div>
 
           {/* Author */}
-          <motion.div
-            variants={authorVariants}
-            className="border-t border-dark-200 pt-8"
-          >
-            <p className="text-xl text-dark-600 font-medium">
-              John Lennon, 1971
-            </p>
-          </motion.div>
-
-          {/* Decorative Elements */}
-          <motion.div
-            variants={lineVariants}
-            className="mt-12 flex justify-center space-x-4"
-          >
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-3 h-3 bg-primary-500 rounded-full"
-            />
-            <motion.div
-              animate={{ scale: [1.2, 1, 1.2] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-              className="w-3 h-3 bg-accent-500 rounded-full"
-            />
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-              className="w-3 h-3 bg-primary-500 rounded-full"
-            />
+          <motion.div variants={authorVariants} className="border-t border-neutral-200 pt-8">
+            <p className="text-lg text-neutral-600 font-medium">John Lennon, 1971</p>
           </motion.div>
         </motion.div>
       </div>
@@ -148,4 +93,4 @@ const InspirationalQuoteSection = () => {
   )
 }
 
-export default InspirationalQuoteSection 
+export default InspirationalQuoteSection

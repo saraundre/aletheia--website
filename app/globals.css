@@ -2,16 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply bg-white text-dark-900 font-sans;
+    @apply bg-neutral-50 text-neutral-900 font-sans antialiased;
   }
 }
 
@@ -19,64 +16,186 @@
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
-  
+
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent;
-  }
-  
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-  }
-  
-  .btn-secondary {
-    @apply bg-transparent border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-  }
-  
-  .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100;
-  }
-  
-  .section-padding {
-    @apply py-16 md:py-24;
-  }
-  
-  .heading-1 {
-    @apply text-4xl md:text-6xl lg:text-7xl font-bold leading-tight;
-  }
-  
-  .heading-2 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight;
-  }
-  
-  .heading-3 {
-    @apply text-2xl md:text-3xl font-semibold leading-tight;
-  }
-  
-  .body-text {
-    @apply text-lg md:text-xl leading-relaxed;
-  }
-  
-  .body-text-small {
-    @apply text-base md:text-lg leading-relaxed;
+    @apply bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 bg-clip-text text-transparent;
   }
 
-  .quote-text {
-    @apply text-xl md:text-2xl lg:text-3xl font-light italic leading-relaxed;
+  .btn-primary {
+    @apply bg-neutral-900 hover:bg-neutral-800 text-white font-medium py-4 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-neutral-300 hover:border-neutral-900 text-neutral-700 hover:text-neutral-900 font-medium py-4 px-8 rounded-full transition-all duration-300 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+  }
+
+  .card-minimal {
+    @apply bg-white/80 backdrop-blur-sm rounded-3xl border border-neutral-200/50 hover:border-neutral-300/50 transition-all duration-500 hover:shadow-xl hover:shadow-neutral-200/50;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .heading-1 {
+    @apply text-5xl md:text-7xl lg:text-8xl font-light leading-tight tracking-tight text-neutral-900;
+    font-family: "Playfair Display", serif;
+  }
+
+  .heading-2 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-neutral-900;
+    font-family: "Playfair Display", serif;
+  }
+
+  .heading-3 {
+    @apply text-2xl md:text-3xl font-medium leading-tight tracking-tight text-neutral-800;
+  }
+
+  .body-text {
+    @apply text-lg md:text-xl leading-relaxed text-neutral-600;
+  }
+
+  .body-text-large {
+    @apply text-xl md:text-2xl leading-relaxed text-neutral-600;
+  }
+
+  .minimal-shadow {
+    @apply shadow-lg shadow-neutral-200/30;
+  }
+
+  .glass-minimal {
+    @apply bg-white/60 backdrop-blur-md border border-white/20;
   }
 }
 
 @layer utilities {
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .text-shadow-subtle {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+}
+
+/* --- Custom Hero Section and Animation Styles --- */
+.hero-minimal {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.gradient-overlay {
+  position: relative;
+}
+
+.gradient-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.03) 0%, rgba(99, 102, 241, 0.03) 100%);
+  pointer-events: none;
+}
+
+.heading-xl {
+  font-size: 6rem;
+  font-weight: 200;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+@media (min-width: 768px) {
+  .heading-xl {
+    font-size: 8rem;
   }
-  
-  .backdrop-blur-custom {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+}
+
+.body-lg {
+  font-size: 1.25rem;
+  font-weight: 350;
+  line-height: 1.6;
+}
+
+.status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.online {
+  background: #10b981;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.animate-fade-up-delay-1 {
+  animation: fadeUp 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.animate-fade-up-delay-2 {
+  animation: fadeUp 0.8s ease-out 0.4s forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-slate-500 { color: #64748b; }
+.text-slate-600 { color: #475569; }
+.text-slate-700 { color: #334155; }
+.text-slate-900 { color: #0f172a; }
+.bg-slate-100 { background-color: #f1f5f9; }
+.bg-slate-300 { background-color: #cbd5e1; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-12 { margin-bottom: 3rem; }
+.mr-2 { margin-right: 0.5rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.max-w-3xl { max-width: 48rem; }
+.w-24 { width: 6rem; }
+.h-px { height: 1px; }
+.text-center { text-align: center; }
+.text-sm { font-size: 0.875rem; }
+.font-medium { font-weight: 500; }
+.rounded-full { border-radius: 9999px; }
+.inline-flex { display: inline-flex; }
+.items-center { align-items: center; }
+
+.heading-xxl {
+  font-size: 4.5rem;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 768px) {
+  .heading-xxl {
+    font-size: 6rem;
   }
 }

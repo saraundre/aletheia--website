@@ -27,44 +27,82 @@ const Navigation = () => {
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-custom shadow-sm border-b border-primary-100" : "bg-transparent"
+      transition={{ duration: 1 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-neutral-200/50" : "bg-transparent"
       }`}
     >
       <div className="container-custom">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="group">
-            <motion.div whileHover={{ scale: 1.02 }} className="text-2xl font-light text-primary-900 tracking-minimal">
-              Aletheia
+            <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center">
+                <span className="text-white font-light text-sm">A</span>
+              </div>
+              <span className="text-xl font-light text-neutral-900 tracking-wide">Aletheia</span>
             </motion.div>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-12">
-            {menuItems.map((item) => (
-              <Link
+          <div className="hidden md:flex items-center space-x-8">
+            {menuItems.map((item, index) => (
+              <motion.div
                 key={item.name}
-                href={item.href}
-                className="text-primary-700 hover:text-primary-900 font-light transition-colors duration-300"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                {item.name}
-              </Link>
+                <Link
+                  href={item.href}
+                  className="text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-300 py-2 px-4 rounded-lg hover:bg-neutral-50"
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
             ))}
           </div>
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link href="/contact" className="btn-primary">
-              Collaborate
-            </Link>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/contact" className="btn-primary text-sm px-6 py-3">
+                Collaborate
+              </Link>
+            </motion.div>
           </div>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-primary-900">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <motion.button
+            onClick={() => setIsOpen(!isOpen)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="md:hidden p-2 rounded-lg text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 transition-colors duration-300"
+          >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={20} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu size={20} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
 
@@ -72,26 +110,44 @@ const Navigation = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white border-t border-primary-100"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white/95 backdrop-blur-md border-t border-neutral-200/50"
           >
             <div className="container-custom py-8">
-              <div className="space-y-6">
-                {menuItems.map((item) => (
-                  <Link
+              <div className="space-y-4">
+                {menuItems.map((item, index) => (
+                  <motion.div
                     key={item.name}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="block text-xl font-light text-primary-900 hover:text-primary-600 transition-colors duration-300"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
                   >
-                    {item.name}
-                  </Link>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block text-lg font-medium text-neutral-700 hover:text-neutral-900 transition-colors duration-300 py-3"
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
                 ))}
-                <Link href="/contact" onClick={() => setIsOpen(false)} className="btn-primary inline-block mt-6">
-                  Collaborate
-                </Link>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="pt-4"
+                >
+                  <Link
+                    href="/contact"
+                    onClick={() => setIsOpen(false)}
+                    className="btn-primary inline-block w-full text-center"
+                  >
+                    Collaborate
+                  </Link>
+                </motion.div>
               </div>
             </div>
           </motion.div>

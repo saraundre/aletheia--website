@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import { Play, ExternalLink } from 'lucide-react'
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { Play, ExternalLink } from "lucide-react"
 
 const VideoContentSection = () => {
   const [ref, inView] = useInView({
@@ -12,19 +12,15 @@ const VideoContentSection = () => {
 
   const videos = [
     {
-      title: 'STEM for All: Equitable Learning',
-      description: 'Discover how we\'re making STEM education accessible to every student',
-      thumbnail: '/api/placeholder/400/250',
-      videoUrl: 'https://www.youtube.com/watch?v=example1',
-      duration: '5:32'
+      title: "STEM for All: Equitable Learning",
+      description: "Discover how we're making STEM education accessible to every student",
+      duration: "5:32",
     },
     {
-      title: 'Prof Marcelo Ang',
-      description: 'Educational leadership and innovation in STEM',
-      thumbnail: '/api/placeholder/400/250',
-      videoUrl: 'https://www.youtube.com/watch?v=example2',
-      duration: '8:15'
-    }
+      title: "Prof Marcelo Ang",
+      description: "Educational leadership and innovation in STEM",
+      duration: "8:15",
+    },
   ]
 
   const containerVariants = {
@@ -50,18 +46,6 @@ const VideoContentSection = () => {
     },
   }
 
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  }
-
   return (
     <section className="section-padding bg-white relative overflow-hidden">
       <div className="container-custom relative z-10">
@@ -74,12 +58,10 @@ const VideoContentSection = () => {
         >
           {/* Section Header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="heading-2 text-dark-900 mb-6">
-              Video Content
-            </h2>
-            <p className="body-text text-dark-600 max-w-3xl mx-auto">
-              Explore our latest videos showcasing our commitment to equitable STEM education 
-              and innovative learning approaches.
+            <div className="w-12 h-px bg-neutral-300 mx-auto mb-8" />
+            <h2 className="heading-2 text-neutral-900 mb-8">Stories in Motion</h2>
+            <p className="body-text text-neutral-600 max-w-3xl mx-auto">
+              Watch our journey unfold through conversations with educators, innovators, and the communities we serve.
             </p>
           </motion.div>
 
@@ -88,91 +70,72 @@ const VideoContentSection = () => {
             {videos.map((video, index) => (
               <motion.div
                 key={video.title}
-                variants={cardVariants}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -5,
-                  transition: { duration: 0.3 }
+                variants={itemVariants}
+                whileHover={{
+                  y: -8,
+                  transition: { duration: 0.3 },
                 }}
-                className="card overflow-hidden group cursor-pointer"
+                className="group cursor-pointer"
               >
-                {/* Video Thumbnail */}
-                <div className="relative aspect-video bg-gradient-to-br from-primary-100 to-accent-100 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-500/20" />
-                  
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
+                <div className="card-minimal overflow-hidden">
+                  {/* Video Thumbnail */}
+                  <div className="relative aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 overflow-hidden">
+                    {/* Play Button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg group-hover:bg-white transition-all duration-300"
+                      >
+                        <Play size={24} className="text-neutral-600 ml-1" fill="currentColor" />
+                      </motion.div>
+                    </div>
+
+                    {/* Duration Badge */}
+                    <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
+                      {video.duration}
+                    </div>
+                  </div>
+
+                  {/* Video Info */}
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="heading-3 text-neutral-900 group-hover:text-neutral-700 transition-colors duration-300">
+                        {video.title}
+                      </h3>
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        className="text-neutral-600 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                      >
+                        <ExternalLink size={20} />
+                      </motion.div>
+                    </div>
+
+                    <p className="text-neutral-600 mb-4 leading-relaxed">{video.description}</p>
+
                     <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg group-hover:bg-white transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="inline-flex items-center space-x-2 text-neutral-900 hover:text-neutral-700 font-medium transition-colors duration-300"
                     >
-                      <Play size={24} className="text-primary-600 ml-1" fill="currentColor" />
+                      <span>Watch Video</span>
+                      <ExternalLink size={16} />
                     </motion.div>
                   </div>
-
-                  {/* Duration Badge */}
-                  <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
-                    {video.duration}
-                  </div>
-
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
-                </div>
-
-                {/* Video Info */}
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="heading-3 text-dark-900 group-hover:text-primary-600 transition-colors duration-300">
-                      {video.title}
-                    </h3>
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      className="text-primary-600 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    >
-                      <ExternalLink size={20} />
-                    </motion.div>
-                  </div>
-                  
-                  <p className="text-dark-600 mb-4 leading-relaxed">
-                    {video.description}
-                  </p>
-
-                  <motion.a
-                    href={video.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium transition-colors duration-300"
-                  >
-                    <span>Watch Video</span>
-                    <ExternalLink size={16} />
-                  </motion.a>
                 </div>
               </motion.div>
             ))}
           </div>
 
           {/* Bottom CTA */}
-          <motion.div
-            variants={itemVariants}
-            className="text-center mt-12"
-          >
-            <p className="text-dark-500 mb-6">
-              Subscribe to our YouTube channel for more educational content
-            </p>
-            <motion.a
-              href="https://youtube.com/@aletheia"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-secondary inline-flex items-center space-x-2"
-            >
-              <span>Visit Our Channel</span>
-              <ExternalLink size={16} />
-            </motion.a>
+          <motion.div variants={itemVariants} className="text-center mt-12">
+            <p className="text-neutral-500 mb-6">Subscribe to our YouTube channel for more educational content</p>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <button className="btn-secondary inline-flex items-center space-x-2">
+                <span>Visit Our Channel</span>
+                <ExternalLink size={16} />
+              </button>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>
@@ -180,4 +143,4 @@ const VideoContentSection = () => {
   )
 }
 
-export default VideoContentSection 
+export default VideoContentSection

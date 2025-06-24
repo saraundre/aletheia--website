@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const CollaboratorsCarousel = () => {
   const [ref, inView] = useInView({
@@ -10,14 +10,14 @@ const CollaboratorsCarousel = () => {
   })
 
   const collaborators = [
-    { name: 'Science Centre Singapore', logo: 'SCS' },
-    { name: 'National Library Board', logo: 'NLB' },
-    { name: 'Rakuten Asia', logo: 'Rakuten' },
-    { name: 'STEM For All Charity', logo: 'STEM For All' },
-    { name: 'Singapore University', logo: 'SGU' },
-    { name: 'Tech Innovation Hub', logo: 'TIH' },
-    { name: 'Digital Learning Institute', logo: 'DLI' },
-    { name: 'Future Skills Academy', logo: 'FSA' },
+    "Science Centre Singapore",
+    "National Library Board",
+    "Rakuten Asia",
+    "STEM For All Charity",
+    "Singapore University",
+    "Tech Innovation Hub",
+    "Digital Learning Institute",
+    "Future Skills Academy",
   ]
 
   const containerVariants = {
@@ -25,7 +25,7 @@ const CollaboratorsCarousel = () => {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
+        duration: 1,
         staggerChildren: 0.1,
       },
     },
@@ -37,14 +37,14 @@ const CollaboratorsCarousel = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
         ease: "easeOut",
       },
     },
   }
 
   return (
-    <section className="section-padding bg-gray-50 relative overflow-hidden">
+    <section className="section-padding bg-neutral-50 relative overflow-hidden">
       <div className="container-custom relative z-10">
         <motion.div
           ref={ref}
@@ -54,58 +54,60 @@ const CollaboratorsCarousel = () => {
           className="text-center"
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="mb-16">
-            <h2 className="heading-2 text-dark-900 mb-6">
-              Trusted by
-            </h2>
-            <p className="body-text text-dark-600 max-w-2xl mx-auto">
-              Partnering with leading organizations to create meaningful impact through technology and innovation.
+          <motion.div variants={itemVariants} className="mb-20">
+            <div className="w-12 h-px bg-neutral-300 mx-auto mb-8" />
+            <h2 className="heading-2 text-neutral-900 mb-8">Trusted by</h2>
+            <p className="body-text max-w-2xl mx-auto">
+              Partnering with leading organizations to create meaningful impact.
             </p>
           </motion.div>
 
           {/* Carousel Container */}
-          <motion.div
-            variants={itemVariants}
-            className="relative overflow-hidden"
-          >
-            {/* First Row - Scrolling */}
-            <div className="flex space-x-12 animate-scroll">
+          <motion.div variants={itemVariants} className="relative overflow-hidden">
+            {/* First Row - Moving Right */}
+            <div className="flex space-x-8 mb-8 animate-scroll-right">
               {[...collaborators, ...collaborators].map((collaborator, index) => (
                 <motion.div
-                  key={`${collaborator.name}-${index}`}
+                  key={`row1-${collaborator}-${index}`}
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="card px-8 py-6 min-w-[200px] text-center group">
-                    <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300">
-                      <span className="text-white font-bold text-lg">
-                        {collaborator.logo.split(' ').map(word => word[0]).join('')}
+                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group">
+                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
+                      <span className="text-neutral-600 font-medium text-lg">
+                        {collaborator
+                          .split(" ")
+                          .map((word) => word[0])
+                          .join("")}
                       </span>
                     </div>
-                    <h3 className="font-semibold text-dark-900 text-sm">
-                      {collaborator.name}
+                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
+                      {collaborator}
                     </h3>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Second Row - Reverse Scrolling */}
-            <div className="flex space-x-12 animate-scroll-reverse mt-8">
-              {[...collaborators.reverse(), ...collaborators.reverse()].map((collaborator, index) => (
+            {/* Second Row - Moving Left */}
+            <div className="flex space-x-8 animate-scroll-left">
+              {[...collaborators.slice().reverse(), ...collaborators.slice().reverse()].map((collaborator, index) => (
                 <motion.div
-                  key={`reverse-${collaborator.name}-${index}`}
+                  key={`row2-${collaborator}-${index}`}
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="card px-8 py-6 min-w-[200px] text-center group bg-white/80 backdrop-blur-sm">
-                    <div className="w-16 h-16 bg-gradient-to-br from-accent-500 to-primary-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300">
-                      <span className="text-white font-bold text-lg">
-                        {collaborator.logo.split(' ').map(word => word[0]).join('')}
+                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group">
+                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
+                      <span className="text-neutral-600 font-medium text-lg">
+                        {collaborator
+                          .split(" ")
+                          .map((word) => word[0])
+                          .join("")}
                       </span>
                     </div>
-                    <h3 className="font-semibold text-dark-900 text-sm">
-                      {collaborator.name}
+                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
+                      {collaborator}
                     </h3>
                   </div>
                 </motion.div>
@@ -114,46 +116,42 @@ const CollaboratorsCarousel = () => {
           </motion.div>
 
           {/* Bottom Text */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-16"
-          >
-            <p className="text-dark-500 italic">
-              Partner logos scroll horizontally
-            </p>
+          <motion.div variants={itemVariants} className="mt-16">
+            <p className="text-neutral-400 text-sm italic">Building partnerships that matter</p>
           </motion.div>
         </motion.div>
       </div>
 
+      {/* CSS Animations */}
       <style jsx>{`
-        @keyframes scroll {
+        @keyframes scroll-right {
           0% {
-            transform: translateX(0);
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        
+        @keyframes scroll-left {
+          0% {
+            transform: translateX(0%);
           }
           100% {
             transform: translateX(-50%);
           }
         }
         
-        @keyframes scroll-reverse {
-          0% {
-            transform: translateX(-50%);
-          }
-          100% {
-            transform: translateX(0);
-          }
+        .animate-scroll-right {
+          animation: scroll-right 40s linear infinite;
         }
         
-        .animate-scroll {
-          animation: scroll 30s linear infinite;
+        .animate-scroll-left {
+          animation: scroll-left 35s linear infinite;
         }
         
-        .animate-scroll-reverse {
-          animation: scroll-reverse 25s linear infinite;
-        }
-        
-        .animate-scroll:hover,
-        .animate-scroll-reverse:hover {
+        .animate-scroll-right:hover,
+        .animate-scroll-left:hover {
           animation-play-state: paused;
         }
       `}</style>
@@ -161,4 +159,4 @@ const CollaboratorsCarousel = () => {
   )
 }
 
-export default CollaboratorsCarousel 
+export default CollaboratorsCarousel

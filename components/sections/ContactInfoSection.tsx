@@ -190,4 +190,4 @@ const ContactInfoSection = () => {
   )
 }
 
-export default ContactInfoSection 
+export default ContactInfoSection

@@ -38,7 +38,7 @@ const Footer = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="bg-dark-900 text-white"
+      className="bg-neutral-50 text-slate-900 border-t border-slate-200"
     >
       <div className="container-custom py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
@@ -50,9 +50,9 @@ const Footer = () => {
               transition={{ delay: 0.1 }}
             >
               <Link href="/" className="inline-block mb-6">
-                <h3 className="text-2xl font-bold text-gradient">Aletheia</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Aletheia</h3>
               </Link>
-              <p className="text-gray-300 mb-6 leading-relaxed">
+              <p className="text-slate-500 mb-6 leading-relaxed">
                 Building research technologies that solve real-world problems. 
                 Truth in tech, action in society.
               </p>
@@ -69,7 +69,7 @@ const Footer = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2 + index * 0.1 }}
                     whileHover={{ scale: 1.1 }}
-                    className={`p-2 rounded-lg bg-dark-800 transition-all duration-300 ${social.color}`}
+                    className="p-2 rounded-lg bg-slate-100 text-slate-400 hover:text-slate-700 transition-all duration-300"
                     aria-label={social.name}
                   >
                     <social.icon size={20} />
@@ -86,24 +86,24 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h4 className="text-lg font-semibold mb-6">Contact</h4>
+              <h4 className="text-lg font-semibold mb-6 text-slate-900">Contact</h4>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <Mail size={20} className="text-primary-400 mt-1 flex-shrink-0" />
+                  <Mail size={20} className="text-slate-500 mt-1 flex-shrink-0" />
                   <div>
                     <a 
                       href="mailto:enquiry@aletheia.sg"
-                      className="text-gray-300 hover:text-white transition-colors duration-300"
+                      className="text-slate-700 hover:text-slate-900 transition-colors duration-300"
                     >
                       enquiry@aletheia.sg
                     </a>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <MapPin size={20} className="text-primary-400 mt-1 flex-shrink-0" />
+                  <MapPin size={20} className="text-slate-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="text-gray-300">Singapore & Global</p>
-                    <p className="text-gray-400 text-sm">Building for communities worldwide</p>
+                    <p className="text-slate-700">Singapore & Global</p>
+                    <p className="text-slate-500 text-sm">Building for communities worldwide</p>
                   </div>
                 </div>
               </div>
@@ -117,7 +117,7 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
+              <h4 className="text-lg font-semibold mb-6 text-slate-900">Quick Links</h4>
               <div className="space-y-3">
                 {[
                   { name: 'Home', href: '/' },
@@ -132,7 +132,7 @@ const Footer = () => {
                   >
                     <Link
                       href={link.href}
-                      className="text-gray-300 hover:text-white transition-colors duration-300 block"
+                      className="text-slate-700 hover:text-slate-900 transition-colors duration-300 block"
                     >
                       {link.name}
                     </Link>
@@ -149,30 +149,27 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <h4 className="text-lg font-semibold mb-6">Stay Updated</h4>
-              <p className="text-gray-300 mb-6">
+              <h4 className="text-lg font-semibold mb-6 text-slate-900">Stay Updated</h4>
+              <p className="text-slate-500 mb-6">
                 Get updates on our latest research and impact.
               </p>
               
-              <form onSubmit={handleNewsletterSubmit} className="space-y-4">
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    className="w-full px-4 py-3 bg-dark-800 border border-dark-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                  />
-                </div>
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  required
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-transparent transition-all duration-300"
+                />
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full btn-primary flex items-center justify-center space-x-2"
+                  className="px-6 py-2 rounded-lg bg-slate-900 text-white font-semibold shadow-none hover:bg-slate-700 transition-all duration-300"
                 >
-                  <span>Subscribe</span>
-                  <Send size={16} />
+                  Subscribe
                 </motion.button>
               </form>
               
@@ -180,7 +177,7 @@ const Footer = () => {
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-green-400 text-sm mt-2"
+                  className="text-green-500 text-sm mt-2"
                 >
                   Thanks for subscribing!
                 </motion.p>
@@ -194,13 +191,13 @@ const Footer = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="border-t border-dark-800 mt-12 pt-8"
+          className="border-t border-slate-200 mt-12 pt-8"
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-400 text-sm">
+            <p className="text-slate-400 text-sm">
               © 2025 Aletheia Collective. Building with purpose.
             </p>
-            <p className="text-gray-400 text-sm">
+            <p className="text-slate-400 text-sm">
               No cookies, no tracking, just truth.
             </p>
           </div>
