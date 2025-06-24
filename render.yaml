@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: aletheia-website
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/debug
+    autoDeploy: true
+    branch: main
+    buildFilter:
+      paths:
+        - app/**
+        - components/**
+        - lib/**
+        - public/**
+        - package.json
+        - next.config.js
+        - server.js
+        - tailwind.config.js
+        - tsconfig.json
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-XSS-Protection
+        value: 1; mode=block
+    routes:
+      - type: rewrite
+        source: /api/debug
+        destination: /api/debug
+      - type: rewrite
+        source: /(.*)
+        destination: /$1 

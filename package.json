@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "NODE_ENV=production node server.js",
+    "start:windows": "set NODE_ENV=production&& node server.js",
+    "lint": "next lint",
+    "debug": "NODE_ENV=development node --inspect server.js",
+    "debug:windows": "set NODE_ENV=development&& node --inspect server.js",
+    "logs": "node -e \"const { logger } = require('./lib/logger'); logger.logEnvironmentVariables(); logger.logBuildInfo();\"",
+    "render:debug": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "next": "14.2.30",
