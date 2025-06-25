@@ -141,10 +141,10 @@ const CoreFeaturesSection = () => {
                   </div>
                   <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
                     {features[activeFeature].title === 'Adaptive Paths' ? (
-                      <>
-                        <span className="text-yellow-700 bg-yellow-100 px-2 py-1 rounded">In Progress</span>
-                        <span className="text-yellow-800 bg-yellow-200 px-2 py-1 rounded">BETA</span>
-                      </>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-yellow-700 bg-yellow-100 px-2 py-1 rounded font-semibold">In Progress</span>
+                        <span className="text-yellow-800 bg-yellow-200 px-2 py-1 rounded font-semibold">BETA</span>
+                      </div>
                     ) : (
                       features[activeFeature].metric
                     )}

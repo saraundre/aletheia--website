@@ -15,11 +15,13 @@ const VideoContentSection = () => {
       title: "STEM for All: Equitable Learning",
       description: "Discover how we're making STEM education accessible to every student",
       duration: "5:32",
+      url: "https://www.youtube.com/watch?v=OKZwinw3kko&t=62s",
     },
     {
       title: "Prof Marcelo Ang",
       description: "Educational leadership and innovation in STEM",
       duration: "8:15",
+      url: "https://www.youtube.com/watch?v=peewpaS8_Bg",
     },
   ]
 
@@ -75,26 +77,19 @@ const VideoContentSection = () => {
                   y: -8,
                   transition: { duration: 0.3 },
                 }}
-                className="group cursor-pointer h-full"
+                className="h-full"
               >
                 <div className="card-minimal overflow-hidden h-full flex flex-col">
-                  {/* Video Thumbnail */}
-                  <div className="relative h-64 bg-gradient-to-br from-neutral-100 to-neutral-200 overflow-hidden flex-shrink-0">
-                    {/* Play Button */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg group-hover:bg-white transition-all duration-300"
-                      >
-                        <Play size={24} className="text-neutral-600 ml-1" fill="currentColor" />
-                      </motion.div>
-                    </div>
-
-                    {/* Duration Badge */}
-                    <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
-                      {video.duration}
-                    </div>
+                  {/* Embedded YouTube Video */}
+                  <div className="relative h-64 overflow-hidden flex-shrink-0">
+                    <iframe
+                      src={video.url.replace('watch?v=', 'embed/')}
+                      title={video.title}
+                      className="w-full h-full"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
                   </div>
 
                   {/* Video Info */}
@@ -118,7 +113,7 @@ const VideoContentSection = () => {
                       whileTap={{ scale: 0.98 }}
                       className="inline-flex items-center space-x-2 text-neutral-900 hover:text-neutral-700 font-medium transition-colors duration-300 mt-auto"
                     >
-                      <span>Watch Video</span>
+                      <span>Watch on YouTube</span>
                       <ExternalLink size={16} />
                     </motion.div>
                   </div>
@@ -131,10 +126,15 @@ const VideoContentSection = () => {
           <motion.div variants={itemVariants} className="text-center mt-12">
             <p className="text-neutral-500 mb-6">Subscribe to our YouTube channel for more educational content</p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <button className="btn-secondary inline-flex items-center space-x-2">
+              <a
+                href="https://www.youtube.com/@Aletheia8888"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary inline-flex items-center space-x-2"
+              >
                 <span>Visit Our Channel</span>
                 <ExternalLink size={16} />
-              </button>
+              </a>
             </motion.div>
           </motion.div>
         </motion.div>

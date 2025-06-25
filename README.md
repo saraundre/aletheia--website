@@ -66,20 +66,21 @@ A modern, mobile-first Next.js website for Aletheia Collective - building resear
 
 ## 🔧 Dependency Optimization
 
-This project uses **optimized dependencies** for efficient builds on deployment platforms:
+This project uses **properly categorized dependencies** for efficient builds:
 
 ### Production Dependencies
 - Core Next.js, React, and UI libraries
+- Build tools required for production builds (Tailwind CSS, PostCSS, Autoprefixer)
 - Essential for the application to function
 
 ### Development Dependencies
-- Lightweight testing and build tools
-- TypeScript, ESLint, Jest, and styling tools
+- Testing and development tools only
+- TypeScript, ESLint, Jest, and development utilities
 
 ### Why This Matters
-- **Faster builds**: Only essential dependencies are installed
-- **Memory efficient**: No heavy browser automation tools
-- **Cost effective**: Reduced build time and resource usage
+- **Correct categorization**: Build dependencies are available during production builds
+- **Memory efficient**: No unnecessary heavy browser automation tools
+- **Cost effective**: Optimized dependency tree for deployment platforms
 
 ### SEO Implementation
 SEO is handled entirely through **Next.js built-in features**:

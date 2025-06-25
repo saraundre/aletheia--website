@@ -12,12 +12,16 @@ Heavy development dependencies were being installed during production builds:
 - `lighthouse` (12.6.1) - Performance testing tool with Chromium binaries
 - `puppeteer` (21.11.0) - Browser automation with full Chromium browser
 
+### Secondary Cause
+Build dependencies were incorrectly categorized in `devDependencies`:
+- `tailwindcss`, `autoprefixer`, `postcss` needed during production builds
+
 ### Why This Happened
-1. **Memory Intensive**: These packages include full browser binaries (~200MB+ each)
+1. **Memory Intensive**: Heavy packages include full browser binaries (~200MB+ each)
 2. **Build Environment**: Render.com has limited memory for build processes
 3. **Unnecessary for Production**: These are testing/development tools only
 4. **Not Used in Codebase**: Zero imports or usage found in the application
-5. **Default npm Behavior**: All dependencies (including devDependencies) are installed by default
+5. **Incorrect Categorization**: Build dependencies in devDependencies
 
 ## ✅ Solution Implemented
 
@@ -30,14 +34,25 @@ Heavy development dependencies were being installed during production builds:
 // }
 ```
 
-### 2. Simplified npm Configuration
-Updated `.npmrc` file:
-```
-# Ensure we only install production dependencies during builds
-production=true
+### 2. Proper Dependency Categorization
+```json
+// Moved build dependencies to dependencies
+"dependencies": {
+  "tailwindcss": "^3.4.17",
+  "autoprefixer": "^10.0.1", 
+  "postcss": "^8"
+  // ... other dependencies
+}
 ```
 
-### 3. SEO Verification
+### 3. Simplified npm Configuration
+Updated `.npmrc` file:
+```
+# npm configuration for optimized builds
+# Build dependencies are now properly categorized
+```
+
+### 4. SEO Verification
 Confirmed that SEO is handled entirely through Next.js built-in features:
 - ✅ **Metadata API** for comprehensive meta tags
 - ✅ **Open Graph** for social media sharing
@@ -52,7 +67,7 @@ Confirmed that SEO is handled entirely through Next.js built-in features:
 - **Faster Builds**: Reduced installation time
 - **Reliable Deployment**: Eliminates out-of-memory errors
 - **Cost Effective**: Lower resource usage on deployment platforms
-- **Simplified**: Cleaner dependency tree
+- **Proper Categorization**: Build dependencies available when needed
 
 ### For Local Development
 - **Streamlined**: No unnecessary heavy dependencies
@@ -62,13 +77,13 @@ Confirmed that SEO is handled entirely through Next.js built-in features:
 ## 📋 Verification
 
 ### Check the Fix
-1. **Verify `.npmrc` exists** with `production=true`
-2. **Confirm package.json** has no optionalDependencies section
-3. **Test production build**: `npm install --production`
+1. **Verify `.npmrc` exists** with proper configuration
+2. **Confirm package.json** has build dependencies in `dependencies`
+3. **Test production build**: `npm run build`
 4. **Verify SEO functionality**: All meta tags and structured data working
 
 ### Expected Behavior
-- **Production builds**: Only essential dependencies installed
+- **Production builds**: All necessary dependencies available
 - **Local development**: Lightweight development environment
 - **Render.com deployment**: Successful builds without memory issues
 - **SEO functionality**: Fully operational via Next.js built-ins
@@ -77,6 +92,7 @@ Confirmed that SEO is handled entirely through Next.js built-in features:
 
 ### Adding New Dependencies
 - **Production dependencies**: Add to `dependencies`
+- **Build dependencies**: Add to `dependencies` (if needed during build)
 - **Development tools**: Add to `devDependencies` (if lightweight)
 - **Avoid heavy tools**: Browser automation tools should be avoided unless absolutely necessary
 
@@ -86,7 +102,7 @@ Confirmed that SEO is handled entirely through Next.js built-in features:
 - Consider automated checks for dependency size
 
 ## 📚 Related Files
-- `package.json` - Dependency configuration (cleaned)
+- `package.json` - Dependency configuration (properly categorized)
 - `.npmrc` - Simplified npm configuration
 - `README.md` - Updated documentation
 - `BUILD_FIX.md` - This documentation
@@ -96,4 +112,4 @@ Confirmed that SEO is handled entirely through Next.js built-in features:
 **Fix Date**: June 25, 2025  
 **Status**: ✅ Resolved  
 **Impact**: Prevents build failures on Render.com and similar platforms  
-**Approach**: Complete removal of unused heavy dependencies 
+**Approach**: Remove unused heavy dependencies + proper categorization 
