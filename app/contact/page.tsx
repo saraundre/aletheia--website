@@ -1,5 +1,5 @@
-import ContactHeroSection from "@/components/sections/ContactHeroSection"
-import ContactFormSection from "@/components/sections/ContactFormSection"
+import ContactHeroSection from "@/components/sections/contact/ContactHeroSection"
+import ContactFormSection from "@/components/sections/contact/ContactFormSection"
 
 export const metadata = {
   title: "Contact - Let's Talk | Aletheia",

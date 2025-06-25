@@ -75,11 +75,11 @@ const VideoContentSection = () => {
                   y: -8,
                   transition: { duration: 0.3 },
                 }}
-                className="group cursor-pointer"
+                className="group cursor-pointer h-full"
               >
-                <div className="card-minimal overflow-hidden">
+                <div className="card-minimal overflow-hidden h-full flex flex-col">
                   {/* Video Thumbnail */}
-                  <div className="relative aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 overflow-hidden">
+                  <div className="relative h-64 bg-gradient-to-br from-neutral-100 to-neutral-200 overflow-hidden flex-shrink-0">
                     {/* Play Button */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <motion.div
@@ -98,25 +98,25 @@ const VideoContentSection = () => {
                   </div>
 
                   {/* Video Info */}
-                  <div className="p-6">
+                  <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="heading-3 text-neutral-900 group-hover:text-neutral-700 transition-colors duration-300">
                         {video.title}
                       </h3>
                       <motion.div
                         whileHover={{ scale: 1.1 }}
-                        className="text-neutral-600 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        className="text-neutral-600 opacity-0 group-hover:opacity-100 transition-all duration-300 flex-shrink-0"
                       >
                         <ExternalLink size={20} />
                       </motion.div>
                     </div>
 
-                    <p className="text-neutral-600 mb-4 leading-relaxed">{video.description}</p>
+                    <p className="text-neutral-600 mb-4 leading-relaxed flex-1">{video.description}</p>
 
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="inline-flex items-center space-x-2 text-neutral-900 hover:text-neutral-700 font-medium transition-colors duration-300"
+                      className="inline-flex items-center space-x-2 text-neutral-900 hover:text-neutral-700 font-medium transition-colors duration-300 mt-auto"
                     >
                       <span>Watch Video</span>
                       <ExternalLink size={16} />

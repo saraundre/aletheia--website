@@ -47,12 +47,6 @@ const SignatureSection = () => {
           {/* For Sentience */}
           <motion.div variants={itemVariants} className="mb-12">
             <p className="text-2xl md:text-3xl font-light italic text-neutral-500 mb-8">For Sentience,</p>
-            <img 
-              src="/aletheia-signature.png" 
-              alt="Aletheia signature" 
-              className="mx-auto mb-8 w-48 h-auto" 
-              style={{ filter: 'drop-shadow(0 2px 4px rgba(239,68,68,0.1))' }}
-            />
           </motion.div>
 
           {/* Handwritten Aletheia */}

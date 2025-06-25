@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 
-export function ContactHero() {
+const ContactHeroSection = () => {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -35,5 +35,5 @@ export function ContactHero() {
   )
 }
 
-export default ContactHero;
+export default ContactHeroSection
  

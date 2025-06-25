@@ -64,6 +64,31 @@ A modern, mobile-first Next.js website for Aletheia Collective - building resear
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
+## 🔧 Dependency Optimization
+
+This project uses **optimized dependencies** for efficient builds on deployment platforms:
+
+### Production Dependencies
+- Core Next.js, React, and UI libraries
+- Essential for the application to function
+
+### Development Dependencies
+- Lightweight testing and build tools
+- TypeScript, ESLint, Jest, and styling tools
+
+### Why This Matters
+- **Faster builds**: Only essential dependencies are installed
+- **Memory efficient**: No heavy browser automation tools
+- **Cost effective**: Reduced build time and resource usage
+
+### SEO Implementation
+SEO is handled entirely through **Next.js built-in features**:
+- ✅ **Metadata API** for comprehensive meta tags
+- ✅ **Open Graph** for social media sharing
+- ✅ **Structured data** for search engines
+- ✅ **Performance optimization** via Next.js optimizations
+- ✅ **No external SEO tools required**
+
 ## 🏗️ Project Structure
 
 ```
@@ -130,6 +155,26 @@ aletheia-website/
 1. Push your code to GitHub
 2. Connect your repository to Vercel
 3. Deploy automatically
+
+### Render.com Deployment
+
+The project is configured for automatic deployment on Render.com with the following settings:
+
+- **Build Command**: `npm run build`
+- **Start Command**: `npm start`
+- **Environment**: Node.js
+- **Port**: 3000 (automatically set by Render)
+
+#### Optimized Build Process
+- **Memory efficient**: No heavy browser automation tools
+- **Faster deployment**: Only essential dependencies are installed
+- **Reliable builds**: Streamlined dependency tree prevents build failures
+
+#### Environment Variables
+
+The following environment variables are automatically configured:
+- `NODE_ENV=production`
+- `PORT=3000`
 
 ### Other Platforms
 ```bash
@@ -215,32 +260,20 @@ npm run build
 npm start
 ```
 
-## 🏗️ Deployment
-
-### Render.com Deployment
-
-The project is configured for automatic deployment on Render.com with the following settings:
-
-- **Build Command**: `npm run build`
-- **Start Command**: `npm start`
-- **Environment**: Node.js
-- **Port**: 3000 (automatically set by Render)
-
-### Environment Variables
-
-The following environment variables are automatically configured:
-- `NODE_ENV=production`
-- `PORT=3000`
-
 ## 🛠️ Troubleshooting
 
 ### Build Issues
 
 If you encounter build failures:
 
-1. **Clear cache**: Delete `.next` folder and `node_modules`
-2. **Reinstall dependencies**: `npm install`
-3. **Check Node version**: Ensure you're using Node.js 18+ or 22+
+1. **Status 137 (Out of Memory)**: This has been resolved by removing unnecessary heavy dependencies
+   - No more `lighthouse` or `puppeteer` packages
+   - Streamlined dependency tree
+   - Check that `.npmrc` file exists with `production=true`
+
+2. **Clear cache**: Delete `.next` folder and `node_modules`
+3. **Reinstall dependencies**: `npm install`
+4. **Check Node version**: Ensure you're using Node.js 18+ or 22+
 
 ### Runtime Issues
 

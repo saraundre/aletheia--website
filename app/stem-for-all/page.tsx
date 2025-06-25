@@ -1,8 +1,11 @@
-import StemHeroSection from '@/components/sections/StemHeroSection'
-import VideoContentSection from '@/components/sections/VideoContentSection'
-import CoreValuesSection from '@/components/sections/CoreValuesSection'
-import InspirationalQuoteSection from '@/components/sections/InspirationalQuoteSection'
-import StemCallToActionSection from '@/components/sections/StemCallToActionSection'
+import StemForAllHero from '@/components/sections/stem-for-all/StemHeroSection'
+import VideoContentSection from '@/components/sections/stem-for-all/VideoContentSection'
+import CoreValuesSection from '@/components/sections/stem-for-all/CoreValuesSection'
+import InspirationalQuoteSection from '@/components/sections/stem-for-all/InspirationalQuoteSection'
+import SparkOSHeroSection from '@/components/sections/stem-for-all/SparkOSHeroSection'
+import BuiltForEveryoneSection from '@/components/sections/stem-for-all/BuiltForEveryoneSection'
+import CoreFeaturesSection from '@/components/sections/stem-for-all/CoreFeaturesSection'
+import StemCallToActionSection from '@/components/sections/stem-for-all/StemCallToActionSection'
 
 export const metadata = {
   title: 'STEM For All - Equitable Learning Opportunities | Aletheia',
@@ -13,10 +16,13 @@ export const metadata = {
 export default function StemForAllPage() {
   return (
     <div className="min-h-screen">
-      <StemHeroSection />
+      <StemForAllHero />
       <VideoContentSection />
       <CoreValuesSection />
       <InspirationalQuoteSection />
+      <SparkOSHeroSection />
+      <BuiltForEveryoneSection />
+      <CoreFeaturesSection />
       <StemCallToActionSection />
     </div>
   )
