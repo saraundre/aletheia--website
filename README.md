@@ -159,12 +159,20 @@ aletheia-website/
 
 ### Render.com Deployment
 
-The project is configured for automatic deployment on Render.com with the following settings:
+The project is configured for deployment on Render.com with two options:
 
+#### Option A: Web Service (Recommended)
+- **Service Type**: Web Service
 - **Build Command**: `npm run build`
 - **Start Command**: `npm start`
 - **Environment**: Node.js
 - **Port**: 3000 (automatically set by Render)
+
+#### Option B: Static Site
+- **Service Type**: Static Site
+- **Build Command**: `npm run build`
+- **Publish Directory**: `out`
+- **Environment**: Node.js
 
 #### Optimized Build Process
 - **Memory efficient**: No heavy browser automation tools
@@ -175,7 +183,7 @@ The project is configured for automatic deployment on Render.com with the follow
 
 The following environment variables are automatically configured:
 - `NODE_ENV=production`
-- `PORT=3000`
+- `PORT=3000` (for Web Service)
 
 ### Other Platforms
 ```bash
