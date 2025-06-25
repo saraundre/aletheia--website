@@ -50,7 +50,7 @@ const VideoContentSection = () => {
       description: "Our charity drive collaboration with NTU Leadership Development Programme at Maker Festival 2025.",
       duration: "Unknown",
       url: "https://www.youtube.com/watch?v=y5VDXxmRYKw",
-      info: "The founder of STEM for ALL Charity Drive with NTU LDP 2025",
+      info: "Dr. Sein - Founder of STEM for ALL Charity Drive with NTU LDP 2025",
     },
   ]
 
