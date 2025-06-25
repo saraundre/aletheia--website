@@ -38,27 +38,27 @@
   }
 
   .heading-xl {
-    @apply text-5xl md:text-6xl lg:text-7xl font-bold text-neutral-900 leading-tight;
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-neutral-900 leading-tight;
   }
 
   .heading-lg {
-    @apply text-4xl md:text-5xl font-bold text-neutral-900 leading-tight;
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 leading-tight;
   }
 
   .heading-2 {
-    @apply text-3xl md:text-4xl font-bold text-neutral-900 leading-tight;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-900 leading-tight;
   }
 
   .heading-3 {
-    @apply text-2xl md:text-3xl font-bold text-neutral-900 leading-tight;
+    @apply text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 leading-tight;
   }
 
   .body-lg {
-    @apply text-lg md:text-xl text-neutral-600 leading-relaxed;
+    @apply text-lg sm:text-xl md:text-2xl text-neutral-600 leading-relaxed;
   }
 
   .body-text {
-    @apply text-base md:text-lg text-neutral-600 leading-relaxed;
+    @apply text-base sm:text-lg md:text-xl text-neutral-600 leading-relaxed;
   }
 
   .card-minimal {
@@ -74,7 +74,7 @@
   }
 
   .hero-content {
-    @apply relative z-10 text-center max-w-4xl mx-auto px-4;
+    @apply relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   .status-dot {
@@ -172,98 +172,6 @@
 @layer utilities {
   .text-shadow-subtle {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  }
-}
-
-/* --- Custom Hero Section and Animation Styles --- */
-.hero-minimal {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.hero-content {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.gradient-overlay {
-  position: relative;
-}
-
-.gradient-overlay::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.03) 0%, rgba(99, 102, 241, 0.03) 100%);
-  pointer-events: none;
-}
-
-.heading-xl {
-  font-size: 6rem;
-  font-weight: 200;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  color: #0f172a;
-}
-
-@media (min-width: 768px) {
-  .heading-xl {
-    font-size: 8rem;
-  }
-}
-
-.body-lg {
-  font-size: 1.25rem;
-  font-weight: 350;
-  line-height: 1.6;
-}
-
-.status-dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-.status-dot.online {
-  background: #10b981;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.animate-fade-up {
-  animation: fadeUp 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.animate-fade-up-delay-1 {
-  animation: fadeUp 0.8s ease-out 0.2s forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.animate-fade-up-delay-2 {
-  animation: fadeUp 0.8s ease-out 0.4s forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
