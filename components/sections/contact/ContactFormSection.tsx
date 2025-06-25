@@ -142,7 +142,7 @@ const ContactFormSection = () => {
                   {/* Name and Organization */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label htmlFor="name" className="block text-sm text-slate-700 font-medium mb-2">
                         Name *
                       </label>
                       <input
@@ -158,7 +158,7 @@ const ContactFormSection = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="organization" className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label htmlFor="organization" className="block text-sm text-slate-700 font-medium mb-2">
                         Organization
                       </label>
                       <input
@@ -173,7 +173,7 @@ const ContactFormSection = () => {
 
                   {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label htmlFor="email" className="block text-sm text-slate-700 font-medium mb-2">
                       Email *
                     </label>
                     <input
@@ -190,7 +190,7 @@ const ContactFormSection = () => {
 
                   {/* Interest Area */}
                   <div>
-                    <label htmlFor="interestArea" className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label htmlFor="interestArea" className="block text-sm text-slate-700 font-medium mb-2">
                       Interest Area *
                     </label>
                     <select
@@ -212,7 +212,7 @@ const ContactFormSection = () => {
 
                   {/* Message */}
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label htmlFor="message" className="block text-sm text-slate-700 font-medium mb-2">
                       Message *
                     </label>
                     <textarea
@@ -233,7 +233,7 @@ const ContactFormSection = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-4 sm:py-5 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg shadow-slate-900/25 hover:shadow-xl hover:shadow-slate-900/30 ${
+                    className={`w-full bg-slate-900 hover:bg-slate-800 text-white py-4 sm:py-5 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg shadow-slate-900/25 hover:shadow-xl hover:shadow-slate-900/30 ${
                       isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                     }`}
                   >
@@ -259,7 +259,7 @@ const ContactFormSection = () => {
                     className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center space-x-3"
                   >
                     <CheckCircle size={20} className="text-emerald-600" />
-                    <p className="text-emerald-800 font-medium">
+                    <p className="text-emerald-800">
                       Thank you! Your message has been sent successfully. We'll get back to you within 24-48 hours.
                     </p>
                   </motion.div>

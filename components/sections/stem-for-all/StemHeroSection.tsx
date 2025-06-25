@@ -17,10 +17,10 @@ function StemForAllHero() {
         <div className={`space-y-6 ${isVisible ? "animate-fade-up" : ""}`}>
           <div className="inline-flex items-center px-4 py-2 bg-slate-100/80 backdrop-blur-sm rounded-full border border-slate-200/50">
             <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
-            <span className="text-slate-700 text-sm font-medium">Educational Technology</span>
+            <span className="text-slate-700 text-sm">Educational Technology</span>
           </div>
           
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-[0.9] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 leading-[0.9] tracking-tight">
             STEM for All
           </h1>
           
@@ -31,7 +31,7 @@ function StemForAllHero() {
         </div>
 
         <div className={`mt-8 sm:mt-12 ${isVisible ? "animate-fade-up-delay-1" : ""}`}>
-          <p className="text-lg sm:text-xl md:text-2xl text-slate-600 leading-relaxed max-w-3xl mx-auto font-light">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-600 leading-relaxed max-w-3xl mx-auto" style={{fontWeight: 350}}>
             Creating accessible, inclusive learning experiences that reach every student, regardless of background or
             ability.
           </p>
