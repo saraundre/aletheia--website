@@ -1,4 +1,3 @@
-import ContactHeroSection from "@/components/sections/contact/ContactHeroSection"
 import ContactFormSection from "@/components/sections/contact/ContactFormSection"
 
 export const metadata = {
@@ -11,7 +10,6 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <div className="min-h-screen">
-      <ContactHeroSection />
       <ContactFormSection />
     </div>
   )
