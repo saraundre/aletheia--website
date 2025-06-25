@@ -293,13 +293,7 @@ const ContactFormSection = () => {
                         </div>
                         <div className="flex-1">
                           <h3 className="font-semibold text-slate-900 mb-2">{info.title}</h3>
-                          <p className="text-sm text-slate-600 mb-3 leading-relaxed">{info.description}</p>
-                          <a
-                            href={`mailto:${info.email}`}
-                            className="text-slate-900 font-medium hover:text-blue-600 transition-colors duration-300"
-                          >
-                            {info.email}
-                          </a>
+                          <p className="text-sm text-slate-600 leading-relaxed">{info.description}</p>
                         </div>
                       </div>
                     </motion.div>
