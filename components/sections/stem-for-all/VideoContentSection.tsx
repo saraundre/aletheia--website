@@ -46,7 +46,7 @@ const VideoContentSection = () => {
       info: "In Partnership with Project Love (Nanyang Technological University Singapore of Mechanical and Aerospace School of Engineering, Leadership Development Programme)",
     },
     {
-      title: "STEM for ALL Charity Drive with NTU LDP",
+      title: "Official Opening Speech By Dr. Sein The founder of STEM for ALL Charity Drive with NTU LDP 2025",
       description: "Our charity drive collaboration with NTU Leadership Development Programme at Maker Festival 2025.",
       duration: "Unknown",
       url: "https://www.youtube.com/watch?v=y5VDXxmRYKw",
