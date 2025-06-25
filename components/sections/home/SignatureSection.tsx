@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 
 const SignatureSection = () => {
@@ -49,24 +50,29 @@ const SignatureSection = () => {
             <p className="text-2xl md:text-3xl font-light italic text-neutral-500 mb-8">For Sentience,</p>
           </motion.div>
 
-          {/* Handwritten Aletheia */}
+          {/* Handwritten Aletheia Signature */}
           <motion.div variants={itemVariants} className="mb-20">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="mb-12"
+              className="mb-12 flex justify-center"
             >
-              <h2
-                className="text-6xl md:text-7xl lg:text-8xl font-light italic text-red-500 mb-8"
+              <div
                 style={{
-                  fontFamily: "cursive",
                   transform: "rotate(-2deg)",
-                  textShadow: "0 2px 4px rgba(239, 68, 68, 0.1)",
+                  filter: "drop-shadow(0 2px 4px rgba(239, 68, 68, 0.1))",
                 }}
               >
-                Aletheia
-              </h2>
+                <Image
+                  src="/founder/aletheia-signature.svg"
+                  alt="Res Signature - Aletheia"
+                  width={500}
+                  height={200}
+                  className="w-auto h-20 md:h-24 lg:h-28"
+                  priority
+                />
+              </div>
             </motion.div>
           </motion.div>
 

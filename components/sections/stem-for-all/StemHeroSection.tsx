@@ -13,7 +13,7 @@ function StemForAllHero() {
     <section className="hero-minimal gradient-overlay">
       <div className="hero-content">
         <div className={`${isVisible ? "animate-fade-up" : ""}`}>
-          <h1 className="heading-xl mb-2">STEM for All</h1>
+          <h1 className="heading-xl mb-2 font-extrabold tracking-tight">STEM for All</h1>
           <h2 className="heading-xxl text-slate-500 font-light mb-8">
             <span className="block">Equitable Learning</span>
             <span className="block">Opportunities</span>

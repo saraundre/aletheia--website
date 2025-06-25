@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Github, Twitter, Linkedin, Send } from 'lucide-react'
 
@@ -50,7 +51,13 @@ const Footer = () => {
               transition={{ delay: 0.1 }}
             >
               <Link href="/" className="inline-block mb-6">
-                <h3 className="text-2xl font-bold text-slate-900">Aletheia</h3>
+                <Image
+                  src="/founder/aletheia-logo.png"
+                  alt="Aletheia"
+                  width={180}
+                  height={48}
+                  className="h-10 w-auto"
+                />
               </Link>
               <p className="text-slate-500 mb-6 leading-relaxed">
                 Building research technologies that solve real-world problems. 
@@ -60,11 +67,8 @@ const Footer = () => {
               {/* Social Links */}
               <div className="flex space-x-4">
                 {socialLinks.map((social, index) => (
-                  <motion.a
+                  <motion.div
                     key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2 + index * 0.1 }}
@@ -73,7 +77,7 @@ const Footer = () => {
                     aria-label={social.name}
                   >
                     <social.icon size={20} />
-                  </motion.a>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>

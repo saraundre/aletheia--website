@@ -20,7 +20,7 @@ const ContactHeroSection = () => {
         </div>
 
         <div className={`${isVisible ? "animate-fade-up-delay-1" : ""}`}>
-          <h1 className="heading-xl mb-2">Let&apos;s Talk —</h1>
+          <h1 className="heading-xl mb-2 font-extrabold tracking-tight">Let&apos;s Talk —</h1>
           <h2 className="heading-xxl mb-8 text-slate-500 font-light">No Middlemen</h2>
         </div>
 

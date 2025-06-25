@@ -15,7 +15,7 @@ function HeroSection() {
     <section className="hero-minimal gradient-overlay min-h-screen flex items-center justify-center">
       <div className="hero-content w-full flex flex-col items-center justify-center">
         <div className={`${isVisible ? "animate-fade-up" : ""}`}>
-          <h1 className="heading-xl mb-8">Aletheia</h1>
+          <h1 className="heading-xl mb-8 font-extrabold tracking-tight">Aletheia</h1>
         </div>
         <div className={`${isVisible ? "animate-fade-up-delay-1" : ""}`}>
           <p className="body-lg text-slate-600 mb-12 max-w-3xl mx-auto text-center">

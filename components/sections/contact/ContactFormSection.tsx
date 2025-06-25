@@ -94,19 +94,16 @@ const ContactFormSection = () => {
     {
       title: "General Inquiries",
       description: "For partnerships and collaborations",
-      email: "enquiry@aletheia.sg",
       icon: Mail,
     },
     {
       title: "Pilot Programs",
       description: "Educational institution partnerships",
-      email: "pilots@aletheia.sg",
       icon: Users,
     },
     {
       title: "Research Collaboration",
       description: "Academic and research partnerships",
-      email: "research@aletheia.sg",
       icon: FlaskConical,
     },
   ]
@@ -280,13 +277,7 @@ const ContactFormSection = () => {
                         </div>
                         <div className="flex-1">
                           <h3 className="font-semibold text-neutral-900 mb-1">{info.title}</h3>
-                          <p className="text-sm text-neutral-600 mb-3">{info.description}</p>
-                          <a
-                            href={`mailto:${info.email}`}
-                            className="text-neutral-900 font-medium hover:text-neutral-700 transition-colors duration-300"
-                          >
-                            {info.email}
-                          </a>
+                          <p className="text-sm text-neutral-600 mb-0">{info.description}</p>
                         </div>
                       </div>
                     </motion.div>

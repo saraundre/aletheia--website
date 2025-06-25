@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 
@@ -36,11 +37,15 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="group">
-            <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center">
-                <span className="text-white font-light text-sm">A</span>
-              </div>
-              <span className="text-xl font-light text-neutral-900 tracking-wide">Aletheia</span>
+            <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
+              <Image
+                src="/founder/aletheia-logo.png"
+                alt="Aletheia"
+                width={150}
+                height={40}
+                className="h-8 w-auto"
+                priority
+              />
             </motion.div>
           </Link>
 
