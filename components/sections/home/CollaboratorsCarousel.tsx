@@ -92,14 +92,14 @@ const CollaboratorsCarousel = () => {
           <motion.div variants={itemVariants} className="relative overflow-hidden">
             {/* Desktop: Horizontal scrolling */}
             <div className="hidden md:block">
-              {/* First Row - Moving Right */}
-              <div className="flex space-x-8 mb-8 animate-scroll-right">
+            {/* First Row - Moving Right */}
+            <div className="flex space-x-8 mb-8 animate-scroll-right">
                 {collaborators.map((collaborator, index) => (
-                  <motion.div
-                    key={`row1-${collaborator}-${index}`}
-                    whileHover={{ scale: 1.05 }}
-                    className="flex-shrink-0"
-                  >
+                <motion.div
+                  key={`row1-${collaborator}-${index}`}
+                  whileHover={{ scale: 1.05 }}
+                  className="flex-shrink-0"
+                >
                     <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
                       <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Image
@@ -110,19 +110,19 @@ const CollaboratorsCarousel = () => {
                           className="w-full h-full object-contain"
                         />
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-              {/* Second Row - Moving Left */}
-              <div className="flex space-x-8 animate-scroll-left">
+            {/* Second Row - Moving Left */}
+            <div className="flex space-x-8 animate-scroll-left">
                 {collaborators.slice().reverse().map((collaborator, index) => (
-                  <motion.div
-                    key={`row2-${collaborator}-${index}`}
-                    whileHover={{ scale: 1.05 }}
-                    className="flex-shrink-0"
-                  >
+                <motion.div
+                  key={`row2-${collaborator}-${index}`}
+                  whileHover={{ scale: 1.05 }}
+                  className="flex-shrink-0"
+                >
                     <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
                       <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Image
@@ -158,9 +158,9 @@ const CollaboratorsCarousel = () => {
                           className="w-full h-full object-contain"
                         />
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                  </div>
+                </motion.div>
+              ))}
               </div>
             </div>
           </motion.div>

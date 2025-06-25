@@ -38,6 +38,20 @@ const VideoContentSection = () => {
       duration: "Unknown",
       url: "https://youtu.be/jwfFaKxnsGY",
     },
+    {
+      title: "STEMFORALL x NTU LDP Charity Drive",
+      description: "Our charity drive event at Maker Festival Regional Library Singapore.",
+      duration: "Unknown",
+      url: "https://youtu.be/u_bBdjv48iI",
+      info: "In Partnership with Project Love (Nanyang Technological University Singapore of Mechanical and Aerospace School of Engineering, Leadership Development Programme)",
+    },
+    {
+      title: "STEM for ALL Charity Drive with NTU LDP",
+      description: "Our charity drive collaboration with NTU Leadership Development Programme at Maker Festival 2025.",
+      duration: "Unknown",
+      url: "https://www.youtube.com/watch?v=y5VDXxmRYKw",
+      info: "Maker Festival 2025",
+    },
   ]
 
   const containerVariants = {

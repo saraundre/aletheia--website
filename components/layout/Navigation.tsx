@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +25,13 @@ const Navigation = () => {
     { name: "STEM For All", href: "/stem-for-all" },
     { name: "Contact", href: "/contact" },
   ]
+
+  const isActivePage = (href: string) => {
+    if (href === "/") {
+      return pathname === "/"
+    }
+    return pathname.startsWith(href)
+  }
 
   return (
     <motion.nav
@@ -60,7 +69,11 @@ const Navigation = () => {
               >
                 <Link
                   href={item.href}
-                  className="text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-300 py-2 px-4 rounded-lg hover:bg-neutral-50"
+                  className={`font-medium transition-all duration-300 py-2 px-4 rounded-lg ${
+                    isActivePage(item.href)
+                      ? "bg-neutral-900 text-white shadow-sm"
+                      : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50"
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -133,7 +146,11 @@ const Navigation = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="block text-lg font-medium text-neutral-700 hover:text-neutral-900 transition-colors duration-300 py-3"
+                      className={`block text-lg font-medium transition-all duration-300 py-3 px-4 rounded-lg ${
+                        isActivePage(item.href)
+                          ? "bg-neutral-900 text-white shadow-sm"
+                          : "text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50"
+                      }`}
                     >
                       {item.name}
                     </Link>
