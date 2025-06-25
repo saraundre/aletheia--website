@@ -39,7 +39,6 @@
 
   .heading-xl {
     @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-neutral-900 leading-tight;
-    font-weight: 200;
   }
 
   .heading-lg {
@@ -56,7 +55,6 @@
 
   .body-lg {
     @apply text-lg sm:text-xl md:text-2xl text-neutral-600 leading-relaxed;
-    font-weight: 350;
   }
 
   .body-text {
