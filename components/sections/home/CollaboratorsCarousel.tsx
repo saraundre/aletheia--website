@@ -90,50 +90,78 @@ const CollaboratorsCarousel = () => {
 
           {/* Carousel Container */}
           <motion.div variants={itemVariants} className="relative overflow-hidden">
-            {/* First Row - Moving Right */}
-            <div className="flex space-x-8 mb-8 animate-scroll-right">
-              {collaborators.map((collaborator, index) => (
-                <motion.div
-                  key={`row1-${collaborator}-${index}`}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex-shrink-0"
-                >
-                  <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
-                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
-                      <Image
-                        src={logoMap[collaborator as keyof typeof logoMap]}
-                        alt={collaborator}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-contain"
-                      />
+            {/* Desktop: Horizontal scrolling */}
+            <div className="hidden md:block">
+              {/* First Row - Moving Right */}
+              <div className="flex space-x-8 mb-8 animate-scroll-right">
+                {collaborators.map((collaborator, index) => (
+                  <motion.div
+                    key={`row1-${collaborator}-${index}`}
+                    whileHover={{ scale: 1.05 }}
+                    className="flex-shrink-0"
+                  >
+                    <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
+                      <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <Image
+                          src={logoMap[collaborator as keyof typeof logoMap]}
+                          alt={collaborator}
+                          width={96}
+                          height={96}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Second Row - Moving Left */}
+              <div className="flex space-x-8 animate-scroll-left">
+                {collaborators.slice().reverse().map((collaborator, index) => (
+                  <motion.div
+                    key={`row2-${collaborator}-${index}`}
+                    whileHover={{ scale: 1.05 }}
+                    className="flex-shrink-0"
+                  >
+                    <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
+                      <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <Image
+                          src={logoMap[collaborator as keyof typeof logoMap]}
+                          alt={collaborator}
+                          width={96}
+                          height={96}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
-            {/* Second Row - Moving Left */}
-            <div className="flex space-x-8 animate-scroll-left">
-              {collaborators.slice().reverse().map((collaborator, index) => (
-                <motion.div
-                  key={`row2-${collaborator}-${index}`}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex-shrink-0"
-                >
-                  <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
-                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
-                      <Image
-                        src={logoMap[collaborator as keyof typeof logoMap]}
-                        alt={collaborator}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-contain"
-                      />
+            {/* Mobile: Vertical scrolling */}
+            <div className="md:hidden">
+              <div className="animate-scroll-vertical">
+                {collaborators.map((collaborator, index) => (
+                  <motion.div
+                    key={`mobile-${collaborator}-${index}`}
+                    whileHover={{ scale: 1.05 }}
+                    className="mb-6"
+                  >
+                    <div className="bg-white border border-neutral-200 rounded-xl p-4 text-center group hover:shadow-lg transition-all duration-300">
+                      <div className="w-20 h-20 bg-white rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <Image
+                          src={logoMap[collaborator as keyof typeof logoMap]}
+                          alt={collaborator}
+                          width={80}
+                          height={80}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
 
@@ -163,6 +191,15 @@ const CollaboratorsCarousel = () => {
             transform: translateX(-50%);
           }
         }
+
+        @keyframes scroll-vertical {
+          0% {
+            transform: translateY(0%);
+          }
+          100% {
+            transform: translateY(-50%);
+          }
+        }
         
         .animate-scroll-right {
           animation: scroll-right 40s linear infinite;
@@ -170,6 +207,10 @@ const CollaboratorsCarousel = () => {
         
         .animate-scroll-left {
           animation: scroll-left 35s linear infinite;
+        }
+
+        .animate-scroll-vertical {
+          animation: scroll-vertical 30s linear infinite;
         }
         
         .animate-scroll-right:hover,
@@ -186,10 +227,15 @@ const CollaboratorsCarousel = () => {
           .animate-scroll-left {
             animation: scroll-left 20s linear infinite;
           }
+
+          .animate-scroll-vertical {
+            animation: scroll-vertical 20s linear infinite;
+          }
           
           /* Ensure smooth scrolling on mobile */
           .animate-scroll-right,
-          .animate-scroll-left {
+          .animate-scroll-left,
+          .animate-scroll-vertical {
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
             -webkit-backface-visibility: hidden;
