@@ -22,10 +22,6 @@ const CollaboratorsCarousel = () => {
     "Rakuten Asia", 
     "NUS",
     "Digital Learning Institute",
-    "National Library Board",
-    "Rakuten Asia",
-    "NUS",
-    "Digital Learning Institute",
   ]
 
   const containerVariants = {
@@ -70,53 +66,27 @@ const CollaboratorsCarousel = () => {
             </p>
           </motion.div>
 
-          {/* Carousel Container */}
-          <motion.div variants={itemVariants} className="relative overflow-hidden">
-            {/* First Row - Moving Right */}
-            <div className="flex space-x-8 mb-8 animate-scroll-right">
-              {collaborators.map((collaborator, index) => (
-                <motion.div
-                  key={`row1-${collaborator}-${index}`}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex-shrink-0"
-                >
-                  <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
-                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
-                      <Image
-                        src={logoMap[collaborator as keyof typeof logoMap]}
-                        alt={collaborator}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
+          {/* Logos Grid */}
+          <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            {collaborators.map((collaborator, index) => (
+              <motion.div
+                key={collaborator}
+                whileHover={{ scale: 1.05 }}
+                className="flex-shrink-0"
+              >
+                <div className="bg-white border border-neutral-200 rounded-xl p-6 text-center group hover:shadow-lg transition-all duration-300">
+                  <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto">
+                    <Image
+                      src={logoMap[collaborator as keyof typeof logoMap]}
+                      alt={collaborator}
+                      width={96}
+                      height={96}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Second Row - Moving Left */}
-            <div className="flex space-x-8 animate-scroll-left">
-              {collaborators.slice().reverse().map((collaborator, index) => (
-                <motion.div
-                  key={`row2-${collaborator}-${index}`}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex-shrink-0"
-                >
-                  <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
-                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
-                      <Image
-                        src={logoMap[collaborator as keyof typeof logoMap]}
-                        alt={collaborator}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
 
           {/* Bottom Text */}
@@ -125,40 +95,6 @@ const CollaboratorsCarousel = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes scroll-right {
-          0% {
-            transform: translateX(-50%);
-          }
-          100% {
-            transform: translateX(0%);
-          }
-        }
-        
-        @keyframes scroll-left {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        
-        .animate-scroll-right {
-          animation: scroll-right 40s linear infinite;
-        }
-        
-        .animate-scroll-left {
-          animation: scroll-left 35s linear infinite;
-        }
-        
-        .animate-scroll-right:hover,
-        .animate-scroll-left:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   )
 }
