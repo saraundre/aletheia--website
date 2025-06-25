@@ -176,6 +176,28 @@ const CollaboratorsCarousel = () => {
         .animate-scroll-left:hover {
           animation-play-state: paused;
         }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+          .animate-scroll-right {
+            animation: scroll-right 25s linear infinite;
+          }
+          
+          .animate-scroll-left {
+            animation: scroll-left 20s linear infinite;
+          }
+          
+          /* Ensure smooth scrolling on mobile */
+          .animate-scroll-right,
+          .animate-scroll-left {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000;
+            perspective: 1000;
+          }
+        }
       `}</style>
     </section>
   )
