@@ -2,12 +2,20 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import Image from "next/image"
 
 const CollaboratorsCarousel = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
+
+  // Logos for select collaborators
+  const logoMap = {
+    "Rakuten Asia": "/logos/RakutenAsia.png",
+    "National Library Board": "/logos/NLB.png",
+    "Singapore University": "/logos/NUS.jpg",
+  }
 
   const collaborators = [
     "Science Centre Singapore",
@@ -72,18 +80,25 @@ const CollaboratorsCarousel = () => {
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
-                      <span className="text-neutral-600 font-medium text-lg">
-                        {collaborator
-                          .split(" ")
-                          .map((word) => word[0])
-                          .join("")}
-                      </span>
+                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group flex flex-col justify-center items-center">
+                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto overflow-hidden">
+                      {logoMap[collaborator] ? (
+                        <Image
+                          src={logoMap[collaborator]}
+                          alt={collaborator + ' logo'}
+                          width={96}
+                          height={96}
+                          className="object-contain w-full h-full"
+                        />
+                      ) : (
+                        <span className="text-neutral-600 font-bold text-3xl flex items-center justify-center w-full h-full">
+                          {collaborator
+                            .split(" ")
+                            .map((word) => word[0])
+                            .join("")}
+                        </span>
+                      )}
                     </div>
-                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator}
-                    </h3>
                   </div>
                 </motion.div>
               ))}
@@ -97,18 +112,25 @@ const CollaboratorsCarousel = () => {
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
-                      <span className="text-neutral-600 font-medium text-lg">
-                        {collaborator
-                          .split(" ")
-                          .map((word) => word[0])
-                          .join("")}
-                      </span>
+                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group flex flex-col justify-center items-center">
+                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto overflow-hidden">
+                      {logoMap[collaborator] ? (
+                        <Image
+                          src={logoMap[collaborator]}
+                          alt={collaborator + ' logo'}
+                          width={96}
+                          height={96}
+                          className="object-contain w-full h-full"
+                        />
+                      ) : (
+                        <span className="text-neutral-600 font-bold text-3xl flex items-center justify-center w-full h-full">
+                          {collaborator
+                            .split(" ")
+                            .map((word) => word[0])
+                            .join("")}
+                        </span>
+                      )}
                     </div>
-                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator}
-                    </h3>
                   </div>
                 </motion.div>
               ))}
