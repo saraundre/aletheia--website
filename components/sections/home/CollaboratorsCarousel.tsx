@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import Image from "next/image"
 
 const CollaboratorsCarousel = () => {
   const [ref, inView] = useInView({
@@ -9,15 +10,22 @@ const CollaboratorsCarousel = () => {
     threshold: 0.1,
   })
 
+  const logoMap = {
+    "National Library Board": "/logos/NLB.png",
+    "Rakuten Asia": "/logos/RakutenAsia.png", 
+    "NUS": "/logos/NUS.jpg",
+    "Digital Learning Institute": "/logos/DigitalLearningInstitute.png",
+  }
+
   const collaborators = [
-    "Science Centre Singapore",
+    "National Library Board",
+    "Rakuten Asia", 
+    "NUS",
+    "Digital Learning Institute",
     "National Library Board",
     "Rakuten Asia",
-    "STEM For All Charity",
-    "Singapore University",
-    "Tech Innovation Hub",
+    "NUS",
     "Digital Learning Institute",
-    "Future Skills Academy",
   ]
 
   const containerVariants = {
@@ -66,24 +74,22 @@ const CollaboratorsCarousel = () => {
           <motion.div variants={itemVariants} className="relative overflow-hidden">
             {/* First Row - Moving Right */}
             <div className="flex space-x-8 mb-8 animate-scroll-right">
-              {[...collaborators, ...collaborators].map((collaborator, index) => (
+              {collaborators.map((collaborator, index) => (
                 <motion.div
                   key={`row1-${collaborator}-${index}`}
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
-                      <span className="text-neutral-600 font-medium text-lg">
-                        {collaborator
-                          .split(" ")
-                          .map((word) => word[0])
-                          .join("")}
-                      </span>
+                  <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
+                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <Image
+                        src={logoMap[collaborator as keyof typeof logoMap]}
+                        alt={collaborator}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
-                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator}
-                    </h3>
                   </div>
                 </motion.div>
               ))}
@@ -91,24 +97,22 @@ const CollaboratorsCarousel = () => {
 
             {/* Second Row - Moving Left */}
             <div className="flex space-x-8 animate-scroll-left">
-              {[...collaborators.slice().reverse(), ...collaborators.slice().reverse()].map((collaborator, index) => (
+              {collaborators.slice().reverse().map((collaborator, index) => (
                 <motion.div
                   key={`row2-${collaborator}-${index}`}
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="card-minimal px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
-                      <span className="text-neutral-600 font-medium text-lg">
-                        {collaborator
-                          .split(" ")
-                          .map((word) => word[0])
-                          .join("")}
-                      </span>
+                  <div className="bg-white border border-neutral-200 rounded-xl p-6 min-w-[280px] text-center group hover:shadow-lg transition-all duration-300">
+                    <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <Image
+                        src={logoMap[collaborator as keyof typeof logoMap]}
+                        alt={collaborator}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
-                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator}
-                    </h3>
                   </div>
                 </motion.div>
               ))}
