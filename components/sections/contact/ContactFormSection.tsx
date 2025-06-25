@@ -112,26 +112,40 @@ const ContactFormSection = () => {
   ]
 
   return (
-    <section className="section-padding bg-white relative">
-      <div className="container-custom relative z-10">
+    <section className="relative bg-gradient-to-br from-slate-50 via-white to-slate-100 min-h-screen">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5 pointer-events-none"></div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-7xl mx-auto"
+          className="w-full"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Send Message Form */}
-            <motion.div variants={itemVariants}>
-              <div className="card-minimal p-8">
-                <h2 className="heading-3 text-neutral-900 mb-8">Send Message</h2>
+          {/* Header Section */}
+          <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16 lg:mb-20">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4 sm:mb-6">
+              Get In Touch
+            </h1>
+            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Ready to collaborate or just looking to find out more? We'd love to hear from you. Send us a message and we'll respond within 24-48 hours.
+            </p>
+          </motion.div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
+            {/* Contact Form */}
+            <motion.div variants={itemVariants} className="order-2 lg:order-1">
+              <div className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xl shadow-slate-900/5">
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 sm:mb-8">
+                  Send Message
+                </h2>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
                   {/* Name and Organization */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-2">
+                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
                         Name *
                       </label>
                       <input
@@ -139,15 +153,15 @@ const ContactFormSection = () => {
                         type="text"
                         id="name"
                         placeholder="Your name"
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500 transition-all duration-300 ${
-                          errors.name ? "border-red-300" : "border-neutral-200 focus:border-neutral-400"
+                        className={`w-full px-4 py-3 sm:py-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-slate-900 placeholder-slate-400 ${
+                          errors.name ? "border-red-300 bg-red-50" : "border-slate-200 hover:border-slate-300"
                         }`}
                       />
-                      {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+                      {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>}
                     </div>
 
                     <div>
-                      <label htmlFor="organization" className="block text-sm font-medium text-neutral-700 mb-2">
+                      <label htmlFor="organization" className="block text-sm font-semibold text-slate-700 mb-2">
                         Organization
                       </label>
                       <input
@@ -155,14 +169,14 @@ const ContactFormSection = () => {
                         type="text"
                         id="organization"
                         placeholder="Your organization"
-                        className="w-full px-4 py-3 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-neutral-400 transition-all duration-300"
+                        className="w-full px-4 py-3 sm:py-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-slate-900 placeholder-slate-400 hover:border-slate-300"
                       />
                     </div>
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
                       Email *
                     </label>
                     <input
@@ -170,23 +184,23 @@ const ContactFormSection = () => {
                       type="email"
                       id="email"
                       placeholder="your@email.com"
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500 transition-all duration-300 ${
-                        errors.email ? "border-red-300" : "border-neutral-200 focus:border-neutral-400"
+                      className={`w-full px-4 py-3 sm:py-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-slate-900 placeholder-slate-400 ${
+                        errors.email ? "border-red-300 bg-red-50" : "border-slate-200 hover:border-slate-300"
                       }`}
                     />
-                    {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
+                    {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
                   </div>
 
                   {/* Interest Area */}
                   <div>
-                    <label htmlFor="interestArea" className="block text-sm font-medium text-neutral-700 mb-2">
-                      Interest Area
+                    <label htmlFor="interestArea" className="block text-sm font-semibold text-slate-700 mb-2">
+                      Interest Area *
                     </label>
                     <select
                       {...register("interestArea")}
                       id="interestArea"
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500 transition-all duration-300 ${
-                        errors.interestArea ? "border-red-300" : "border-neutral-200 focus:border-neutral-400"
+                      className={`w-full px-4 py-3 sm:py-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-slate-900 ${
+                        errors.interestArea ? "border-red-300 bg-red-50" : "border-slate-200 hover:border-slate-300"
                       }`}
                     >
                       <option value="">Select your area of interest</option>
@@ -196,12 +210,12 @@ const ContactFormSection = () => {
                         </option>
                       ))}
                     </select>
-                    {errors.interestArea && <p className="mt-1 text-sm text-red-600">{errors.interestArea.message}</p>}
+                    {errors.interestArea && <p className="mt-2 text-sm text-red-600">{errors.interestArea.message}</p>}
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
+                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-2">
                       Message *
                     </label>
                     <textarea
@@ -209,11 +223,11 @@ const ContactFormSection = () => {
                       id="message"
                       rows={6}
                       placeholder="Tell us about your project, organization, or how you'd like to collaborate..."
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500 transition-all duration-300 resize-none ${
-                        errors.message ? "border-red-300" : "border-neutral-200 focus:border-neutral-400"
+                      className={`w-full px-4 py-3 sm:py-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 resize-none text-slate-900 placeholder-slate-400 ${
+                        errors.message ? "border-red-300 bg-red-50" : "border-slate-200 hover:border-slate-300"
                       }`}
                     />
-                    {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>}
+                    {errors.message && <p className="mt-2 text-sm text-red-600">{errors.message.message}</p>}
                   </div>
 
                   {/* Submit Button */}
@@ -222,7 +236,7 @@ const ContactFormSection = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`w-full btn-primary flex items-center justify-center space-x-2 ${
+                    className={`w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-4 sm:py-5 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg shadow-slate-900/25 hover:shadow-xl hover:shadow-slate-900/30 ${
                       isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                     }`}
                   >
@@ -233,7 +247,7 @@ const ContactFormSection = () => {
                       </>
                     ) : (
                       <>
-                        <Send size={18} />
+                        <Send size={20} />
                         <span>Send Message</span>
                       </>
                     )}
@@ -245,10 +259,10 @@ const ContactFormSection = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-3"
+                    className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center space-x-3"
                   >
-                    <CheckCircle size={20} className="text-green-600" />
-                    <p className="text-green-800">
+                    <CheckCircle size={20} className="text-emerald-600" />
+                    <p className="text-emerald-800 font-medium">
                       Thank you! Your message has been sent successfully. We'll get back to you within 24-48 hours.
                     </p>
                   </motion.div>
@@ -256,15 +270,17 @@ const ContactFormSection = () => {
               </div>
             </motion.div>
 
-            {/* Direct Contact */}
-            <motion.div variants={itemVariants}>
-              <div className="space-y-8">
+            {/* Contact Information */}
+            <motion.div variants={itemVariants} className="order-1 lg:order-2">
+              <div className="space-y-6 sm:space-y-8">
                 <div>
-                  <h2 className="heading-3 text-neutral-900 mb-8">Direct Contact</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 sm:mb-8">
+                    Direct Contact
+                  </h2>
                 </div>
 
                 {/* Contact Cards */}
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {contactInfo.map((info, index) => (
                     <motion.div
                       key={info.title}
@@ -272,18 +288,18 @@ const ContactFormSection = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                       whileHover={{ scale: 1.02 }}
-                      className="card-minimal p-6 group cursor-pointer"
+                      className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-xl p-6 shadow-lg shadow-slate-900/5 hover:shadow-xl hover:shadow-slate-900/10 transition-all duration-300 group cursor-pointer"
                     >
                       <div className="flex items-start space-x-4">
-                        <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center group-hover:bg-neutral-200 transition-colors duration-300">
-                          <info.icon size={20} className="text-neutral-600" />
+                        <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center group-hover:bg-slate-200 transition-colors duration-300">
+                          <info.icon size={20} className="text-slate-600" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-neutral-900 mb-1">{info.title}</h3>
-                          <p className="text-sm text-neutral-600 mb-3">{info.description}</p>
+                          <h3 className="font-semibold text-slate-900 mb-2">{info.title}</h3>
+                          <p className="text-sm text-slate-600 mb-3 leading-relaxed">{info.description}</p>
                           <a
                             href={`mailto:${info.email}`}
-                            className="text-neutral-900 font-medium hover:text-neutral-700 transition-colors duration-300"
+                            className="text-slate-900 font-medium hover:text-blue-600 transition-colors duration-300"
                           >
                             {info.email}
                           </a>
@@ -298,20 +314,20 @@ const ContactFormSection = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="card-minimal p-6"
+                  className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-xl p-6 shadow-lg shadow-slate-900/5"
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center">
-                      <Clock size={20} className="text-neutral-600" />
+                    <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
+                      <Clock size={20} className="text-slate-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-neutral-900 mb-1">Response Time</h3>
-                      <p className="text-sm text-neutral-600 mb-3">
-                        We typically respond within <span className="font-medium text-neutral-900">24-48 hours</span>.
+                      <h3 className="font-semibold text-slate-900 mb-2">Response Time</h3>
+                      <p className="text-sm text-slate-600 mb-3 leading-relaxed">
+                        We typically respond within <span className="font-semibold text-slate-900">24-48 hours</span>.
                         For urgent matters, mention "URGENT" in your subject.
                       </p>
-                      <div className="flex items-center space-x-2 text-xs text-neutral-500">
-                        <div className="w-2 h-2 bg-green-400 rounded-full" />
+                      <div className="flex items-center space-x-2 text-xs text-slate-500">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full" />
                         <span>No spam, just honest communication</span>
                       </div>
                     </div>
