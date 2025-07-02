@@ -136,6 +136,25 @@ const AletheiaHeroSection = () => {
 
       {/* Main content */}
       <div className="relative z-10 text-center">
+        {/* We are - Continuation from quotes */}
+        <motion.div 
+          className="mb-8"
+          animate={{
+            opacity: 0.8 + Math.sin(breathingPhase * 0.4) * 0.2,
+            y: Math.sin(breathingPhase * 0.2) * 2,
+          }}
+        >
+          <motion.p
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-wide text-neutral-600"
+            style={{
+              fontFamily: "'Inter', system-ui, sans-serif",
+              fontWeight: 200,
+            }}
+          >
+            We are
+          </motion.p>
+        </motion.div>
+
         {/* ALETHEIA - Living Typography - OPTIMIZED */}
         <motion.div className="mb-20">
           <div className="flex justify-center items-center">

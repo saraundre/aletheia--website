@@ -15,9 +15,14 @@ function HeroSection() {
     <section className="hero-minimal gradient-overlay min-h-screen flex items-center justify-center">
       <div className="hero-content w-full flex flex-col items-center justify-center">
         <div className={`${isVisible ? "animate-fade-up" : ""}`}>
-          <h1 className="heading-xl mb-8 font-extrabold tracking-tight">Aletheia</h1>
+          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-neutral-600 mb-4">
+            We are
+          </p>
         </div>
         <div className={`${isVisible ? "animate-fade-up-delay-1" : ""}`}>
+          <h1 className="heading-xl mb-8 font-extrabold tracking-tight">Aletheia</h1>
+        </div>
+        <div className={`${isVisible ? "animate-fade-up-delay-2" : ""}`}>
           <p className="body-lg text-slate-600 mb-12 max-w-3xl mx-auto text-center">
             Building ethical, sentient-first technology for a better world.
           </p>
