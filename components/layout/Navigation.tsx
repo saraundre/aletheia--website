@@ -22,7 +22,6 @@ const Navigation = () => {
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "STEM For All", href: "/#stem-for-all" },
     { name: "Contact", href: "/contact" },
   ]
 
