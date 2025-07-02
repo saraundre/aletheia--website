@@ -7,6 +7,9 @@ export default function AnimatedQuotesSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [breathingPhase, setBreathingPhase] = useState(0)
+  const [typedText, setTypedText] = useState("")
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const fullText = "The Reason of Being"
 
   // Mouse tracking for elegant interactions
   const mouseX = useMotionValue(0.5)
@@ -81,12 +84,29 @@ export default function AnimatedQuotesSection() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Typing animation effect
+  useEffect(() => {
+    if (isVisible && currentIndex < fullText.length) {
+      const timeout = setTimeout(() => {
+        setTypedText(fullText.slice(0, currentIndex + 1))
+        setCurrentIndex(currentIndex + 1)
+      }, 150)
 
+      return () => clearTimeout(timeout)
+    }
+  }, [isVisible, currentIndex, fullText])
+
+  useEffect(() => {
+    if (!isVisible) {
+      setTypedText("")
+      setCurrentIndex(0)
+    }
+  }, [isVisible])
 
   return (
     <section
       ref={containerRef}
-      className="min-h-screen flex items-center justify-center px-6 sm:px-8 lg:px-12 relative snap-start overflow-hidden bg-white"
+      className="min-h-screen flex items-center justify-center px-6 sm:px-8 lg:px-12 pt-20 relative snap-start overflow-hidden bg-white"
     >
       {/* Subtle Background Effects */}
       <div className="absolute inset-0">
@@ -181,7 +201,47 @@ export default function AnimatedQuotesSection() {
                 textShadow: "0 2px 4px rgba(17, 24, 39, 0.1)",
               }}
             >
-              The Reason of<br />Being
+              <div className="flex justify-center items-center flex-wrap">
+                {typedText.split("").map((letter, index) => (
+                  <motion.span
+                    key={index}
+                    className="inline-block"
+                    animate={{
+                      y: Math.sin(breathingPhase + index * 0.2) * 2,
+                      scale: 1 + Math.sin(breathingPhase + index * 0.15) * 0.01,
+                    }}
+                    whileHover={{
+                      scale: 1.03,
+                      y: -4,
+                      transition: { duration: 0.2, ease: "easeOut" },
+                    }}
+                    transition={{
+                      duration: 0.1,
+                      ease: "linear",
+                    }}
+                  >
+                    {letter === " " ? "\u00A0" : letter}
+                    {letter === " " && typedText.slice(0, index + 1).includes("Reason") && !typedText.slice(0, index + 1).includes("Being") && <br />}
+                  </motion.span>
+                ))}
+                {isVisible && currentIndex < fullText.length && (
+                  <motion.span
+                    className="inline-block w-0.5 bg-gray-700 ml-2"
+                    animate={{
+                      opacity: [1, 0.2, 1],
+                      scaleY: 1 + Math.sin(breathingPhase * 0.4) * 0.1,
+                    }}
+                    transition={{
+                      opacity: { duration: 1.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
+                      scaleY: { duration: 0.1, ease: "linear" },
+                    }}
+                    style={{
+                      height: "0.8em",
+                      verticalAlign: "text-top",
+                    }}
+                  />
+                )}
+              </div>
             </h1>
           </motion.div>
 
@@ -190,7 +250,7 @@ export default function AnimatedQuotesSection() {
             className="space-y-12"
             initial={{ opacity: 0 }}
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 1.5, duration: 1.5, ease: "easeOut" }}
+            transition={{ delay: 3.5, duration: 2, ease: "easeOut" }}
           >
             {/* Opening Paragraph */}
             <motion.p
@@ -202,32 +262,34 @@ export default function AnimatedQuotesSection() {
                 textIndent: "2em",
                 color: "#374151",
               }}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.1) * 0.5,
+                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, y: 25 }
+                  : { opacity: 0, y: 30, filter: "blur(8px)" }
               }
-              transition={{ delay: 2, duration: 1.8, ease: "easeOut" }}
+              transition={{ delay: 4.5, duration: 2.5, ease: "easeOut" }}
             >
               We are a collective of creative adults whom the 'child' in each of us survived.
             </motion.p>
 
             {/* Identity Section */}
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.11) * 0.5,
+                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, y: 25 }
+                  : { opacity: 0, y: 30, filter: "blur(8px)" }
               }
-              transition={{ delay: 2.6, duration: 1.6, ease: "easeOut" }}
+              transition={{ delay: 6.0, duration: 2.5, ease: "easeOut" }}
             >
               <p
                 className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed"
@@ -272,16 +334,17 @@ export default function AnimatedQuotesSection() {
                   textIndent: "2em",
                   color: "#374151",
                 }}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
                 animate={
                   isVisible
                     ? {
                         opacity: 1,
                         y: Math.sin(breathingPhase * 0.09 + index * 0.1) * 0.5,
+                        filter: "blur(0px)",
                       }
-                    : { opacity: 0, y: 25 }
+                    : { opacity: 0, y: 30, filter: "blur(8px)" }
                 }
-                transition={{ delay: 3.2 + index * 0.6, duration: 1.4, ease: "easeOut" }}
+                transition={{ delay: 7.5 + index * 1.2, duration: 2.5, ease: "easeOut" }}
               >
                 {text}
               </motion.p>
@@ -290,16 +353,17 @@ export default function AnimatedQuotesSection() {
             {/* Promise Section */}
             <motion.div
               className="text-center py-8 border-t border-b border-gray-200/40"
-              initial={{ opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(5px)" }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       scale: 1 + Math.sin(breathingPhase * 0.06) * 0.005,
+                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, scale: 0.98 }
+                  : { opacity: 0, scale: 0.95, filter: "blur(5px)" }
               }
-              transition={{ delay: 4.4, duration: 1.6, ease: "easeOut" }}
+              transition={{ delay: 10.5, duration: 2.5, ease: "easeOut" }}
             >
               <p
                 className="text-base sm:text-lg md:text-xl font-medium tracking-wide"
@@ -325,16 +389,17 @@ export default function AnimatedQuotesSection() {
                 color: "#374151",
                 fontStyle: "italic",
               }}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.08) * 0.5,
+                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, y: 25 }
+                  : { opacity: 0, y: 30, filter: "blur(8px)" }
               }
-              transition={{ delay: 5.2, duration: 1.8, ease: "easeOut" }}
+              transition={{ delay: 12.0, duration: 2.5, ease: "easeOut" }}
             >
               Relentlessly pursuing perfection, we are outsiders. By choice.
             </motion.p>
