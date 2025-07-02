@@ -9,6 +9,7 @@ export default function AnimatedQuotesSection() {
   const [breathingPhase, setBreathingPhase] = useState(0)
   const [typedText, setTypedText] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isTypingComplete, setIsTypingComplete] = useState(false)
   const fullText = "The Reason of Being"
 
   // Mouse tracking for elegant interactions
@@ -90,6 +91,11 @@ export default function AnimatedQuotesSection() {
       const timeout = setTimeout(() => {
         setTypedText(fullText.slice(0, currentIndex + 1))
         setCurrentIndex(currentIndex + 1)
+        
+        // Check if typing is complete
+        if (currentIndex + 1 >= fullText.length) {
+          setIsTypingComplete(true)
+        }
       }, 150)
 
       return () => clearTimeout(timeout)
@@ -100,6 +106,7 @@ export default function AnimatedQuotesSection() {
     if (!isVisible) {
       setTypedText("")
       setCurrentIndex(0)
+      setIsTypingComplete(false)
     }
   }, [isVisible])
 
@@ -129,8 +136,8 @@ export default function AnimatedQuotesSection() {
           />
         </motion.div>
 
-        {/* Floating elegant shapes */}
-        <motion.div
+        {/* Floating elegant shapes - TEMPORARILY DISABLED TO TEST BLUR */}
+        {/* <motion.div
           className="absolute top-1/3 left-1/4 w-80 h-80 opacity-[0.02]"
           style={{
             x: liquidX,
@@ -156,22 +163,22 @@ export default function AnimatedQuotesSection() {
           }}
         >
           <div className="w-full h-full bg-gradient-to-tl from-gray-800/15 to-transparent rounded-full blur-2xl" />
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Letter Container */}
       <div className="relative max-w-4xl mx-auto w-full">
+        
+        {/* Letter Content Container */}
         <motion.div
           className="relative z-10 p-12 sm:p-16 lg:p-20"
           animate={{
             y: Math.sin(breathingPhase * 0.08) * 1,
           }}
         >
-
-
-          {/* Letter Title */}
+          {/* Letter Title - INSIDE CONTAINER */}
           <motion.div
-            className="mb-20 text-center"
+            className="relative z-20 mb-8 text-center"
             initial={{ opacity: 0, y: 30 }}
             animate={
               isVisible
@@ -183,25 +190,10 @@ export default function AnimatedQuotesSection() {
             }
             transition={{ duration: 2.2, ease: "easeOut", delay: 0.3 }}
           >
-            <h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-thin tracking-[0.15em] mb-4 text-center"
-              style={{
-                fontFamily: "'Playfair Display', 'Times New Roman', serif",
-                fontWeight: 200,
-                letterSpacing: "0.15em",
-                background: `linear-gradient(135deg, 
-                  #111827 0%, 
-                  #1f2937 25%,
-                  #374151 50%, 
-                  #4b5563 75%,
-                  #111827 100%)`,
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                textShadow: "0 2px 4px rgba(17, 24, 39, 0.1)",
-              }}
+            <motion.h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-thin tracking-[0.15em] mb-4 text-center font-serif text-gray-900 whitespace-nowrap"
             >
-              <div className="flex justify-center items-center flex-wrap">
+              <div className="flex justify-center items-center flex-nowrap">
                 {typedText.split("").map((letter, index) => (
                   <motion.span
                     key={index}
@@ -221,7 +213,6 @@ export default function AnimatedQuotesSection() {
                     }}
                   >
                     {letter === " " ? "\u00A0" : letter}
-                    {letter === " " && typedText.slice(0, index + 1).includes("Reason") && !typedText.slice(0, index + 1).includes("Being") && <br />}
                   </motion.span>
                 ))}
                 {isVisible && currentIndex < fullText.length && (
@@ -242,9 +233,8 @@ export default function AnimatedQuotesSection() {
                   />
                 )}
               </div>
-            </h1>
+            </motion.h1>
           </motion.div>
-
           {/* Letter Content */}
           <motion.div
             className="space-y-12"
@@ -262,15 +252,14 @@ export default function AnimatedQuotesSection() {
                 textIndent: "2em",
                 color: "#374151",
               }}
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              initial={{ opacity: 0, y: 30 }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.1) * 0.5,
-                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, y: 30, filter: "blur(8px)" }
+                  : { opacity: 0, y: 30 }
               }
               transition={{ delay: 4.5, duration: 2.5, ease: "easeOut" }}
             >
@@ -279,15 +268,14 @@ export default function AnimatedQuotesSection() {
 
             {/* Identity Section */}
             <motion.div
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              initial={{ opacity: 0, y: 30 }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.11) * 0.5,
-                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, y: 30, filter: "blur(8px)" }
+                  : { opacity: 0, y: 30 }
               }
               transition={{ delay: 6.0, duration: 2.5, ease: "easeOut" }}
             >
@@ -334,15 +322,14 @@ export default function AnimatedQuotesSection() {
                   textIndent: "2em",
                   color: "#374151",
                 }}
-                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={
                   isVisible
                     ? {
                         opacity: 1,
                         y: Math.sin(breathingPhase * 0.09 + index * 0.1) * 0.5,
-                        filter: "blur(0px)",
                       }
-                    : { opacity: 0, y: 30, filter: "blur(8px)" }
+                    : { opacity: 0, y: 30 }
                 }
                 transition={{ delay: 7.5 + index * 1.2, duration: 2.5, ease: "easeOut" }}
               >
@@ -353,15 +340,14 @@ export default function AnimatedQuotesSection() {
             {/* Promise Section */}
             <motion.div
               className="text-center py-8 border-t border-b border-gray-200/40"
-              initial={{ opacity: 0, scale: 0.95, filter: "blur(5px)" }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       scale: 1 + Math.sin(breathingPhase * 0.06) * 0.005,
-                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, scale: 0.95, filter: "blur(5px)" }
+                  : { opacity: 0, scale: 0.95 }
               }
               transition={{ delay: 10.5, duration: 2.5, ease: "easeOut" }}
             >
@@ -389,15 +375,14 @@ export default function AnimatedQuotesSection() {
                 color: "#374151",
                 fontStyle: "italic",
               }}
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              initial={{ opacity: 0, y: 30 }}
               animate={
                 isVisible
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.08) * 0.5,
-                      filter: "blur(0px)",
                     }
-                  : { opacity: 0, y: 30, filter: "blur(8px)" }
+                  : { opacity: 0, y: 30 }
               }
               transition={{ delay: 12.0, duration: 2.5, ease: "easeOut" }}
             >
