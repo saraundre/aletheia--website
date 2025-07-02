@@ -16,7 +16,7 @@ import StemCallToActionSection from '@/components/sections/stem-for-all/StemCall
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen snap-y snap-mandatory">
       <AnimatedQuotesSection />
       <AletheiaHeroSection />
       <WhatWeDoSection />

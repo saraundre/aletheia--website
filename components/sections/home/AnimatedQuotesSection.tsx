@@ -1,341 +1,346 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
-import { useEffect, useState, useRef } from "react"
+import { useRef, useEffect, useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
-const AnimatedQuotesSection = () => {
+const quotes = [
+  {
+    title: "The Reason of Being",
+    content: "We are a collective of creative adults whom the 'child' in each of us survived.",
+    animation: "typewriter",
+    type: "normal"
+  },
+  {
+    title: "We are",
+    content: "Storytellers. Innovators. Engineers. Designers. Strategists.",
+    animation: "changing-words",
+    type: "scroll-locked",
+    words: ["Storytellers.", "Innovators.", "Engineers.", "Designers.", "Strategists."]
+  },
+  {
+    title: "Our Mission",
+    content: "Building brands and bridging communities through world-class artistry and technologies.",
+    animation: "split-reveal",
+    type: "normal"
+  },
+  {
+    title: "Our Approach",
+    content: "We solve business problems by tailoring solutions based on a mix of strategy, content and unique proposition.",
+    animation: "morphing",
+    type: "normal"
+  },
+  {
+    title: "Our Promise",
+    content: "No communications white noise and BS.",
+    animation: "matrix",
+    type: "normal"
+  },
+  {
+    title: "Our Ethos",
+    content: "Relentlessly pursuing perfection, we are outsiders. By choice.",
+    animation: "philosophical",
+    type: "normal"
+  }
+]
+
+export default function AnimatedQuotesSection() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0)
-  const [isComplete, setIsComplete] = useState(false)
-  const [isLocked, setIsLocked] = useState(true)
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set([0]))
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [isChangingWordsActive, setIsChangingWordsActive] = useState(false)
+  const [currentSnapIndex, setCurrentSnapIndex] = useState(0)
 
-  const quotes = [
-    {
-      title: "The Reason of Being",
-      content: "We are a collective of creative adults whom the 'child' in each of us survived."
-    },
-    {
-      title: "Our Identity",
-      content: "Storytellers. Innovators. Engineers. Designers. Strategists."
-    },
-    {
-      title: "Our Mission",
-      content: "Building brands and bridging communities through world-class artistry and technologies."
-    },
-    {
-      title: "Our Approach",
-      content: "We solve business problems by tailoring solutions based on a mix of strategy, content and unique proposition."
-    },
-    {
-      title: "Our Promise",
-      content: "No communications white noise and BS."
-    },
-    {
-      title: "Our Ethos",
-      content: "Relentlessly pursuing perfection, we are outsiders. By choice."
-    }
-  ]
-
-  // Lock scroll when component mounts
   useEffect(() => {
-    if (isLocked) {
-      document.body.style.overflow = 'hidden'
-      document.body.classList.add('quotes-locked')
-    } else {
-      document.body.style.overflow = 'unset'
-      document.body.classList.remove('quotes-locked')
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset'
-      document.body.classList.remove('quotes-locked')
-    }
-  }, [isLocked])
-
-  // Handle quote progression
-  useEffect(() => {
-    if (isComplete) return
-
-    const interval = setInterval(() => {
-      setCurrentQuoteIndex((prev) => {
-        if (prev === quotes.length - 1) {
-          setIsComplete(true)
-          return prev
-        }
-        return prev + 1
-      })
-    }, 3000) // Change quote every 3 seconds
-
-    return () => clearInterval(interval)
-  }, [quotes.length, isComplete])
-
-  // Handle completion and scroll to hero
-  useEffect(() => {
-    if (isComplete) {
-      // Wait a bit then unlock scroll and snap to hero
-      const timer = setTimeout(() => {
-        setIsLocked(false)
-        // Smooth scroll to hero section
-        const heroSection = document.querySelector('[data-hero-section]')
-        if (heroSection) {
-          heroSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
+    const handleScroll = () => {
+      if (!containerRef.current) return
+      
+      const container = containerRef.current
+      const containerRect = container.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const containerTop = containerRect.top
+      
+      // Calculate which section should be visible based on container position
+      const sectionIndex = Math.round(-containerTop / viewportHeight)
+      const clampedIndex = Math.max(0, Math.min(sectionIndex, quotes.length - 1))
+      
+      setCurrentSnapIndex(clampedIndex)
+      
+      // Update visible sections based on which section is in the center of viewport
+      const newVisibleSections = new Set<number>()
+      newVisibleSections.add(clampedIndex)
+      setVisibleSections(newVisibleSections)
+      
+      // Handle changing words animation for section 1
+      if (clampedIndex === 1 && !isChangingWordsActive) {
+        setIsChangingWordsActive(true)
+        setCurrentWordIndex(0)
+        
+        // Start word cycling
+        const wordInterval = setInterval(() => {
+          setCurrentWordIndex((prev) => {
+            const next = (prev + 1) % 5
+            if (next === 0) {
+              // Animation complete
+              setIsChangingWordsActive(false)
+              clearInterval(wordInterval)
+            }
+            return next
           })
-        }
-      }, 2000) // Wait 2 seconds after completion
-
-      return () => clearTimeout(timer)
-    }
-  }, [isComplete])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 1,
-        staggerChildren: 0.2
+        }, 1500)
+        
+        return () => clearInterval(wordInterval)
+      } else if (clampedIndex !== 1) {
+        setIsChangingWordsActive(false)
       }
     }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isChangingWordsActive])
+
+  const renderTypewriterAnimation = (quote: any, index: number) => {
+    const isVisible = visibleSections.has(index)
+    
+    return (
+      <div className="relative">
+        <motion.h2
+          className="heading-xl mb-8 font-extrabold tracking-tight"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          {quote.title.split('').map((char: string, charIndex: number) => (
+            <motion.span
+              key={charIndex}
+              className="inline-block"
+              initial={{ opacity: 0, y: 50 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{
+                delay: isVisible ? charIndex * 0.05 : 0,
+                duration: 0.3,
+                ease: "easeOut"
+              }}
+            >
+              {char === ' ' ? '\u00A0' : char}
+            </motion.span>
+          ))}
+        </motion.h2>
+        
+        <motion.p
+          className="body-lg text-slate-600 max-w-3xl mx-auto text-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ delay: isVisible ? 1.5 : 0, duration: 0.8, ease: "easeOut" }}
+        >
+          {quote.content}
+        </motion.p>
+      </div>
+    )
   }
 
-  const quoteVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      scale: 0.95
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    },
-    exit: {
-      opacity: 0,
-      y: -30,
-      scale: 0.95,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
+  const renderChangingWordsAnimation = (quote: any, index: number) => {
+    const isVisible = visibleSections.has(index)
+    
+    return (
+      <div className="relative">
+        <motion.h2
+          className="heading-xl mb-8 font-extrabold tracking-tight"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          {quote.title}
+        </motion.h2>
+        
+        <motion.div
+          className="body-lg text-slate-600 max-w-3xl mx-auto text-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ delay: isVisible ? 0.5 : 0, duration: 0.8, ease: "easeOut" }}
+        >
+          {quote.words?.map((word: string, wordIndex: number) => (
+            <motion.span
+              key={wordIndex}
+              className="inline-block mx-2"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isVisible && wordIndex === currentWordIndex ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              {word}
+            </motion.span>
+          ))}
+        </motion.div>
+      </div>
+    )
   }
 
-  const progressVariants = {
-    hidden: { scaleX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: {
-        duration: 3,
-        ease: "linear"
-      }
+  const renderSplitRevealAnimation = (quote: any, index: number) => {
+    const isVisible = visibleSections.has(index)
+    
+    return (
+      <div className="relative overflow-hidden">
+        <div className="flex flex-col items-center">
+          <motion.h2
+            className="heading-xl mb-8 font-extrabold tracking-tight"
+            initial={{ clipPath: "inset(0 100% 0 0)" }}
+            animate={isVisible ? { clipPath: "inset(0 0% 0 0)" } : { clipPath: "inset(0 100% 0 0)" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          >
+            {quote.title}
+          </motion.h2>
+          
+          <motion.div
+            className="w-full max-w-3xl"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={isVisible ? { clipPath: "inset(0 0 0% 0)" } : { clipPath: "inset(0 0 100% 0)" }}
+            transition={{ delay: isVisible ? 0.8 : 0, duration: 1, ease: "easeOut" }}
+          >
+            <p className="body-lg text-slate-600 text-center">
+              {quote.content}
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    )
+  }
+
+  const renderMorphingAnimation = (quote: any, index: number) => {
+    const isVisible = visibleSections.has(index)
+    
+    return (
+      <div className="relative">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-neutral-50 via-white to-neutral-100"
+          initial={{ scale: 0, rotate: 180 }}
+          animate={isVisible ? { scale: 1, rotate: 0 } : { scale: 0, rotate: 180 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+        
+        <motion.div className="relative z-10 text-center">
+          <motion.h2
+            className="heading-xl mb-8 font-extrabold tracking-tight"
+            initial={{ y: 100, rotateX: 90 }}
+            animate={isVisible ? { y: 0, rotateX: 0 } : { y: 100, rotateX: 90 }}
+            transition={{ delay: isVisible ? 0.5 : 0, duration: 0.8, ease: "easeOut" }}
+          >
+            {quote.title}
+          </motion.h2>
+          
+          <motion.p
+            className="body-lg text-slate-600 max-w-3xl mx-auto text-center"
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: isVisible ? 1.2 : 0, duration: 0.6, ease: "easeOut" }}
+          >
+            {quote.content}
+          </motion.p>
+        </motion.div>
+      </div>
+    )
+  }
+
+  const renderMatrixAnimation = (quote: any, index: number) => {
+    const isVisible = visibleSections.has(index)
+    
+    return (
+      <div className="relative">
+        <motion.div className="relative z-10 text-center">
+          <motion.h2
+            className="heading-xl mb-8 font-extrabold tracking-tight"
+            initial={{ letterSpacing: "2em", opacity: 0 }}
+            animate={isVisible ? { letterSpacing: "0.1em", opacity: 1 } : { letterSpacing: "2em", opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          >
+            {quote.title}
+          </motion.h2>
+          
+          <motion.p
+            className="body-lg text-slate-600 max-w-3xl mx-auto text-center"
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: isVisible ? 1 : 0, duration: 0.8, ease: "easeOut" }}
+          >
+            {quote.content}
+          </motion.p>
+        </motion.div>
+      </div>
+    )
+  }
+
+  const renderPhilosophicalAnimation = (quote: any, index: number) => {
+    const isVisible = visibleSections.has(index)
+    
+    return (
+      <div className="relative">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-neutral-50 via-white to-neutral-100"
+          initial={{ opacity: 0 }}
+          animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        />
+        
+        <motion.div className="relative z-10 text-center">
+          <motion.h2
+            className="heading-xl mb-8 font-extrabold tracking-tight"
+            initial={{ y: -100, opacity: 0 }}
+            animate={isVisible ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
+            transition={{ delay: isVisible ? 0.3 : 0, duration: 0.8, ease: "easeOut" }}
+          >
+            {quote.title}
+          </motion.h2>
+          
+          <motion.div
+            className="w-32 h-px bg-gradient-to-r from-neutral-400 to-neutral-600 mx-auto mb-8"
+            initial={{ scaleX: 0 }}
+            animate={isVisible ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ delay: isVisible ? 0.8 : 0, duration: 0.6, ease: "easeOut" }}
+          />
+          
+          <motion.p
+            className="body-lg text-slate-600 max-w-3xl mx-auto text-center italic"
+            initial={{ opacity: 0, y: 50 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ delay: isVisible ? 1.2 : 0, duration: 0.8, ease: "easeOut" }}
+          >
+            {quote.content}
+          </motion.p>
+        </motion.div>
+      </div>
+    )
+  }
+
+  const getAnimationComponent = (quote: any, index: number) => {
+    switch (quote.animation) {
+      case 'typewriter':
+        return renderTypewriterAnimation(quote, index)
+      case 'changing-words':
+        return renderChangingWordsAnimation(quote, index)
+      case 'split-reveal':
+        return renderSplitRevealAnimation(quote, index)
+      case 'morphing':
+        return renderMorphingAnimation(quote, index)
+      case 'matrix':
+        return renderMatrixAnimation(quote, index)
+      case 'philosophical':
+        return renderPhilosophicalAnimation(quote, index)
+      default:
+        return renderTypewriterAnimation(quote, index)
     }
   }
 
   return (
-    <section
-      ref={containerRef}
-      className={`fixed inset-0 z-50 bg-gradient-to-br from-neutral-50 via-white to-neutral-100 flex items-center justify-center overflow-hidden transition-opacity duration-1000 ${
-        isLocked ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 opacity-[0.03]"
-          animate={{
-            x: [0, 20, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+    <div ref={containerRef} className="relative">
+      {/* Individual Quote Sections */}
+      {quotes.map((quote, index) => (
+        <section
+          key={index}
+          className="h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative snap-start"
         >
-          <div className="w-full h-full bg-gradient-to-br from-neutral-800/10 to-transparent rounded-full blur-2xl" />
-        </motion.div>
-
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-64 h-64 opacity-[0.02]"
-          animate={{
-            x: [0, -15, 0],
-            y: [0, 15, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <div className="w-full h-full bg-gradient-to-tl from-neutral-600/10 to-transparent rounded-full blur-2xl" />
-        </motion.div>
-      </div>
-
-      {/* Main Content */}
-      <motion.div
-        className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Progress Indicator */}
-        <motion.div className="mb-16">
-          <div className="flex justify-center space-x-2">
-            {quotes.map((_, index) => (
-              <motion.div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                  index === currentQuoteIndex ? 'bg-neutral-900' : 'bg-neutral-300'
-                }`}
-                animate={{
-                  scale: index === currentQuoteIndex ? [1, 1.2, 1] : 1
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: index === currentQuoteIndex ? Infinity : 0
-                }}
-              />
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Quote Display */}
-        <div className="relative h-64 flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            {quotes.map((quote, index) => (
-              index === currentQuoteIndex && (
-                <motion.div
-                  key={index}
-                  className="absolute inset-0 flex flex-col items-center justify-center"
-                  variants={quoteVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  {/* Quote Title */}
-                  <motion.h2
-                    className="text-2xl sm:text-3xl md:text-4xl font-light text-neutral-800 mb-8 tracking-wider"
-                    style={{
-                      fontFamily: "'Inter', system-ui, sans-serif",
-                      fontWeight: 200
-                    }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
-                  >
-                    {quote.title}
-                  </motion.h2>
-
-                  {/* Quote Content */}
-                  <motion.p
-                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-neutral-600 leading-relaxed max-w-3xl"
-                    style={{
-                      fontFamily: "'Inter', system-ui, sans-serif",
-                      fontWeight: 300
-                    }}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.8 }}
-                  >
-                    {quote.content}
-                  </motion.p>
-                </motion.div>
-              )
-            ))}
-          </AnimatePresence>
-        </div>
-
-        {/* Progress Bar */}
-        <motion.div className="mt-16">
-          <div className="w-64 h-px bg-neutral-200 mx-auto relative">
-            <motion.div
-              className="absolute top-0 left-0 h-full bg-neutral-900 origin-left"
-              variants={progressVariants}
-              initial="hidden"
-              animate={currentQuoteIndex < quotes.length - 1 ? "visible" : "hidden"}
-              key={currentQuoteIndex}
-            />
-          </div>
-        </motion.div>
-
-        {/* Completion Indicator */}
-        {isComplete && (
-          <motion.div
-            className="mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            <motion.div
-              className="inline-flex items-center space-x-3 text-neutral-500"
-              animate={{
-                y: [0, -5, 0]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              <span className="text-sm font-light tracking-wider uppercase">Preparing your experience...</span>
-              <motion.div
-                className="w-4 h-4 border-r-2 border-b-2 border-neutral-400 transform rotate-45"
-                animate={{
-                  y: [0, 3, 0]
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </motion.div>
-
-      {/* Floating Elements */}
-      <motion.div
-        className="absolute w-1 h-16 bg-gradient-to-b from-neutral-400/20 to-transparent rounded-full"
-        style={{
-          left: "20%",
-          top: "30%",
-        }}
-        animate={{
-          y: [0, -20, 0],
-          opacity: [0.3, 0.6, 0.3]
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-
-      <motion.div
-        className="absolute w-16 h-1 bg-gradient-to-r from-neutral-400/20 to-transparent rounded-full"
-        style={{
-          right: "20%",
-          bottom: "30%",
-        }}
-        animate={{
-          x: [0, 20, 0],
-          opacity: [0.3, 0.6, 0.3]
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-    </section>
+          {getAnimationComponent(quote, index)}
+        </section>
+      ))}
+    </div>
   )
-}
-
-export default AnimatedQuotesSection 
+} 
