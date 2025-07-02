@@ -2,7 +2,6 @@ import CollaboratorsCarousel from '@/components/sections/home/CollaboratorsCarou
 import SignatureSection from '@/components/sections/home/SignatureSection'
 import AletheiaHeroSection from '@/components/sections/home/AletheiaHeroSection'
 import AnimatedQuotesSection from '@/components/sections/home/AnimatedQuotesSection'
-import WeAreSection from '@/components/sections/home/WeAreSection'
 import WhatWeDoSection from '@/components/sections/home/WhatWeDoSection'
 
 // STEM for All sections
@@ -20,7 +19,6 @@ export default function HomePage() {
     <div className="min-h-screen">
       <AnimatedQuotesSection />
       <AletheiaHeroSection />
-      <WeAreSection />
       <WhatWeDoSection />
       <CollaboratorsCarousel />
       <SignatureSection />
