@@ -2,7 +2,6 @@ import CollaboratorsCarousel from '@/components/sections/home/CollaboratorsCarou
 import SignatureSection from '@/components/sections/home/SignatureSection'
 import AletheiaHeroSection from '@/components/sections/home/AletheiaHeroSection'
 import AnimatedQuotesSection from '@/components/sections/home/AnimatedQuotesSection'
-import WhatWeDoSection from '@/components/sections/home/WhatWeDoSection'
 
 // STEM for All sections
 import StemForAllHero from '@/components/sections/stem-for-all/StemHeroSection'
@@ -19,7 +18,6 @@ export default function HomePage() {
     <div className="min-h-screen snap-y snap-mandatory">
       <AnimatedQuotesSection />
       <AletheiaHeroSection />
-      <WhatWeDoSection />
       <CollaboratorsCarousel />
       <SignatureSection />
       
