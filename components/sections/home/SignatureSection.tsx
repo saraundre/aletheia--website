@@ -86,7 +86,7 @@ const SignatureSection = () => {
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link href="/stem-for-all" className="btn-secondary">
+                <Link href="#stem-for-all" className="btn-secondary">
                   Explore Our Work
                 </Link>
               </motion.div>

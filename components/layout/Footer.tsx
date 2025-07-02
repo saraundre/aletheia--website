@@ -125,7 +125,6 @@ const Footer = () => {
               <div className="space-y-3">
                 {[
                   { name: 'Home', href: '/' },
-                  { name: 'STEM For All', href: '/stem-for-all' },
                   { name: 'Contact', href: '/contact' },
                 ].map((link, index) => (
                   <motion.div

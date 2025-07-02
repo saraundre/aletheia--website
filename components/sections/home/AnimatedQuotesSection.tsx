@@ -412,32 +412,7 @@ export default function AnimatedQuotesSection() {
                   opacity: 0.8 + Math.sin(breathingPhase * 0.18) * 0.1,
                 }}
               />
-              <motion.div
-                className="text-sm font-light tracking-wide mb-1"
-                style={{
-                  fontFamily: "'Inter', system-ui, sans-serif",
-                  color: "#4b5563",
-                  fontWeight: 300,
-                }}
-                animate={{
-                  opacity: 0.9 + Math.sin(breathingPhase * 0.16) * 0.1,
-                }}
-              >
-                Aletheia Technologies
-              </motion.div>
-              <motion.div
-                className="text-xs font-light tracking-wide"
-                style={{
-                  fontFamily: "'Inter', system-ui, sans-serif",
-                  color: "#6b7280",
-                  fontWeight: 300,
-                }}
-                animate={{
-                  opacity: 0.8 + Math.sin(breathingPhase * 0.14) * 0.1,
-                }}
-              >
-                Creative Excellence
-              </motion.div>
+
             </div>
             <motion.div
               className="w-16 h-16 border border-gray-300/50 rounded-full bg-gradient-to-br from-gray-50 to-gray-100/50 flex items-center justify-center"

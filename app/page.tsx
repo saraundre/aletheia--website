@@ -1,6 +1,5 @@
 import CollaboratorsCarousel from '@/components/sections/home/CollaboratorsCarousel'
 import SignatureSection from '@/components/sections/home/SignatureSection'
-import AletheiaHeroSection from '@/components/sections/home/AletheiaHeroSection'
 import AnimatedQuotesSection from '@/components/sections/home/AnimatedQuotesSection'
 
 // STEM for All sections
@@ -17,9 +16,8 @@ export default function HomePage() {
   return (
     <div className="min-h-screen snap-y snap-mandatory">
       <AnimatedQuotesSection />
-      <AletheiaHeroSection />
-      <CollaboratorsCarousel />
       <SignatureSection />
+      <CollaboratorsCarousel />
       
       {/* STEM for All Sections */}
       <StemForAllHero />
