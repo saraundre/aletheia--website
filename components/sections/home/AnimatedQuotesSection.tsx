@@ -1,23 +1,73 @@
 "use client"
 
-import { useRef, useEffect, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useEffect, useState, useCallback } from "react"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 
 export default function AnimatedQuotesSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-  const [typedText, setTypedText] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const fullText = "The Reason of Being"
+  const [breathingPhase, setBreathingPhase] = useState(0)
+
+  // Mouse tracking for elegant interactions
+  const mouseX = useMotionValue(0.5)
+  const mouseY = useMotionValue(0.5)
+  const springX = useSpring(mouseX, { stiffness: 12, damping: 60 })
+  const springY = useSpring(mouseY, { stiffness: 12, damping: 60 })
+
+  // Subtle liquid transformations
+  const liquidX = useTransform(springX, [0, 1], [-15, 15])
+  const liquidY = useTransform(springY, [0, 1], [-10, 10])
+
+  // Breathing animation
+  const updateBreathing = useCallback(() => {
+    setBreathingPhase((prev) => prev + 0.012)
+  }, [])
+
+  useEffect(() => {
+    const breathingInterval = setInterval(updateBreathing, 120)
+    return () => clearInterval(breathingInterval)
+  }, [updateBreathing])
+
+  // Mouse tracking
+  useEffect(() => {
+    let ticking = false
+    let isPageVisible = true
+
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!ticking && isPageVisible) {
+        requestAnimationFrame(() => {
+          if (containerRef.current && isPageVisible) {
+            const rect = containerRef.current.getBoundingClientRect()
+            mouseX.set((e.clientX - rect.left) / rect.width)
+            mouseY.set((e.clientY - rect.top) / rect.height)
+          }
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+      window.removeEventListener("mousemove", handleMouseMove)
+    }
+  }, [mouseX, mouseY])
 
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
-      
+
       const container = containerRef.current
       const containerRect = container.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      
+
       if (containerRect.top < viewportHeight * 0.8 && containerRect.bottom > viewportHeight * 0.2) {
         setIsVisible(true)
       } else {
@@ -25,255 +75,337 @@ export default function AnimatedQuotesSection() {
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll)
     handleScroll()
-    
-    return () => window.removeEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Typing animation effect
-  useEffect(() => {
-    if (isVisible && currentIndex < fullText.length) {
-      const timeout = setTimeout(() => {
-        setTypedText(fullText.slice(0, currentIndex + 1))
-        setCurrentIndex(currentIndex + 1)
-      }, 120)
 
-      return () => clearTimeout(timeout)
-    }
-  }, [isVisible, currentIndex, fullText])
-
-  useEffect(() => {
-    if (!isVisible) {
-      setTypedText('')
-      setCurrentIndex(0)
-    }
-  }, [isVisible])
 
   return (
     <section
       ref={containerRef}
-      className="h-[200vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 relative snap-start overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50"
+      className="min-h-screen flex items-center justify-center px-6 sm:px-8 lg:px-12 relative snap-start overflow-hidden bg-white"
     >
-      {/* Luxury Background Elements */}
+      {/* Subtle Background Effects */}
       <div className="absolute inset-0">
-        {/* Subtle geometric patterns */}
+        {/* Subtle paper texture */}
         <motion.div
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] opacity-[0.02]"
-          initial={{ rotate: 0 }}
-          animate={isVisible ? { rotate: 360 } : { rotate: 0 }}
-          transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+          className="absolute inset-0 opacity-[0.015]"
+          animate={{
+            opacity: 0.015 + Math.sin(breathingPhase * 0.2) * 0.005,
+          }}
         >
-          <div className="w-full h-full border border-slate-300 rounded-full" />
-          <div className="absolute inset-4 w-full h-full border border-slate-300 rounded-full" />
-          <div className="absolute inset-8 w-full h-full border border-slate-300 rounded-full" />
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 1px 1px, rgba(17,24,39,0.15) 1px, transparent 0),
+                linear-gradient(45deg, transparent 40%, rgba(17,24,39,0.02) 50%, transparent 60%)
+              `,
+              backgroundSize: "20px 20px, 40px 40px",
+            }}
+          />
+        </motion.div>
+
+        {/* Floating elegant shapes */}
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-80 h-80 opacity-[0.02]"
+          style={{
+            x: liquidX,
+            y: liquidY,
+          }}
+          animate={{
+            scale: 1 + Math.sin(breathingPhase * 0.3) * 0.03,
+            rotate: Math.sin(breathingPhase * 0.15) * 1.5,
+          }}
+        >
+          <div className="w-full h-full bg-gradient-to-br from-gray-900/20 to-transparent rounded-full blur-3xl" />
         </motion.div>
 
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] opacity-[0.015]"
-          initial={{ rotate: 0 }}
-          animate={isVisible ? { rotate: -360 } : { rotate: 0 }}
-          transition={{ duration: 80, ease: "linear", repeat: Infinity }}
+          className="absolute bottom-1/3 right-1/4 w-60 h-60 opacity-[0.015]"
+          style={{
+            x: useTransform(liquidX, (x) => -x * 0.6),
+            y: useTransform(liquidY, (y) => -y * 0.6),
+          }}
+          animate={{
+            scale: 1 + Math.cos(breathingPhase * 0.4) * 0.025,
+            rotate: Math.cos(breathingPhase * 0.2) * -2,
+          }}
         >
-          <div className="w-full h-full border border-slate-300 rounded-full" />
-          <div className="absolute inset-6 w-full h-full border border-slate-300 rounded-full" />
+          <div className="w-full h-full bg-gradient-to-tl from-gray-800/15 to-transparent rounded-full blur-2xl" />
         </motion.div>
-
-        {/* Elegant floating elements */}
-        <motion.div
-          className="absolute top-1/3 left-1/3 w-px h-32 bg-gradient-to-b from-transparent via-slate-300 to-transparent"
-          initial={{ opacity: 0, scaleY: 0 }}
-          animate={isVisible ? { opacity: 0.3, scaleY: 1 } : { opacity: 0, scaleY: 0 }}
-          transition={{ delay: 1, duration: 2, ease: "easeOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/3 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={isVisible ? { opacity: 0.3, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
-          transition={{ delay: 1.5, duration: 2, ease: "easeOut" }}
-        />
       </div>
 
-      <div className="relative max-w-5xl mx-auto">
-        <motion.div className="relative z-10 text-center">
-          {/* Elegant subtitle */}
+      {/* Letter Container */}
+      <div className="relative max-w-4xl mx-auto w-full">
+        <motion.div
+          className="relative z-10 p-12 sm:p-16 lg:p-20"
+          animate={{
+            y: Math.sin(breathingPhase * 0.08) * 1,
+          }}
+        >
+
+
+          {/* Letter Title */}
           <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            className="mb-20 text-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={
+              isVisible
+                ? {
+                    opacity: 1,
+                    y: Math.sin(breathingPhase * 0.12) * 1,
+                  }
+                : { opacity: 0, y: 30 }
+            }
+            transition={{ duration: 2.2, ease: "easeOut", delay: 0.3 }}
           >
-            <span className="text-sm uppercase tracking-[0.3em] text-slate-500 font-light">
-              Philosophy
-            </span>
+            <h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-thin tracking-[0.15em] mb-4 text-center"
+              style={{
+                fontFamily: "'Playfair Display', 'Times New Roman', serif",
+                fontWeight: 200,
+                letterSpacing: "0.15em",
+                background: `linear-gradient(135deg, 
+                  #111827 0%, 
+                  #1f2937 25%,
+                  #374151 50%, 
+                  #4b5563 75%,
+                  #111827 100%)`,
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                textShadow: "0 2px 4px rgba(17, 24, 39, 0.1)",
+              }}
+            >
+              The Reason of<br />Being
+            </h1>
           </motion.div>
 
-          {/* Main Title with premium typography */}
-          <motion.h1
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight tracking-[0.15em] text-slate-900 mb-16"
-            style={{
-              fontFamily: "'Inter', system-ui, sans-serif",
-              fontWeight: 100,
-              letterSpacing: "0.15em",
-            }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-          >
-            {typedText}
-            <motion.span
-              className="inline-block w-0.5 h-full bg-slate-900 ml-2"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1.2, repeat: Infinity }}
-              style={{ 
-                height: '1em',
-                verticalAlign: 'text-top'
-              }}
-            />
-          </motion.h1>
-
-          {/* Elegant divider */}
+          {/* Letter Content */}
           <motion.div
-            className="w-24 h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent mx-auto mb-16"
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={isVisible ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
-            transition={{ delay: 0.8, duration: 1.5, ease: "easeOut" }}
-          />
-
-          {/* Opening Statement with refined typography */}
-          <motion.p
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-slate-700 text-center leading-relaxed mb-12 max-w-4xl mx-auto"
-            style={{
-              fontFamily: "'Inter', system-ui, sans-serif",
-              fontWeight: 200,
-              lineHeight: 1.6,
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 1.2, duration: 1.2, ease: "easeOut" }}
-          >
-            We are a collective of creative adults whom the 'child' in each of us survived.
-          </motion.p>
-
-          {/* Identity with sophisticated spacing */}
-          <motion.div
-            className="mb-16"
+            className="space-y-12"
             initial={{ opacity: 0 }}
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 2.0, duration: 1, ease: "easeOut" }}
+            transition={{ delay: 1.5, duration: 1.5, ease: "easeOut" }}
           >
-            <div className="flex flex-wrap justify-center items-center gap-8">
-              {["Storytellers", "Innovators", "Engineers", "Designers", "Strategists"].map((role, roleIndex) => (
-                <motion.span
-                  key={roleIndex}
-                  className="text-lg sm:text-xl md:text-2xl font-light text-slate-600"
-                  style={{
-                    fontFamily: "'Inter', system-ui, sans-serif",
-                    fontWeight: 200,
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{
-                    delay: 2.0 + roleIndex * 0.15,
-                    duration: 0.8,
-                    ease: "easeOut"
-                  }}
-                >
-                  {role}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Mission with elegant presentation */}
-          <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 3.2, duration: 1, ease: "easeOut" }}
-          >
-            <p
-              className="text-lg sm:text-xl md:text-2xl font-light text-slate-700 text-center leading-relaxed max-w-4xl mx-auto"
-              style={{
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontWeight: 200,
-              }}
-            >
-              Building brands and bridging communities through world-class artistry and technologies.
-            </p>
-          </motion.div>
-
-          {/* Approach with refined typography */}
-          <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 3.8, duration: 1, ease: "easeOut" }}
-          >
-            <p
-              className="text-lg sm:text-xl md:text-2xl font-light text-slate-700 text-center leading-relaxed max-w-4xl mx-auto"
-              style={{
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontWeight: 200,
-              }}
-            >
-              We solve business problems by tailoring solutions based on a mix of strategy, content and unique proposition.
-            </p>
-          </motion.div>
-
-          {/* Elegant divider */}
-          <motion.div
-            className="w-16 h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent mx-auto mb-12"
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={isVisible ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
-            transition={{ delay: 4.4, duration: 1, ease: "easeOut" }}
-          />
-
-          {/* Promise with emphasis */}
-          <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 4.8, duration: 1, ease: "easeOut" }}
-          >
-            <p
-              className="text-lg sm:text-xl md:text-2xl font-medium text-slate-800 text-center leading-relaxed"
+            {/* Opening Paragraph */}
+            <motion.p
+              className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed"
               style={{
                 fontFamily: "'Inter', system-ui, sans-serif",
                 fontWeight: 300,
+                lineHeight: 1.8,
+                textIndent: "2em",
+                color: "#374151",
               }}
+              initial={{ opacity: 0, y: 25 }}
+              animate={
+                isVisible
+                  ? {
+                      opacity: 1,
+                      y: Math.sin(breathingPhase * 0.1) * 0.5,
+                    }
+                  : { opacity: 0, y: 25 }
+              }
+              transition={{ delay: 2, duration: 1.8, ease: "easeOut" }}
             >
-              No communications white noise and BS.
-            </p>
-          </motion.div>
+              We are a collective of creative adults whom the 'child' in each of us survived.
+            </motion.p>
 
-          {/* Ethos with elegant styling */}
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 5.2, duration: 1.2, ease: "easeOut" }}
-          >
-            <p
-              className="text-lg sm:text-xl md:text-2xl font-light text-slate-700 text-center leading-relaxed italic"
+            {/* Identity Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={
+                isVisible
+                  ? {
+                      opacity: 1,
+                      y: Math.sin(breathingPhase * 0.11) * 0.5,
+                    }
+                  : { opacity: 0, y: 25 }
+              }
+              transition={{ delay: 2.6, duration: 1.6, ease: "easeOut" }}
+            >
+              <p
+                className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed"
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontWeight: 300,
+                  lineHeight: 1.8,
+                  color: "#374151",
+                }}
+              >
+                We are{" "}
+                {["Storytellers", "Innovators", "Engineers", "Designers", "Strategists"].map((word, index) => (
+                  <motion.span
+                    key={word}
+                    className="font-medium tracking-wide"
+                    style={{ color: "#1f2937" }}
+                    animate={{
+                      opacity: 0.95 + Math.sin(breathingPhase * 0.2 + index * 0.3) * 0.05,
+                    }}
+                  >
+                    {word}
+                    {index < 4 && ", "}
+                    {index === 3 && " and "}
+                  </motion.span>
+                ))}
+                .
+              </p>
+            </motion.div>
+
+            {/* Mission Paragraphs */}
+            {[
+              "Building brands and bridging communities through world-class artistry and technologies.",
+              "We solve business problems by tailoring solutions based on a mix of strategy, content and unique proposition.",
+            ].map((text, index) => (
+              <motion.p
+                key={index}
+                className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed"
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontWeight: 300,
+                  lineHeight: 1.8,
+                  textIndent: "2em",
+                  color: "#374151",
+                }}
+                initial={{ opacity: 0, y: 25 }}
+                animate={
+                  isVisible
+                    ? {
+                        opacity: 1,
+                        y: Math.sin(breathingPhase * 0.09 + index * 0.1) * 0.5,
+                      }
+                    : { opacity: 0, y: 25 }
+                }
+                transition={{ delay: 3.2 + index * 0.6, duration: 1.4, ease: "easeOut" }}
+              >
+                {text}
+              </motion.p>
+            ))}
+
+            {/* Promise Section */}
+            <motion.div
+              className="text-center py-8 border-t border-b border-gray-200/40"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={
+                isVisible
+                  ? {
+                      opacity: 1,
+                      scale: 1 + Math.sin(breathingPhase * 0.06) * 0.005,
+                    }
+                  : { opacity: 0, scale: 0.98 }
+              }
+              transition={{ delay: 4.4, duration: 1.6, ease: "easeOut" }}
+            >
+              <p
+                className="text-base sm:text-lg md:text-xl font-medium tracking-wide"
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontWeight: 500,
+                  color: "#1f2937",
+                  letterSpacing: "0.025em",
+                }}
+              >
+                No communications white noise and BS.
+              </p>
+            </motion.div>
+
+            {/* Closing Statement */}
+            <motion.p
+              className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed italic"
               style={{
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontWeight: 200,
+                fontFamily: "'Playfair Display', 'Times New Roman', serif",
+                fontWeight: 300,
+                lineHeight: 1.8,
+                textIndent: "2em",
+                color: "#374151",
+                fontStyle: "italic",
               }}
+              initial={{ opacity: 0, y: 25 }}
+              animate={
+                isVisible
+                  ? {
+                      opacity: 1,
+                      y: Math.sin(breathingPhase * 0.08) * 0.5,
+                    }
+                  : { opacity: 0, y: 25 }
+              }
+              transition={{ delay: 5.2, duration: 1.8, ease: "easeOut" }}
             >
               Relentlessly pursuing perfection, we are outsiders. By choice.
-            </p>
+            </motion.p>
           </motion.div>
 
-          {/* Final elegant element */}
+          {/* Letter Signature */}
           <motion.div
-            className="w-8 h-8 border border-slate-300 rounded-full mx-auto"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={isVisible ? { scale: 1, opacity: 0.5 } : { scale: 0, opacity: 0 }}
-            transition={{ delay: 5.8, duration: 1, ease: "easeOut" }}
-          />
+            className="mt-16 pt-8 border-t border-gray-200/40 flex justify-between items-end"
+            initial={{ opacity: 0, y: 20 }}
+            animate={
+              isVisible
+                ? {
+                    opacity: 1,
+                    y: Math.sin(breathingPhase * 0.07) * 0.5,
+                  }
+                : { opacity: 0, y: 20 }
+            }
+            transition={{ delay: 6, duration: 2, ease: "easeOut" }}
+          >
+            <div className="flex-1">
+              <motion.div
+                className="w-32 h-px bg-gradient-to-r from-gray-600 via-gray-400 to-transparent mb-4"
+                animate={{
+                  scaleX: 1 + Math.sin(breathingPhase * 0.2) * 0.03,
+                  opacity: 0.8 + Math.sin(breathingPhase * 0.18) * 0.1,
+                }}
+              />
+              <motion.div
+                className="text-sm font-light tracking-wide mb-1"
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  color: "#4b5563",
+                  fontWeight: 300,
+                }}
+                animate={{
+                  opacity: 0.9 + Math.sin(breathingPhase * 0.16) * 0.1,
+                }}
+              >
+                Aletheia Technologies
+              </motion.div>
+              <motion.div
+                className="text-xs font-light tracking-wide"
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  color: "#6b7280",
+                  fontWeight: 300,
+                }}
+                animate={{
+                  opacity: 0.8 + Math.sin(breathingPhase * 0.14) * 0.1,
+                }}
+              >
+                Creative Excellence
+              </motion.div>
+            </div>
+            <motion.div
+              className="w-16 h-16 border border-gray-300/50 rounded-full bg-gradient-to-br from-gray-50 to-gray-100/50 flex items-center justify-center"
+              animate={{
+                scale: 1 + Math.sin(breathingPhase * 0.25) * 0.015,
+                rotate: Math.sin(breathingPhase * 0.08) * 1,
+              }}
+              whileHover={{
+                scale: 1.05,
+                rotate: 3,
+                transition: { duration: 0.3, ease: "easeOut" },
+              }}
+            >
+              <div className="w-6 h-6 border border-gray-400/30 rounded-full bg-gray-200/30" />
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
   )
-} 
+}
