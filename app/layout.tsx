@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Aletheia - Building research technologies that solve real-world problems',
-  description: 'A collective of creative adults building brands and bridging communities through world-class artistry and technologies. Truth in tech, action in society.',
-  keywords: ['Aletheia', 'technology', 'research', 'STEM', 'innovation', 'design', 'strategy'],
+  description: 'A collective of creative adults building brands and bridging communities through world-class artistry and technologies. Including STEM for All - creating equitable learning opportunities for every student.',
+  keywords: ['Aletheia', 'technology', 'research', 'STEM', 'innovation', 'design', 'strategy', 'STEM education', 'equitable learning', 'accessible education'],
   authors: [{ name: 'Aletheia Collective' }],
   creator: 'Aletheia Collective',
   publisher: 'Aletheia Collective',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Aletheia - Truth in Tech, Action in Society',
-    description: 'Building research technologies that solve real-world problems. A collective of creative adults building brands and bridging communities.',
+    description: 'Building research technologies that solve real-world problems. A collective of creative adults building brands and bridging communities. Including STEM for All - equitable learning opportunities.',
     url: 'https://aletheia.sg',
     siteName: 'Aletheia',
     images: [

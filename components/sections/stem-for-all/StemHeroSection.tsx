@@ -10,7 +10,7 @@ function StemForAllHero() {
   }, [])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden">
+    <section id="stem-for-all" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-indigo-500/5 to-purple-500/5 pointer-events-none"></div>
       
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

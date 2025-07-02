@@ -10,6 +10,11 @@
   body {
     @apply bg-neutral-50 text-neutral-900 font-sans antialiased;
   }
+
+  /* Prevent scroll during quotes animation */
+  body.quotes-locked {
+    overflow: hidden;
+  }
 }
 
 @layer components {
