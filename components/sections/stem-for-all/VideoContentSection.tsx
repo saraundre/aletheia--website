@@ -12,6 +12,13 @@ const VideoContentSection = () => {
 
   const videos = [
     {
+      title: "STEM for ALL x NTU LPD Collabration with Project LOVE",
+      description: "Dr. John Heng discusses the collaboration between STEM for ALL, NTU LPD, and Project LOVE, highlighting robotics and mechatronics education at NTU.",
+      duration: "Unknown",
+      url: "https://youtu.be/3z-Bf7_tB2g",
+      info: "Dr. John Heng - Head of the Robotics and Mechatronics Programme at the School of Mechanical & Aerospace Engineering, Nanyang Technological University."
+    },
+    {
       title: "STEM for All: Equitable Learning",
       description: "Discover how we're making STEM education accessible to every student",
       duration: "5:32",
