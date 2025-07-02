@@ -21,6 +21,7 @@ const CollaboratorsCarousel = () => {
     "RoboticsGamesSociety": "/logos/RoboticsGamesSociety.png",
     "Science Centre": "/logos/SienceCentre.png",
     "STEM For All Charity": "/logos/STEM For All Charity.png",
+    "SparkADHD": "/logos/SparkADHD.png",
   }
 
   const collaborators = [
@@ -34,6 +35,7 @@ const CollaboratorsCarousel = () => {
     "RoboticsGamesSociety",
     "Science Centre",
     "STEM For All Charity",
+    "SparkADHD",
     "ChildStreet11",
     "MakeIT",
     "MomDon'tCry",
@@ -44,6 +46,7 @@ const CollaboratorsCarousel = () => {
     "RoboticsGamesSociety",
     "Science Centre",
     "STEM For All Charity",
+    "SparkADHD",
   ]
 
   const containerVariants = {
