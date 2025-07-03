@@ -15,20 +15,19 @@ export default function AnimatedQuotesSection() {
     "hidden",
   )
 
-  // Simplified content typing states
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0)
-  const [currentSentenceText, setCurrentSentenceText] = useState("")
-  const [currentCharIndex, setCurrentCharIndex] = useState(0)
-  const [showCursor, setShowCursor] = useState(false)
-  const [isContentComplete, setIsContentComplete] = useState(false)
+  // Simple animation state
+  const [visibleSentences, setVisibleSentences] = useState(0)
 
   const contentTexts = [
     "We are a collective of creative adults whom the 'child' in each of us survived.",
-    "We are Storytellers, Innovators, Engineers, Designers, Strategists.",
+    "Storytellers. Innovators. Engineers. Designers. Strategists.",
     "Building brands and bridging communities through world-class artistry and technologies.",
     "We solve business problems by tailoring solutions based on a mix of strategy, content and unique proposition.",
+    "No communications white noise and BS.",
     "Relentlessly pursuing perfection, we are outsiders. By choice.",
   ]
+
+  const changingWords = ["Storytellers.", "Innovators.", "Engineers.", "Designers.", "Strategists."]
 
   // Mouse tracking for elegant interactions
   const mouseX = useMotionValue(0.5)
@@ -42,7 +41,9 @@ export default function AnimatedQuotesSection() {
 
   // Breathing animation
   const updateBreathing = useCallback(() => {
-    setBreathingPhase((prev) => prev + 0.012)
+    if (document.visibilityState === 'visible') {
+      setBreathingPhase((prev) => prev + 0.012)
+    }
   }, [])
 
   useEffect(() => {
@@ -92,15 +93,31 @@ export default function AnimatedQuotesSection() {
 
       if (containerRect.top < viewportHeight * 0.8 && containerRect.bottom > viewportHeight * 0.2) {
         setIsVisible(true)
+        
+        // No scroll progress needed - keeping it natural
       } else {
         setIsVisible(false)
       }
     }
 
+    const handleVisibilityChange = () => {
+      console.log("👁️ Visibility changed:", document.visibilityState)
+      if (document.visibilityState === 'visible') {
+        // Force a re-render when tab becomes visible
+        setTimeout(() => {
+          handleScroll()
+        }, 100)
+      }
+    }
+
     window.addEventListener("scroll", handleScroll)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
     handleScroll()
 
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
   }, [])
 
   // Title phase management
@@ -153,58 +170,19 @@ export default function AnimatedQuotesSection() {
     }
   }, [titlePhase])
 
-  // Sequential content typing animation
+  // Simple animation - show sentences one by one
   useEffect(() => {
-    if (titlePhase === "disappeared" && !isContentComplete && currentSentenceIndex < contentTexts.length) {
-      const currentText = contentTexts[currentSentenceIndex]
-
-      // Show cursor when starting a new sentence
-      if (currentCharIndex === 0) {
-        setShowCursor(true)
-      }
-
-      // Type character by character
-      if (currentCharIndex < currentText.length) {
-        const timeout = setTimeout(() => {
-          setCurrentSentenceText(currentText.slice(0, currentCharIndex + 1))
-          setCurrentCharIndex((prev) => prev + 1)
-        }, 80) // Smooth typing speed
-
-        return () => clearTimeout(timeout)
-      }
-      // Sentence complete, pause then move to next
-      else if (currentCharIndex >= currentText.length) {
-        const timeout = setTimeout(() => {
-          setShowCursor(false) // Hide cursor briefly between sentences
-
-          setTimeout(() => {
-            if (currentSentenceIndex < contentTexts.length - 1) {
-              setCurrentSentenceIndex((prev) => prev + 1)
-              setCurrentCharIndex(0)
-              setCurrentSentenceText("")
-            } else {
-              setIsContentComplete(true)
-            }
-          }, 300) // Brief pause between sentences
-        }, 800) // Pause at end of sentence
-
-        return () => clearTimeout(timeout)
-      }
+    if (titlePhase === "disappeared" && isVisible && visibleSentences < contentTexts.length) {
+      const timer = setTimeout(() => {
+        setVisibleSentences(prev => prev + 1)
+      }, 1000)
+      
+      return () => clearTimeout(timer)
     }
-  }, [titlePhase, currentSentenceIndex, currentCharIndex, contentTexts, isContentComplete])
+  }, [titlePhase, visibleSentences, contentTexts.length, isVisible])
 
   // Scroll locking effect
-  useEffect(() => {
-    if (!isContentComplete && isVisible && titlePhase !== "hidden") {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
 
-    return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [isContentComplete, isVisible, titlePhase])
 
   return (
     <section
@@ -242,7 +220,7 @@ export default function AnimatedQuotesSection() {
         >
           {/* Letter Title */}
           <motion.div
-            className="relative z-20 mb-6 text-center mt-40"
+            className="relative z-20 mb-6 text-center mt-20"
             initial={{ opacity: 0, y: 30 }}
             animate={
               titlePhase === "appearing" || titlePhase === "visible"
@@ -309,7 +287,7 @@ export default function AnimatedQuotesSection() {
 
           {/* Letter Content */}
           <motion.div
-            className="space-y-6 -mt-24 relative"
+            className="space-y-8 -mt-8 relative"
             initial={{ opacity: 0 }}
             animate={titlePhase === "disappeared" ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.5, duration: 2, ease: "easeOut" }}
@@ -326,11 +304,6 @@ export default function AnimatedQuotesSection() {
 
             {/* Render all sentences with proper styling */}
             {contentTexts.map((text, index) => {
-              const isCurrentSentence = index === currentSentenceIndex
-              const isPastSentence = index < currentSentenceIndex
-              const displayText = isPastSentence ? text : isCurrentSentence ? currentSentenceText : ""
-              const shouldShowCursor = isCurrentSentence && showCursor && !isContentComplete
-
               // Different styling for different sentences
               const getTextStyle = (index: number) => {
                 switch (index) {
@@ -374,42 +347,17 @@ export default function AnimatedQuotesSection() {
                   key={index}
                   className={`text-lg sm:text-xl md:text-2xl font-light leading-relaxed ${
                     index === 4 ? "italic" : ""
-                  } ${index === 1 ? "text-center py-4" : ""}`}
+                  } ${index === 0 ? "mt-12" : ""} ${index === 2 ? "mt-8" : ""} ${index === 3 ? "mt-6" : ""} ${index === 4 ? "mt-6" : ""} ${index === 5 ? "mt-4" : ""}`}
                   style={getTextStyle(index)}
-                  initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                  animate={
-                    (isPastSentence || isCurrentSentence) && titlePhase === "disappeared"
-                      ? {
-                          opacity: 1,
-                          y: Math.sin(breathingPhase * 0.1 + index * 0.1) * 0.5,
-                          scale: 1,
-                        }
-                      : { opacity: 0, y: 20, scale: 0.98 }
-                  }
+                  initial={{ opacity: 0 }}
+                  animate={index < visibleSentences && titlePhase === "disappeared" ? { opacity: 1 } : { opacity: 0 }}
                   transition={{
-                    delay: 0.2,
-                    duration: 1.2,
+                    delay: 0.1,
+                    duration: 0.8,
                     ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                 >
-                  {displayText}
-                  {shouldShowCursor && (
-                    <motion.span
-                      className="inline-block w-0.5 bg-gray-700 ml-1"
-                      animate={{
-                        opacity: [1, 0.3, 1],
-                        scaleY: 1 + Math.sin(breathingPhase * 0.4) * 0.1,
-                      }}
-                      transition={{
-                        opacity: { duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
-                        scaleY: { duration: 0.1, ease: "linear" },
-                      }}
-                      style={{
-                        height: "1em",
-                        verticalAlign: "text-top",
-                      }}
-                    />
-                  )}
+                  {text}
                 </motion.div>
               )
             })}
@@ -418,7 +366,7 @@ export default function AnimatedQuotesSection() {
             <motion.div
               className="absolute -bottom-4 -right-4 text-6xl text-gray-300 font-serif"
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={isContentComplete ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              animate={visibleSentences >= contentTexts.length ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ delay: 1, duration: 2, ease: "easeOut" }}
             >
               "
@@ -427,10 +375,10 @@ export default function AnimatedQuotesSection() {
 
           {/* Letter Signature */}
           <motion.div
-            className="mt-12 flex justify-between items-end"
+            className="mt-8 flex justify-between items-end"
             initial={{ opacity: 0, y: 20 }}
             animate={
-              isContentComplete
+              visibleSentences >= contentTexts.length
                 ? {
                     opacity: 1,
                     y: Math.sin(breathingPhase * 0.07) * 0.5,
