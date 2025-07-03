@@ -103,14 +103,10 @@ export default function AnimatedQuotesSection() {
   // Title phase management
   useEffect(() => {
     if (!isVisible) {
-      setTitlePhase("hidden")
-      setTypedText("")
-      setCurrentIndex(0)
-      setIsTypingComplete(false)
       return
     }
 
-    // Start title appearance when visible
+    // Start title appearance when visible for the first time
     if (titlePhase === "hidden") {
       setTitlePhase("appearing")
     }
@@ -128,7 +124,7 @@ export default function AnimatedQuotesSection() {
           setIsTypingComplete(true)
           setTitlePhase("visible")
         }
-      }, 200)
+      }, 120)
 
       return () => clearTimeout(timeout)
     }
@@ -156,40 +152,13 @@ export default function AnimatedQuotesSection() {
     }
   }, [titlePhase])
 
-  // Content typing animation effect
+  // Content reveal animation effect
   useEffect(() => {
     if (titlePhase === "disappeared" && isVisible) {
-      contentTexts.forEach((text, textIndex) => {
-        const timeout = setTimeout(() => {
-          const interval = setInterval(() => {
-            setContentCurrentIndexes(prev => {
-              const newIndexes = [...prev]
-              if (newIndexes[textIndex] < text.length) {
-                newIndexes[textIndex] += 1
-                setContentTypedTexts(prev => {
-                  const newTexts = [...prev]
-                  newTexts[textIndex] = text.slice(0, newIndexes[textIndex] + 1)
-                  return newTexts
-                })
-                
-                if (newIndexes[textIndex] + 1 >= text.length) {
-                  setContentTypingComplete(prev => {
-                    const newComplete = [...prev]
-                    newComplete[textIndex] = true
-                    return newComplete
-                  })
-                  clearInterval(interval)
-                }
-              }
-              return newIndexes
-            })
-          }, 180) // Much slower, more elegant typing for content
-
-          return () => clearInterval(interval)
-        }, textIndex * 3000) // Start each text after 3 seconds delay
-
-        return () => clearTimeout(timeout)
-      })
+      // Set all texts to full content immediately for elegant fade-in
+      setContentTypedTexts(contentTexts)
+      setContentCurrentIndexes(contentTexts.map(text => text.length))
+      setContentTypingComplete(contentTexts.map(() => true))
     }
   }, [titlePhase, isVisible, contentTexts])
 
@@ -260,7 +229,7 @@ export default function AnimatedQuotesSection() {
         >
           {/* Letter Title - INSIDE CONTAINER */}
           <motion.div
-            className="relative z-20 mb-8 text-center mt-40"
+            className="relative z-20 mb-6 text-center mt-40"
             initial={{ opacity: 0, y: 30 }}
             animate={
               titlePhase === "appearing" || titlePhase === "visible"
@@ -276,9 +245,9 @@ export default function AnimatedQuotesSection() {
                   : { opacity: 0, y: 30 }
             }
             transition={{
-              duration: titlePhase === "disappearing" ? 1 : 2.2,
-              ease: "easeOut",
-              delay: titlePhase === "appearing" ? 0.3 : 0,
+              duration: titlePhase === "disappearing" ? 1.5 : 2.8,
+              ease: "easeInOut",
+              delay: titlePhase === "appearing" ? 0.5 : 0,
             }}
           >
             <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-thin tracking-[0.15em] mb-4 text-center font-serif text-gray-900 whitespace-nowrap">
@@ -326,11 +295,20 @@ export default function AnimatedQuotesSection() {
           </motion.div>
           {/* Letter Content */}
           <motion.div
-            className="space-y-6 -mt-48"
+            className="space-y-3 -mt-48 relative"
             initial={{ opacity: 0 }}
             animate={titlePhase === "disappeared" ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.5, duration: 2, ease: "easeOut" }}
           >
+            {/* Opening quotation mark */}
+            <motion.div
+              className="absolute -top-8 -left-4 text-6xl text-gray-300 font-serif"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={titlePhase === "disappeared" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              transition={{ delay: 0.3, duration: 2, ease: "easeOut" }}
+            >
+              "
+            </motion.div>
             {/* Opening Paragraph */}
             <motion.p
               className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed"
@@ -341,49 +319,42 @@ export default function AnimatedQuotesSection() {
                 textIndent: "2em",
                 color: "#374151",
               }}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={
                 isVisible && titlePhase === "disappeared"
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.1) * 0.5,
+                      scale: 1,
                     }
-                  : { opacity: 0, y: 30 }
+                  : { opacity: 0, y: 20, scale: 0.98 }
               }
-              transition={{ delay: 1.5, duration: 4.0, ease: "easeOut" }}
+              transition={{ 
+                delay: 0.5, 
+                duration: 1.8, 
+                ease: [0.25, 0.46, 0.45, 0.94] // Custom cubic-bezier for elegance
+              }}
             >
               {contentTypedTexts[0]}
-              {contentCurrentIndexes[0] < contentTexts[0].length && (
-                <motion.span
-                  className="inline-block w-0.5 bg-gray-700 ml-1"
-                  animate={{
-                    opacity: [1, 0.2, 1],
-                    scaleY: 1 + Math.sin(breathingPhase * 0.4) * 0.1,
-                  }}
-                  transition={{
-                    opacity: { duration: 1.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
-                    scaleY: { duration: 0.1, ease: "linear" },
-                  }}
-                  style={{
-                    height: "0.8em",
-                    verticalAlign: "text-top",
-                  }}
-                />
-              )}
             </motion.p>
 
             {/* Identity Section */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={
                 isVisible && titlePhase === "disappeared"
                   ? {
                       opacity: 1,
                       y: Math.sin(breathingPhase * 0.11) * 0.5,
+                      scale: 1,
                     }
-                  : { opacity: 0, y: 30 }
+                  : { opacity: 0, y: 20, scale: 0.98 }
               }
-              transition={{ delay: 3.0, duration: 4.0, ease: "easeOut" }}
+              transition={{ 
+                delay: 1.2, 
+                duration: 1.8, 
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
             >
               <p
                 className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed"
@@ -395,23 +366,6 @@ export default function AnimatedQuotesSection() {
                 }}
               >
                 {contentTypedTexts[1]}
-                {contentCurrentIndexes[1] < contentTexts[1].length && (
-                  <motion.span
-                    className="inline-block w-0.5 bg-gray-700 ml-1"
-                    animate={{
-                      opacity: [1, 0.2, 1],
-                      scaleY: 1 + Math.sin(breathingPhase * 0.4) * 0.1,
-                    }}
-                    transition={{
-                      opacity: { duration: 1.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
-                      scaleY: { duration: 0.1, ease: "linear" },
-                    }}
-                    style={{
-                      height: "0.8em",
-                      verticalAlign: "text-top",
-                    }}
-                  />
-                )}
               </p>
             </motion.div>
 
@@ -427,35 +381,23 @@ export default function AnimatedQuotesSection() {
                   textIndent: "2em",
                   color: "#374151",
                 }}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
                 animate={
                   isVisible && titlePhase === "disappeared"
                     ? {
                         opacity: 1,
                         y: Math.sin(breathingPhase * 0.09 + textIndex * 0.1) * 0.5,
+                        scale: 1,
                       }
-                    : { opacity: 0, y: 30 }
+                    : { opacity: 0, y: 20, scale: 0.98 }
                 }
-                transition={{ delay: 4.5 + (textIndex - 2) * 2.0, duration: 4.0, ease: "easeOut" }}
+                transition={{ 
+                  delay: 1.8 + (textIndex - 2) * 0.8, 
+                  duration: 1.8, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
               >
                 {contentTypedTexts[textIndex]}
-                {contentCurrentIndexes[textIndex] < contentTexts[textIndex].length && (
-                  <motion.span
-                    className="inline-block w-0.5 bg-gray-700 ml-1"
-                    animate={{
-                      opacity: [1, 0.2, 1],
-                      scaleY: 1 + Math.sin(breathingPhase * 0.4) * 0.1,
-                    }}
-                    transition={{
-                      opacity: { duration: 1.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
-                      scaleY: { duration: 0.1, ease: "linear" },
-                    }}
-                    style={{
-                      height: "0.8em",
-                      verticalAlign: "text-top",
-                    }}
-                  />
-                )}
               </motion.p>
             ))}
 
@@ -487,51 +429,50 @@ export default function AnimatedQuotesSection() {
             </motion.div>
 
             {/* Closing Statement */}
-            <motion.p
-              className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed italic"
-              style={{
-                fontFamily: "'Playfair Display', 'Times New Roman', serif",
-                fontWeight: 300,
-                lineHeight: 1.8,
-                textIndent: "2em",
-                color: "#374151",
-                fontStyle: "italic",
-              }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={
-                isVisible && titlePhase === "disappeared"
-                  ? {
-                      opacity: 1,
-                      y: Math.sin(breathingPhase * 0.08) * 0.5,
-                    }
-                  : { opacity: 0, y: 30 }
-              }
-              transition={{ delay: 8.5, duration: 4.0, ease: "easeOut" }}
-            >
-              {contentTypedTexts[4]}
-              {contentCurrentIndexes[4] < contentTexts[4].length && (
-                <motion.span
-                  className="inline-block w-0.5 bg-gray-700 ml-1"
-                  animate={{
-                    opacity: [1, 0.2, 1],
-                    scaleY: 1 + Math.sin(breathingPhase * 0.4) * 0.1,
-                  }}
-                  transition={{
-                    opacity: { duration: 1.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
-                    scaleY: { duration: 0.1, ease: "linear" },
-                  }}
-                  style={{
-                    height: "0.8em",
-                    verticalAlign: "text-top",
-                  }}
-                />
-              )}
-            </motion.p>
+            <motion.div className="relative">
+              <motion.p
+                className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed italic"
+                style={{
+                  fontFamily: "'Playfair Display', 'Times New Roman', serif",
+                  fontWeight: 300,
+                  lineHeight: 1.8,
+                  textIndent: "2em",
+                  color: "#374151",
+                  fontStyle: "italic",
+                }}
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                animate={
+                  isVisible && titlePhase === "disappeared"
+                    ? {
+                        opacity: 1,
+                        y: Math.sin(breathingPhase * 0.08) * 0.5,
+                        scale: 1,
+                      }
+                    : { opacity: 0, y: 20, scale: 0.98 }
+                }
+                transition={{ 
+                  delay: 2.8, 
+                  duration: 1.8, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+              >
+                {contentTypedTexts[4]}
+              </motion.p>
+              {/* Closing quotation mark */}
+              <motion.div
+                className="absolute -bottom-4 -right-4 text-6xl text-gray-300 font-serif"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={titlePhase === "disappeared" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                transition={{ delay: 9.0, duration: 2, ease: "easeOut" }}
+              >
+                "
+              </motion.div>
+            </motion.div>
           </motion.div>
 
           {/* Letter Signature */}
           <motion.div
-            className="mt-12 pt-8 border-t border-gray-200/40 flex justify-between items-end"
+            className="mt-4 flex justify-between items-end"
             initial={{ opacity: 0, y: 20 }}
             animate={
               isVisible
@@ -544,13 +485,6 @@ export default function AnimatedQuotesSection() {
             transition={{ delay: 6, duration: 2, ease: "easeOut" }}
           >
             <div className="flex-1">
-              <motion.div
-                className="w-32 h-px bg-gradient-to-r from-gray-600 via-gray-400 to-transparent mb-4"
-                animate={{
-                  scaleX: 1 + Math.sin(breathingPhase * 0.2) * 0.03,
-                  opacity: 0.8 + Math.sin(breathingPhase * 0.18) * 0.1,
-                }}
-              />
             </div>
             <motion.div
               className="w-16 h-16 border border-gray-300/50 rounded-full bg-gradient-to-br from-gray-50 to-gray-100/50 flex items-center justify-center"
