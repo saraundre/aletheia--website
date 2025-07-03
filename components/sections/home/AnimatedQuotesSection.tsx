@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { TypeAnimation } from "react-type-animation"
 
 export default function AnimatedQuotesSection() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -15,8 +16,7 @@ export default function AnimatedQuotesSection() {
     "hidden",
   )
 
-  // Simple animation state
-  const [visibleSentences, setVisibleSentences] = useState(0)
+
 
   const contentTexts = [
     "We are a collective of creative adults whom the 'child' in each of us survived.",
@@ -170,12 +170,19 @@ export default function AnimatedQuotesSection() {
     }
   }, [titlePhase])
 
+  // Simple animation state
+  const [visibleSentences, setVisibleSentences] = useState(0)
+
   // Simple animation - show sentences one by one
   useEffect(() => {
     if (titlePhase === "disappeared" && isVisible && visibleSentences < contentTexts.length) {
+      // Calculate typing duration based on sentence length (50ms per character + 800ms pause)
+      const currentSentence = contentTexts[visibleSentences]
+      const typingDuration = currentSentence.length * 50 + 800
+      
       const timer = setTimeout(() => {
         setVisibleSentences(prev => prev + 1)
-      }, 1000)
+      }, typingDuration)
       
       return () => clearTimeout(timer)
     }
@@ -343,6 +350,10 @@ export default function AnimatedQuotesSection() {
                 }
               }
 
+              const isCurrentSentence = index === visibleSentences - 1
+              const isCompletedSentence = index < visibleSentences - 1
+              const shouldShow = titlePhase === "disappeared" && (isCompletedSentence || isCurrentSentence)
+
               return (
                 <motion.div
                   key={index}
@@ -351,14 +362,24 @@ export default function AnimatedQuotesSection() {
                   } ${index === 0 ? "mt-16" : ""} ${index === 2 ? "mt-8" : ""} ${index === 3 ? "mt-6" : ""} ${index === 4 ? "mt-6" : ""} ${index === 5 ? "mt-4" : ""}`}
                   style={getTextStyle(index)}
                   initial={{ opacity: 0 }}
-                  animate={index < visibleSentences && titlePhase === "disappeared" ? { opacity: 1 } : { opacity: 0 }}
+                  animate={shouldShow ? { opacity: 1 } : { opacity: 0 }}
                   transition={{
                     delay: 0.1,
                     duration: 0.8,
                     ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                 >
-                  {text}
+                  {isCurrentSentence ? (
+                    <TypeAnimation
+                      sequence={[text]}
+                      wrapper="span"
+                      speed={50}
+                      cursor={true}
+                      repeat={0}
+                    />
+                  ) : (
+                    text
+                  )}
                 </motion.div>
               )
             })}
