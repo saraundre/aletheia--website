@@ -218,6 +218,7 @@ export default function AnimatedQuotesSection() {
             y: Math.sin(breathingPhase * 0.08) * 1,
           }}
         >
+
           {/* Letter Title */}
           <motion.div
             className="relative z-20 mb-6 text-center mt-20"
@@ -287,7 +288,7 @@ export default function AnimatedQuotesSection() {
 
           {/* Letter Content */}
           <motion.div
-            className="space-y-8 -mt-8 relative"
+            className="space-y-6 -mt-32 relative"
             initial={{ opacity: 0 }}
             animate={titlePhase === "disappeared" ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.5, duration: 2, ease: "easeOut" }}
@@ -347,7 +348,7 @@ export default function AnimatedQuotesSection() {
                   key={index}
                   className={`text-lg sm:text-xl md:text-2xl font-light leading-relaxed ${
                     index === 4 ? "italic" : ""
-                  } ${index === 0 ? "mt-12" : ""} ${index === 2 ? "mt-8" : ""} ${index === 3 ? "mt-6" : ""} ${index === 4 ? "mt-6" : ""} ${index === 5 ? "mt-4" : ""}`}
+                  } ${index === 0 ? "mt-16" : ""} ${index === 2 ? "mt-8" : ""} ${index === 3 ? "mt-6" : ""} ${index === 4 ? "mt-6" : ""} ${index === 5 ? "mt-4" : ""}`}
                   style={getTextStyle(index)}
                   initial={{ opacity: 0 }}
                   animate={index < visibleSentences && titlePhase === "disappeared" ? { opacity: 1 } : { opacity: 0 }}
