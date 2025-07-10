@@ -27,7 +27,10 @@ console.log('RENDER_IS_PREVIEW:', process.env.RENDER_IS_PREVIEW);
 console.log('');
 
 console.log('📦 === DEPLOYMENT INFO ===');
+console.log('Service Type: Web Service (Node.js)');
 console.log('Build Command: npm run build');
 console.log('Start Command: npm start');
-console.log('Publish Directory: (none - Next.js handles this)');
+console.log('Output Directory: .next (Next.js build output)');
+console.log('API Routes: Enabled (/api/debug)');
+console.log('Static Export: Disabled (using server)');
 console.log('====================================='); 

@@ -8,7 +8,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
   
   // Add logging for build process
   onDemandEntries: {
