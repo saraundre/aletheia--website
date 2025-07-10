@@ -15,10 +15,13 @@ services:
         - components/**
         - lib/**
         - public/**
+        - hooks/**
         - package.json
         - next.config.js
+        - postcss.config.js
         - server.js
         - tailwind.config.js
+        - tailwind.config.ts
         - tsconfig.json
     headers:
       - path: /*
