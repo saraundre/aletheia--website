@@ -3,6 +3,65 @@
 import { useRef, useEffect, useState, useCallback } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { TypeAnimation } from "react-type-animation"
+// Vintage paper texture and ink effects
+const VintageEffects = ({ 
+  visibleSentences, 
+  totalSentences 
+}: { 
+  visibleSentences: number
+  totalSentences: number
+}) => {
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      {/* Enhanced paper texture overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 1px 1px, rgba(0,0,0,0.15) 1px, transparent 0),
+            linear-gradient(45deg, transparent 40%, rgba(0,0,0,0.05) 50%, transparent 60%)
+          `,
+          backgroundSize: "20px 20px, 40px 40px",
+        }}
+      />
+      
+      {/* Vintage ink spots that appear with typing progress */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-20 h-20 pointer-events-none"
+          style={{
+            left: `${10 + (i % 4) * 20}%`,
+            top: `${15 + Math.floor(i / 4) * 25}%`,
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={i < visibleSentences ? { opacity: 0.04, scale: 1 } : { opacity: 0, scale: 0 }}
+          transition={{
+            delay: i * 0.3,
+            duration: 2,
+            ease: "easeOut",
+          }}
+        >
+          <div 
+            className="w-full h-full rounded-full"
+            style={{
+              background: `radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 70%)`,
+              filter: 'blur(2px)',
+            }}
+          />
+        </motion.div>
+      ))}
+      
+      {/* Subtle vintage border elements */}
+      <motion.div
+        className="absolute inset-0 border border-gray-300/30 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 1.5 }}
+      />
+    </div>
+  )
+}
 
 export default function AnimatedQuotesSection() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -172,6 +231,7 @@ export default function AnimatedQuotesSection() {
 
   // Simple animation state
   const [visibleSentences, setVisibleSentences] = useState(0)
+  const [interactiveMode, setInteractiveMode] = useState(false)
 
   // Simple animation - show sentences one by one
   useEffect(() => {
@@ -182,6 +242,10 @@ export default function AnimatedQuotesSection() {
       
       const timer = setTimeout(() => {
         setVisibleSentences(prev => prev + 1)
+        setInteractiveMode(true)
+        
+        // Brief interactive mode activation
+        setTimeout(() => setInteractiveMode(false), 2000)
       }, typingDuration)
       
       return () => clearTimeout(timer)
@@ -196,7 +260,7 @@ export default function AnimatedQuotesSection() {
       ref={containerRef}
       className="min-h-screen flex items-center justify-center px-6 sm:px-8 lg:px-12 relative snap-start overflow-hidden bg-white"
     >
-      {/* Subtle Background Effects */}
+      {/* Sophisticated Interactive Background */}
       <div className="absolute inset-0">
         <motion.div
           className="absolute inset-0 opacity-[0.015]"
@@ -215,6 +279,12 @@ export default function AnimatedQuotesSection() {
             }}
           />
         </motion.div>
+        
+        {/* Vintage effects */}
+        <VintageEffects
+          visibleSentences={visibleSentences}
+          totalSentences={contentTexts.length}
+        />
       </div>
 
       {/* Letter Container */}
