@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   trailingSlash: true,
   eslint: {
     ignoreDuringBuilds: true,
@@ -36,17 +37,8 @@ const nextConfig = {
     return config;
   },
 
-  // Log server configuration
-  serverRuntimeConfig: {
-    // Will only be available on the server side
-    logger: true,
-  },
-
-  // Log public configuration
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    staticFolder: '/static',
-  },
+  // Static export configuration
+  distDir: '.next',
 }
 
 module.exports = nextConfig 
