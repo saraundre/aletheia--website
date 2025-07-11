@@ -102,19 +102,16 @@ function CollaboratorsCarousel() {
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-50 transition-colors duration-300">
+                  <div className="bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow px-4 py-4 min-w-[280px] text-center group">
+                    <div className="w-32 h-32 bg-white rounded-xl flex items-center justify-center mx-auto group-hover:bg-neutral-50 transition-colors duration-300">
                       <Image
                         src={collaborator.image}
                         alt={`${collaborator.name} logo`}
-                        width={60}
-                        height={60}
+                        width={120}
+                        height={120}
                         className="object-contain"
                       />
                     </div>
-                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator.name}
-                    </h3>
                   </div>
                 </motion.div>
               ))}
@@ -128,19 +125,16 @@ function CollaboratorsCarousel() {
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
-                  <div className="bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-50 transition-colors duration-300">
+                  <div className="bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow px-4 py-4 min-w-[280px] text-center group">
+                    <div className="w-32 h-32 bg-white rounded-xl flex items-center justify-center mx-auto group-hover:bg-neutral-50 transition-colors duration-300">
                       <Image
                         src={collaborator.image}
                         alt={`${collaborator.name} logo`}
-                        width={60}
-                        height={60}
+                        width={120}
+                        height={120}
                         className="object-contain"
                       />
                     </div>
-                    <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator.name}
-                    </h3>
                   </div>
                 </motion.div>
               ))}
@@ -204,8 +198,14 @@ export default function About() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex justify-between items-center">
-            <Link href="/" className="text-sm font-normal tracking-wide hover:opacity-70 transition-opacity">
-              Aletheia
+            <Link href="/">
+              <Image
+                src="/aletheia_logo.png"
+                alt="Aletheia Logo"
+                width={100}
+                height={32}
+                className="object-contain"
+              />
             </Link>
             <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-5 h-5" /> : <Home className="w-5 h-5" />}

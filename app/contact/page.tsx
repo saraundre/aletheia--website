@@ -3,6 +3,7 @@
 import { Home, X } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Contact() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -17,8 +18,14 @@ export default function Contact() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex justify-between items-center">
-            <Link href="/" className="text-sm font-normal tracking-wide hover:opacity-70 transition-opacity">
-              Aletheia
+            <Link href="/">
+              <Image
+                src="/aletheia_logo.png"
+                alt="Aletheia Logo"
+                width={100}
+                height={32}
+                className="object-contain"
+              />
             </Link>
             <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-5 h-5" /> : <Home className="w-5 h-5" />}

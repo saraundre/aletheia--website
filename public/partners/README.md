@@ -19,7 +19,7 @@ The following organizations are listed in the CollaboratorsCarousel component:
 
 ### File Naming Convention
 - Use lowercase with hyphens for spaces
-- Example: `science-centre-singapore.png`
+- Example: `science-centre-singapore.jpg`
 - Example: `national-library-board.svg`
 
 ### Image Specifications
@@ -32,7 +32,7 @@ The following organizations are listed in the CollaboratorsCarousel component:
 ```
 public/partners/
 ├── README.md
-├── science-centre-singapore.png
+├── science-centre-singapore.jpg
 ├── national-library-board-singapore.jpg
 ├── rakuten-asia.svg
 ├── child-at-street-11.png
