@@ -41,7 +41,7 @@ export default function Contact() {
                   Stem for All
                 </Link>
                 <Link
-                  href="/tech4all"
+                  href="/tech-for-good"
                   className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -170,7 +170,7 @@ export default function Contact() {
               <Link href="/stem-for-all" className="hover:text-neutral-900 transition-colors">
                 Stem for All
               </Link>
-              <Link href="/tech4all" className="hover:text-neutral-900 transition-colors">
+              <Link href="/tech-for-good" className="hover:text-neutral-900 transition-colors">
                 Tech4All
               </Link>
               <Link href="/about" className="hover:text-neutral-900 transition-colors">
