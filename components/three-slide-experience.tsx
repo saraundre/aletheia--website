@@ -335,18 +335,18 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide"
+                className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-wide"
               >
-                Building brands and bridging communities through world-class artistry and technologies.
+                Building brands and bridging communities<br />through world-class artistry and technologies.
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide"
+                className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-wide"
               >
-                We solve business problems by tailoring solutions based on a mix of strategy, content and unique
+                We solve business problems by tailoring solutions<br />based on a mix of strategy, content and unique
                 proposition.
               </motion.div>
 
@@ -354,21 +354,21 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.8 }}
-                className="space-y-8"
+                className=""
               >
-                <div className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide">
+                <div className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-wide">
                   No communications white noise.
                 </div>
-                <div className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide">No BS.</div>
+                <div className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-wide">No BS.</div>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4, duration: 0.8 }}
-                className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide"
+                className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-wide pb-16"
               >
-                Relentlessly pursuing perfection, we are outsiders. By choice.
+                Relentlessly pursuing perfection, we are outsiders.<br />By choice.
               </motion.div>
             </motion.div>
           )
