@@ -3,6 +3,7 @@
 import { Home, X } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
@@ -13,14 +14,38 @@ function CollaboratorsCarousel() {
   })
 
   const collaborators = [
-    "Science Centre Singapore",
-    "National Library Board",
-    "Rakuten Asia",
-    "Child Street 11",
-    "Mom Don't Cry Foundation",
-    "National University Singapore",
-    "Maker Festival",
-    "Gaming & Robotics Society",
+    {
+      name: "Science Centre Singapore",
+      image: "/partners/science-centre-singapore.png"
+    },
+    {
+      name: "National Library Board",
+      image: "/partners/national-library-board-singapore.jpg"
+    },
+    {
+      name: "Rakuten Asia",
+      image: "/partners/rakuten-asia.svg"
+    },
+    {
+      name: "Child Street 11",
+      image: "/partners/child-at-street-11.png"
+    },
+    {
+      name: "Mom Don't Cry Foundation",
+      image: "/partners/mom-dont-cry-foundation.svg"
+    },
+    {
+      name: "National University Singapore",
+      image: "/partners/national-university-singapore.png"
+    },
+    {
+      name: "MakeIT at Libraries",
+      image: "/partners/MakeIT-at-Libraries.png"
+    },
+    {
+      name: "Robotic Games Society Singapore",
+      image: "/partners/robotic-games-society-singapore.svg"
+    },
   ]
 
   const containerVariants = {
@@ -73,21 +98,22 @@ function CollaboratorsCarousel() {
             <div className="flex space-x-8 mb-8 animate-scroll-right">
               {[...collaborators, ...collaborators].map((collaborator, index) => (
                 <motion.div
-                  key={`row1-${collaborator}-${index}`}
+                  key={`row1-${collaborator.name}-${index}`}
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
                   <div className="bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
-                      <span className="text-neutral-600 font-medium text-lg">
-                        {collaborator
-                          .split(" ")
-                          .map((word) => word[0])
-                          .join("")}
-                      </span>
+                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-50 transition-colors duration-300">
+                      <Image
+                        src={collaborator.image}
+                        alt={`${collaborator.name} logo`}
+                        width={60}
+                        height={60}
+                        className="object-contain"
+                      />
                     </div>
                     <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator}
+                      {collaborator.name}
                     </h3>
                   </div>
                 </motion.div>
@@ -98,21 +124,22 @@ function CollaboratorsCarousel() {
             <div className="flex space-x-8 animate-scroll-left">
               {[...collaborators.slice().reverse(), ...collaborators.slice().reverse()].map((collaborator, index) => (
                 <motion.div
-                  key={`row2-${collaborator}-${index}`}
+                  key={`row2-${collaborator.name}-${index}`}
                   whileHover={{ scale: 1.05 }}
                   className="flex-shrink-0"
                 >
                   <div className="bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow px-8 py-6 min-w-[280px] text-center group">
-                    <div className="w-12 h-12 bg-neutral-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-300 transition-colors duration-300">
-                      <span className="text-neutral-600 font-medium text-lg">
-                        {collaborator
-                          .split(" ")
-                          .map((word) => word[0])
-                          .join("")}
-                      </span>
+                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-neutral-50 transition-colors duration-300">
+                      <Image
+                        src={collaborator.image}
+                        alt={`${collaborator.name} logo`}
+                        width={60}
+                        height={60}
+                        className="object-contain"
+                      />
                     </div>
                     <h3 className="text-sm font-medium text-neutral-700 group-hover:text-neutral-900 transition-colors duration-300">
-                      {collaborator}
+                      {collaborator.name}
                     </h3>
                   </div>
                 </motion.div>
@@ -237,18 +264,24 @@ export default function About() {
       {/* Main Content */}
       <main className="pt-24">
         {/* Hero Section - Company Logo */}
-        <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <section className="max-w-4xl mx-auto px-6 py-16 md:py-20 pb-2">
           <div className="text-center space-y-8">
             <div className="flex justify-center">
-              <div className="w-32 h-32 bg-neutral-200 rounded-lg flex items-center justify-center">
-                <span className="text-neutral-500 text-sm font-medium">Company Logo</span>
+              <div className="w-[448px] h-[448px] flex items-center justify-center">
+                <Image
+                  src="/aletheia_logo.png"
+                  alt="Aletheia Logo"
+                  width={448}
+                  height={448}
+                  className="object-contain"
+                />
               </div>
             </div>
           </div>
         </section>
 
         {/* About Aletheia */}
-        <section className="max-w-3xl mx-auto px-6 py-16">
+        <section className="max-w-3xl mx-auto px-6 pt-0 pb-16">
           <div className="text-center space-y-8">
             <div className="space-y-6 text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
               <p>
@@ -271,9 +304,18 @@ export default function About() {
         {/* Sign Logo - Moved Section */}
         <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
           <div className="text-center space-y-8">
+            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic">
+              For Sentience,
+            </p>
             <div className="flex justify-center">
-              <div className="w-48 h-24 bg-neutral-200 rounded-lg flex items-center justify-center">
-                <span className="text-neutral-500 text-sm font-medium">Sign Logo</span>
+              <div className="w-48 h-24 flex items-center justify-center">
+                <Image
+                  src="/aletheia_signature.svg"
+                  alt="Aletheia Signature"
+                  width={192}
+                  height={96}
+                  className="object-contain"
+                />
               </div>
             </div>
           </div>

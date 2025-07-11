@@ -310,7 +310,10 @@ export default function Tech4All() {
 
             {/* Explore Button */}
             <div className="pt-8">
-              <button className="inline-flex items-center space-x-2 bg-neutral-900 text-white px-8 py-4 rounded-lg hover:bg-neutral-800 transition-colors font-normal tracking-wide">
+              <button 
+                onClick={() => window.open('https://spark-os.com/', '_blank')}
+                className="inline-flex items-center space-x-2 bg-neutral-900 text-white px-8 py-4 rounded-lg hover:bg-neutral-800 transition-colors font-normal tracking-wide cursor-pointer"
+              >
                 <span>Explore Spark.OS</span>
                 <ArrowRight className="w-4 h-4" />
               </button>

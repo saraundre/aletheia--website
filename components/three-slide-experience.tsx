@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { ChevronDown } from "lucide-react"
 
 // ============================================================================
 // TYPEWRITER COMPONENT
@@ -53,6 +54,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
     const [currentSlide, setCurrentSlide] = useState(0)
     const [visibleRoles, setVisibleRoles] = useState(0)
     const [isActive, setIsActive] = useState(false)
+    const [showContinueScrolling, setShowContinueScrolling] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const lastScrollTime = useRef(0)
 
@@ -61,21 +63,22 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
     // Expose method to parent component
     useImperativeHandle(ref, () => ({
       goToFirstSlide: () => {
-        // First scroll to the container
-        if (containerRef.current) {
-          containerRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          })
-        }
-
-        // Then reset the slide state after a short delay
+        // Immediately prepare the slide experience
+        setCurrentSlide(0)
+        setVisibleRoles(0)
+        setShowContinueScrolling(false)
+        setIsActive(true)
+        document.body.style.overflow = "hidden"
+        
+        // Then smoothly scroll to the container
         setTimeout(() => {
-          setCurrentSlide(0)
-          setVisibleRoles(0)
-          setIsActive(true)
-          document.body.style.overflow = "hidden"
-        }, 500)
+          if (containerRef.current) {
+            containerRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "center", // Center instead of start to avoid sticky section issues
+            })
+          }
+        }, 50) // Much shorter delay
       },
     }))
 
@@ -87,10 +90,12 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
         e.stopPropagation()
 
         const now = Date.now()
-        if (now - lastScrollTime.current < 800) return
-        lastScrollTime.current = now
-
         const direction = e.deltaY > 0 ? 1 : -1
+        
+        // Much shorter delay for backward scrolling to make it more responsive
+        const scrollDelay = direction < 0 ? 100 : 800
+        if (now - lastScrollTime.current < scrollDelay) return
+        lastScrollTime.current = now
 
         if (currentSlide === 0) {
           // First slide - move to roles slide
@@ -101,6 +106,10 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
           // Roles slide - handle progressive role reveal
           if (direction > 0 && visibleRoles < roles.length) {
             setVisibleRoles((prev) => prev + 1)
+          } else if (direction < 0 && showContinueScrolling) {
+            // If we're in "continue scrolling" state, go back to showing roles
+            setVisibleRoles(roles.length) // Ensure all roles are visible first
+            setShowContinueScrolling(false)
           } else if (direction < 0 && visibleRoles > 0) {
             setVisibleRoles((prev) => prev - 1)
           } else if (direction > 0 && visibleRoles === roles.length) {
@@ -114,11 +123,33 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
           // Mission statements slide
           if (direction < 0) {
             setCurrentSlide(1)
+            setVisibleRoles(roles.length) // Make sure all roles are visible
+            // Small delay to ensure state consistency
+            setTimeout(() => {
+              setShowContinueScrolling(true)
+            }, 50)
           } else if (direction > 0) {
-            // Complete the experience
+            // Complete the experience with smooth transition
             setIsActive(false)
-            document.body.style.overflow = "unset"
-            onComplete?.()
+            // Immediately remove event listeners to prevent conflicts
+            window.removeEventListener("wheel", handleScroll)
+            window.removeEventListener("keydown", handleKeyDown)
+            // Small delay to ensure smooth transition to normal scrolling
+            setTimeout(() => {
+              document.body.style.overflow = "unset"
+              // Ensure we're positioned at the end of the experience for seamless continuation
+              if (containerRef.current) {
+                const containerBottom = containerRef.current.offsetTop + containerRef.current.offsetHeight
+                // Only adjust scroll position if we're not already past the container
+                if (window.scrollY < containerBottom) {
+                  window.scrollTo({
+                    top: containerBottom - window.innerHeight / 4, // Leave some buffer
+                    behavior: "auto" // Instant positioning to avoid conflicts
+                  })
+                }
+              }
+              onComplete?.()
+            }, 100)
           }
         }
       }
@@ -145,8 +176,15 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
           e.preventDefault()
           if (currentSlide === 2) {
             setCurrentSlide(1)
+            setVisibleRoles(roles.length)
+            setTimeout(() => {
+              setShowContinueScrolling(true)
+            }, 50)
           } else if (currentSlide === 1) {
-            if (visibleRoles > 0) {
+            if (showContinueScrolling) {
+              setVisibleRoles(roles.length)
+              setShowContinueScrolling(false)
+            } else if (visibleRoles > 0) {
               setVisibleRoles((prev) => prev - 1)
             } else {
               setCurrentSlide(0)
@@ -197,6 +235,22 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
       }
     }, [currentSlide])
 
+    // Show "Continue scrolling" after all roles are visible with a delay
+    useEffect(() => {
+      // Only auto-trigger continue scrolling when moving forward through roles
+      if (currentSlide === 1 && visibleRoles === roles.length && !showContinueScrolling) {
+        // Add a flag to distinguish between auto-trigger and manual backward navigation
+        const timer = setTimeout(() => {
+          setShowContinueScrolling(true)
+        }, 1500) // 1.5 second delay after "Strategists." appears
+        
+        return () => clearTimeout(timer)
+      } else if (currentSlide !== 1) {
+        // Only reset when leaving slide 1, not when roles change
+        setShowContinueScrolling(false)
+      }
+    }, [currentSlide, visibleRoles, roles.length, showContinueScrolling])
+
     const renderSlideContent = () => {
       switch (currentSlide) {
         case 0:
@@ -231,7 +285,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="text-center space-y-8 max-w-4xl mx-auto"
+              className="text-center space-y-8"
             >
               {roles.map((role, index) => (
                 <motion.div
@@ -275,7 +329,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="text-center max-w-4xl mx-auto space-y-16 pt-24"
+              className="text-center space-y-16 pt-24"
             >
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -334,8 +388,10 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
         </div>
 
         {/* Main Content */}
-        <div className="min-h-screen flex items-center justify-center relative px-6">
-          <AnimatePresence mode="wait">{renderSlideContent()}</AnimatePresence>
+        <div className="min-h-screen flex items-center justify-center relative">
+          <div className="px-6 w-full">
+            <AnimatePresence mode="wait">{renderSlideContent()}</AnimatePresence>
+          </div>
 
           {/* Right Side Progress Ticks */}
           {isActive && (
@@ -364,55 +420,121 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
             </motion.div>
           )}
 
-          {/* Scroll to Explore Hint */}
-          {isActive && currentSlide === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 4 }}
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-30"
-            >
-              <div className="flex flex-col items-center space-y-3 text-neutral-500">
-                <motion.div
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                  className="text-xs uppercase tracking-wider font-medium"
-                >
-                  Scroll to Explore
-                </motion.div>
-                <motion.div
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                  className="w-0.5 h-12 bg-neutral-400 rounded-full"
-                />
-              </div>
-            </motion.div>
-          )}
+          {/* Bottom Scroll Prompts - Fixed to bottom but centered to content */}
+          <div className="fixed bottom-8 left-0 right-0 px-6 z-30">
+            {/* Scroll to Explore Hint */}
+            {isActive && currentSlide === 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 4 }}
+                className="text-center"
+              >
+                <div className="flex flex-col items-center space-y-3 text-neutral-500">
+                  <motion.div
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                    className="text-xs uppercase tracking-wider font-medium"
+                  >
+                    Scroll to Explore
+                  </motion.div>
+                  <motion.div
+                    animate={{
+                      y: [0, 8, 0],
+                      opacity: [0.3, 1, 0.3],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    }}
+                    className="flex items-center justify-center"
+                  >
+                    <ChevronDown className="w-6 h-6 text-neutral-400" />
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
 
-          {/* Roles Progress Indicator */}
-          {isActive && currentSlide === 1 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-30"
-            >
-              <div className="flex flex-col items-center space-y-3 text-neutral-500">
-                <div className="text-xs uppercase tracking-wider">
-                  {visibleRoles < roles.length ? "Scroll to reveal" : "Continue scrolling"}
+            {/* Roles Progress Indicator */}
+            {isActive && currentSlide === 1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center"
+              >
+                <div className="flex flex-col items-center space-y-3 text-neutral-500">
+                  <AnimatePresence mode="wait">
+                    {!showContinueScrolling ? (
+                      <motion.div
+                        key="scroll-to-reveal"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="text-xs uppercase tracking-wider"
+                      >
+                        Scroll to reveal
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="continue-scrolling"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex flex-col items-center space-y-3"
+                      >
+                        <motion.div
+                          animate={{ y: [0, 8, 0] }}
+                          transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                          className="text-xs uppercase tracking-wider"
+                        >
+                          Continue scrolling
+                        </motion.div>
+                        <motion.div
+                          animate={{
+                            y: [0, 8, 0],
+                            opacity: [0.3, 1, 0.3],
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "easeInOut",
+                          }}
+                          className="flex items-center justify-center"
+                        >
+                          <ChevronDown className="w-6 h-6 text-neutral-400" />
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  
+                  <AnimatePresence>
+                    {!showContinueScrolling && (
+                      <motion.div
+                        key="role-dots"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex space-x-2"
+                      >
+                        {roles.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              index < visibleRoles ? "bg-neutral-600" : "bg-neutral-300"
+                            }`}
+                          />
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <div className="flex space-x-2">
-                  {roles.map((_, index) => (
-                    <div
-                      key={index}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index < visibleRoles ? "bg-neutral-600" : "bg-neutral-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
+              </motion.div>
+            )}
+          </div>
         </div>
       </div>
     )

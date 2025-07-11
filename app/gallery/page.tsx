@@ -6,9 +6,19 @@ import Link from "next/link"
 
 export default function Gallery() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeVideo, setActiveVideo] = useState<number | null>(null)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  const handleVideoClick = (videoId: number) => {
+    setActiveVideo(activeVideo === videoId ? null : videoId)
+  }
+
+  const getYouTubeEmbedUrl = (url: string) => {
+    const videoId = url.split('/').pop()
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1`
   }
 
   // Real gallery content based on provided images
@@ -16,7 +26,8 @@ export default function Gallery() {
     {
       id: 1,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/3z-Bf7_tB2g/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/3z-Bf7_tB2g",
       title: "STEM for ALL x NTU LPD Collaboration with Project LOVE",
       description:
         "Dr. John Heng discusses the collaboration between STEM for ALL, NTU LPD, and Project LOVE, highlighting robotics and mechatronics education at NTU.",
@@ -26,7 +37,8 @@ export default function Gallery() {
     {
       id: 2,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/OKZwinw3kko/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/OKZwinw3kko",
       title: "STEM for All: Equitable Learning",
       description:
         "Discover how we're making STEM education accessible to every student through innovative partnerships and community outreach.",
@@ -35,7 +47,8 @@ export default function Gallery() {
     {
       id: 3,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/peewpaS8_Bg/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/peewpaS8_Bg",
       title: "Prof Marcelo Ang: Educational Leadership and Innovation in STEM",
       description:
         "Educational leadership and innovation in STEM, exploring cutting-edge approaches to robotics education and research collaboration.",
@@ -45,7 +58,8 @@ export default function Gallery() {
     {
       id: 4,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/sp39XrJA0HE/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/sp39XrJA0HE",
       title: "Mom Don't Cry Foundation: A Story of Resilience and Hope",
       description:
         "A powerful story of resilience and hope through the Mom Don't Cry Foundation, showcasing community support and transformation.",
@@ -54,7 +68,8 @@ export default function Gallery() {
     {
       id: 5,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/jwfFaKxnsGY/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/jwfFaKxnsGY",
       title: "Child Street 11 Kids: Inspiring Journeys",
       description:
         "Follow the inspiring journeys of children from Street 11 as they discover new possibilities through STEM education and community support.",
@@ -63,7 +78,8 @@ export default function Gallery() {
     {
       id: 6,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/u_bBdjv48iI/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/u_bBdjv48iI",
       title: "STEM FOR ALL x NTU LDP Charity Drive: Robot Parade",
       description:
         "Our charity drive event at Maker Festival Regional Library Singapore, featuring an exciting robot parade and community engagement.",
@@ -73,7 +89,8 @@ export default function Gallery() {
     {
       id: 7,
       type: "video",
-      src: "/placeholder.svg?height=600&width=800",
+      src: "https://img.youtube.com/vi/y5VDXxmRYKw/maxresdefault.jpg",
+      videoUrl: "https://youtu.be/y5VDXxmRYKw",
       title: "Official Opening Speech By Dr. Sein",
       description:
         "Dr. Sein delivers the official opening speech for our charity drive collaboration with NTU Leadership Development Programme at Maker Festival 2025.",
@@ -160,19 +177,44 @@ export default function Gallery() {
             {galleryItems.map((item) => (
               <div key={item.id} className="space-y-6">
                 {/* Media Container */}
-                <div className="relative aspect-video bg-neutral-200 overflow-hidden group cursor-pointer rounded-lg">
-                  <img
-                    src={item.src || "/placeholder.svg"}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-
-                  {/* Video Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
-                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
-                      <Play className="w-6 h-6 text-neutral-900 ml-1" />
+                <div className="relative aspect-video bg-neutral-200 overflow-hidden rounded-lg">
+                  {activeVideo === item.id ? (
+                    // Embedded Video
+                    <div className="relative w-full h-full">
+                      <iframe
+                        src={getYouTubeEmbedUrl(item.videoUrl)}
+                        title={item.title}
+                        className="w-full h-full rounded-lg"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                      <button
+                        onClick={() => setActiveVideo(null)}
+                        className="absolute top-2 right-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Close video"
+                      >
+                        <X className="w-4 h-4 text-white" />
+                      </button>
                     </div>
-                  </div>
+                  ) : (
+                    // Thumbnail with Play Button
+                    <div 
+                      className="relative w-full h-full group cursor-pointer"
+                      onClick={() => handleVideoClick(item.id)}
+                    >
+                      <img
+                        src={item.src || "/placeholder.svg"}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      {/* Video Play Button Overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                        <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
+                          <Play className="w-6 h-6 text-neutral-900 ml-1" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}

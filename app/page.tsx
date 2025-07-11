@@ -3,6 +3,7 @@
 import { Home, X, ArrowUp } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { ThreeSlideExperience, type ThreeSlideExperienceRef } from "@/components/three-slide-experience"
 
 export default function Component() {
@@ -46,7 +47,7 @@ export default function Component() {
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-5xl mx-auto px-6 py-6">
           <div className="flex justify-between items-center">
             <div className="text-sm font-normal tracking-wide">Aletheia</div>
             <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
@@ -97,16 +98,31 @@ export default function Component() {
         {/* Three Slide Experience */}
         <ThreeSlideExperience ref={slideExperienceRef} onComplete={handleExperienceComplete} />
 
-        {/* Divider - Only show after experience complete */}
+
+
+        {/* Signature Section - Only show after experience complete */}
         {experienceComplete && (
           <motion.section
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="max-w-4xl mx-auto px-6 py-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="max-w-5xl mx-auto px-6 py-16"
           >
-            <div className="flex justify-center">
-              <div className="w-px h-24 bg-neutral-300"></div>
+            <div className="text-center space-y-8">
+              <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic">
+                For Sentience,
+              </p>
+              <div className="flex justify-center">
+                <div className="w-48 h-24 flex items-center justify-center">
+                  <Image
+                    src="/aletheia_signature.svg"
+                    alt="Aletheia Signature"
+                    width={192}
+                    height={96}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
             </div>
           </motion.section>
         )}
@@ -117,7 +133,7 @@ export default function Component() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, duration: 1 }}
-            className="max-w-7xl mx-auto px-6 py-16"
+            className="max-w-5xl mx-auto px-6 py-16"
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-sm font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
@@ -148,18 +164,25 @@ export default function Component() {
 
       {/* Back to Top Button */}
       {showBackToTop && (
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          onClick={scrollToFirstSlide}
-          className="fixed bottom-8 right-8 z-50 bg-neutral-900 text-white p-3 rounded-full shadow-lg hover:bg-neutral-800 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Back to first slide"
+          className="fixed bottom-8 right-8 z-50 flex flex-col items-center space-y-2"
         >
-          <ArrowUp className="w-5 h-5" />
-        </motion.button>
+          <motion.button
+            onClick={scrollToFirstSlide}
+            className="bg-neutral-900 text-white p-3 rounded-full shadow-lg hover:bg-neutral-800 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Back to first slide"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </motion.button>
+          <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-medium">
+            Back to Top
+          </span>
+        </motion.div>
       )}
     </div>
   )
