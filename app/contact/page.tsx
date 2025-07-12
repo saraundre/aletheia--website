@@ -12,10 +12,10 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
-  // EmailJS configuration - replace these with your actual IDs
-  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID'
-  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID'
-  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY'
+  // EmailJS configuration - use ONLY environment variables
+  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -27,6 +27,14 @@ export default function Contact() {
     setSubmitStatus('idle')
     setErrorMessage('')
 
+    // Check for missing env vars
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setIsSubmitting(false)
+      setSubmitStatus('error')
+      setErrorMessage('EmailJS environment variables are missing. Please check your .env.local and Render environment settings.')
+      return
+    }
+
     const formData = new FormData(e.currentTarget)
     const templateParams = {
       name: formData.get('name') as string,
@@ -37,13 +45,6 @@ export default function Contact() {
     }
 
     try {
-      // Check if EmailJS is properly configured
-      if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID' || 
-          EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID' || 
-          EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-        throw new Error('EmailJS not configured. Please set up your environment variables.')
-      }
-
       const result = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
@@ -61,11 +62,7 @@ export default function Contact() {
     } catch (error) {
       console.error('EmailJS error:', error)
       setSubmitStatus('error')
-      if (error instanceof Error) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage('Failed to send message. Please try again.')
-      }
+      setErrorMessage('Failed to send message. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
