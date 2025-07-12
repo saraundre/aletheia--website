@@ -4,12 +4,71 @@ import { Home, X } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import emailjs from '@emailjs/browser'
 
 export default function Contact() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  // EmailJS configuration - replace these with your actual IDs
+  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID'
+  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID'
+  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY'
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    setErrorMessage('')
+
+    const formData = new FormData(e.currentTarget)
+    const templateParams = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      organization: formData.get('organization') as string,
+      interest: formData.get('interest') as string,
+      message: formData.get('message') as string,
+    }
+
+    try {
+      // Check if EmailJS is properly configured
+      if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID' || 
+          EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID' || 
+          EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+        throw new Error('EmailJS not configured. Please set up your environment variables.')
+      }
+
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      )
+
+      if (result.status === 200) {
+        setSubmitStatus('success')
+        e.currentTarget.reset()
+      } else {
+        setSubmitStatus('error')
+        setErrorMessage('Failed to send message')
+      }
+    } catch (error) {
+      console.error('EmailJS error:', error)
+      setSubmitStatus('error')
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage('Failed to send message. Please try again.')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -93,73 +152,98 @@ export default function Contact() {
 
         {/* Contact Form */}
         <section className="max-w-lg mx-auto px-6">
-          <form className="space-y-8">
-            <div className="space-y-6">
-              <div>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  required
-                  className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg rounded-lg"
-                />
-              </div>
-
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg rounded-lg"
-                />
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  name="organization"
-                  placeholder="Organization"
-                  className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg rounded-lg"
-                />
-              </div>
-
-              <div>
-                <select
-                  name="interest"
-                  required
-                  className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg appearance-none cursor-pointer rounded-lg"
-                >
-                  <option value="">Interest Area</option>
-                  <option value="pilot-program">Pilot Program</option>
-                  <option value="partnership">Partnership</option>
-                  <option value="research-collaboration">Research Collaboration</option>
-                  <option value="funding-opportunity">Funding Opportunity</option>
-                  <option value="join-team">Join Our Team</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div>
-                <textarea
-                  name="message"
-                  rows={4}
-                  placeholder="Message"
-                  required
-                  className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg resize-none rounded-lg"
-                />
-              </div>
-            </div>
-
-            <div className="pt-8">
+          {submitStatus === 'success' ? (
+            <div className="text-center space-y-4">
+              <div className="text-green-600 text-lg font-medium">Message sent successfully!</div>
+              <p className="text-neutral-600">We'll get back to you within 24-48 hours.</p>
               <button
-                type="submit"
-                className="w-full py-4 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
+                onClick={() => setSubmitStatus('idle')}
+                className="text-neutral-900 border border-neutral-300 px-6 py-2 rounded-lg hover:bg-neutral-900 hover:text-white transition-all duration-300"
               >
-                Send Message
+                Send another message
               </button>
             </div>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="space-y-6">
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg rounded-lg disabled:opacity-50"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg rounded-lg disabled:opacity-50"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="text"
+                    name="organization"
+                    placeholder="Organization"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg rounded-lg disabled:opacity-50"
+                  />
+                </div>
+
+                <div>
+                  <select
+                    name="interest"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg appearance-none cursor-pointer rounded-lg disabled:opacity-50"
+                  >
+                    <option value="">Interest Area</option>
+                    <option value="pilot-program">Pilot Program</option>
+                    <option value="partnership">Partnership</option>
+                    <option value="research-collaboration">Research Collaboration</option>
+                    <option value="funding-opportunity">Funding Opportunity</option>
+                    <option value="join-team">Join Our Team</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <textarea
+                    name="message"
+                    rows={4}
+                    placeholder="Message"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg resize-none rounded-lg disabled:opacity-50"
+                  />
+                </div>
+              </div>
+
+              {submitStatus === 'error' && (
+                <div className="text-red-600 text-sm">
+                  {errorMessage || 'Failed to send message. Please try again.'}
+                </div>
+              )}
+
+              <div className="pt-8">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-4 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </div>
+            </form>
+          )}
 
           {/* Response Time Note */}
           <div className="text-center mt-12 pt-8 border-t border-neutral-200">
