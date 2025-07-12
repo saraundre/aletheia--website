@@ -5,17 +5,20 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import emailjs from '@emailjs/browser'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function Contact() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null)
 
   // EmailJS configuration - use ONLY environment variables
   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+  const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -37,6 +40,18 @@ export default function Contact() {
       setErrorMessage('EmailJS environment variables are missing. Please check your .env.local and Render environment settings.')
       return
     }
+    if (!RECAPTCHA_SITE_KEY) {
+      setIsSubmitting(false)
+      setSubmitStatus('error')
+      setErrorMessage('reCAPTCHA site key is missing. Please check your .env.local and Render environment settings.')
+      return
+    }
+    if (!captchaValue) {
+      setIsSubmitting(false)
+      setSubmitStatus('error')
+      setErrorMessage('Please complete the CAPTCHA challenge.')
+      return
+    }
 
     const formData = new FormData(form)
     const templateParams = {
@@ -45,6 +60,7 @@ export default function Contact() {
       organization: formData.get('organization') as string,
       interest: formData.get('interest') as string,
       message: formData.get('message') as string,
+      'g-recaptcha-response': captchaValue,
     }
 
     try {
@@ -58,6 +74,7 @@ export default function Contact() {
       if (result.status === 200) {
         setSubmitStatus('success')
         form.reset() // Use the stored reference
+        setCaptchaValue(null)
       } else {
         setSubmitStatus('error')
         setErrorMessage('Failed to send message')
@@ -226,6 +243,8 @@ export default function Contact() {
                   />
                 </div>
               </div>
+
+              <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY!} onChange={setCaptchaValue} className="my-4" />
 
               {submitStatus === 'error' && (
                 <div className="text-red-600 text-sm">
