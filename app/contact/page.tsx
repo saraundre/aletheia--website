@@ -27,6 +27,9 @@ export default function Contact() {
     setSubmitStatus('idle')
     setErrorMessage('')
 
+    // Store a reference to the form
+    const form = e.currentTarget
+
     // Check for missing env vars
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       setIsSubmitting(false)
@@ -35,7 +38,7 @@ export default function Contact() {
       return
     }
 
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData(form)
     const templateParams = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
@@ -54,7 +57,7 @@ export default function Contact() {
 
       if (result.status === 200) {
         setSubmitStatus('success')
-        e.currentTarget.reset()
+        form.reset() // Use the stored reference
       } else {
         setSubmitStatus('error')
         setErrorMessage('Failed to send message')
