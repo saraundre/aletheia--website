@@ -25,35 +25,35 @@ export default function Contact() {
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus('idle')
-    setErrorMessage('')
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
 
     // Store a reference to the form
-    const form = e.currentTarget
+    const form = e.currentTarget;
 
     // Check for missing env vars
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      setIsSubmitting(false)
-      setSubmitStatus('error')
-      setErrorMessage('EmailJS environment variables are missing. Please check your .env.local and Render environment settings.')
-      return
+      setIsSubmitting(false);
+      setSubmitStatus('error');
+      setErrorMessage('EmailJS environment variables are missing. Please check your .env.local and Render environment settings.');
+      return;
     }
     if (!RECAPTCHA_SITE_KEY) {
-      setIsSubmitting(false)
-      setSubmitStatus('error')
-      setErrorMessage('reCAPTCHA site key is missing. Please check your .env.local and Render environment settings.')
-      return
+      setIsSubmitting(false);
+      setSubmitStatus('error');
+      setErrorMessage('reCAPTCHA site key is missing. Please check your .env.local and Render environment settings.');
+      return;
     }
     if (!captchaValue) {
-      setIsSubmitting(false)
-      setSubmitStatus('error')
-      setErrorMessage('Please complete the CAPTCHA challenge.')
-      return
+      setIsSubmitting(false);
+      setSubmitStatus('error');
+      setErrorMessage('Please complete the CAPTCHA challenge.');
+      return;
     }
 
-    const formData = new FormData(form)
+    const formData = new FormData(form);
     const templateParams = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
@@ -61,7 +61,7 @@ export default function Contact() {
       interest: formData.get('interest') as string,
       message: formData.get('message') as string,
       'g-recaptcha-response': captchaValue,
-    }
+    };
 
     try {
       const result = await emailjs.send(
@@ -69,24 +69,24 @@ export default function Contact() {
         EMAILJS_TEMPLATE_ID,
         templateParams,
         EMAILJS_PUBLIC_KEY
-      )
+      );
 
       if (result.status === 200) {
-        setSubmitStatus('success')
-        form.reset() // Use the stored reference
-        setCaptchaValue(null)
+        setSubmitStatus('success');
+        form.reset();
+        setCaptchaValue(null);
       } else {
-        setSubmitStatus('error')
-        setErrorMessage('Failed to send message')
+        setSubmitStatus('error');
+        setErrorMessage('Failed to send message');
       }
     } catch (error) {
-      console.error('EmailJS error:', error)
-      setSubmitStatus('error')
-      setErrorMessage('Failed to send message. Please try again.')
+      console.error('EmailJS error:', error);
+      setSubmitStatus('error');
+      setErrorMessage('Failed to send message. Please try again.');
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
@@ -244,8 +244,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY!} onChange={setCaptchaValue} className="my-4" />
-
               {submitStatus === 'error' && (
                 <div className="text-red-600 text-sm">
                   {errorMessage || 'Failed to send message. Please try again.'}
@@ -253,9 +251,10 @@ export default function Contact() {
               )}
 
               <div className="pt-8">
+                <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY!} onChange={setCaptchaValue} className="my-4" />
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !captchaValue}
                   className="w-full py-4 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
