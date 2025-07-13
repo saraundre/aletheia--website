@@ -220,7 +220,7 @@ export default function Tech4All() {
                   Stem for All
                 </Link>
                 <Link
-                  href="/tech-for-good"
+                  href="/tech4all"
                   className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -270,8 +270,7 @@ export default function Tech4All() {
 
             {/* Description */}
             <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 max-w-3xl mx-auto">
-              An education system designed for every mind. Adaptive, empathetic, and built with real students at the
-              center of every decision.
+              An education system designed for diverse learners. Adaptive, empathetic, and built with individual student needs at the center of every decision.
             </p>
 
             {/* Terminal Interface */}
@@ -413,14 +412,27 @@ export default function Tech4All() {
           </div>
         </section>
 
-        {/* Coming Soon Section */}
+        {/* Call to Action Section */}
         <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
-          <div className="text-center space-y-16">
-            <div className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
-              Coming soon...
+          <div className="text-center space-y-8">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-900">
+              Ready to Transform Learning?
+            </h2>
+            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 max-w-2xl mx-auto">
+              Join us in creating accessible, inclusive learning experiences for every student.
+            </p>
+            <div className="pt-8">
+              <Link
+                href="/contact"
+                className="inline-flex items-center space-x-2 bg-neutral-900 text-white px-8 py-4 rounded-lg hover:bg-neutral-800 transition-colors font-normal tracking-wide"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </section>
+
       </main>
 
       {/* Footer */}
@@ -436,7 +448,7 @@ export default function Tech4All() {
                 Stem for All
               </Link>
               <Link
-                href="/tech-for-good"
+                href="/tech4all"
                 className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
               >
                 Tech4All

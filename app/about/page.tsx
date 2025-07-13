@@ -88,7 +88,7 @@ function CollaboratorsCarousel() {
               Trusted by
             </h2>
             <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 max-w-2xl mx-auto">
-              Partnering with leading organizations to create meaningful impact.
+              leading organisations for impact.
             </p>
           </motion.div>
 
@@ -139,11 +139,6 @@ function CollaboratorsCarousel() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-
-          {/* Bottom Text */}
-          <motion.div variants={itemVariants} className="mt-16">
-            <p className="text-neutral-400 text-sm italic">Building partnerships that matter</p>
           </motion.div>
         </motion.div>
       </div>
@@ -228,7 +223,7 @@ export default function About() {
                   Stem for All
                 </Link>
                 <Link
-                  href="/tech-for-good"
+                  href="/tech4all"
                   className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -264,15 +259,15 @@ export default function About() {
       {/* Main Content */}
       <main className="pt-24">
         {/* Hero Section - Company Logo */}
-        <section className="max-w-4xl mx-auto px-6 py-16 md:py-20 pb-2">
-          <div className="text-center space-y-8">
+        <section className="max-w-4xl mx-auto px-6 py-16 md:py-20 pb-0">
+          <div className="text-center space-y-4">
             <div className="flex justify-center">
-              <div className="w-[448px] h-[448px] flex items-center justify-center">
+              <div className="w-64 h-64 flex items-center justify-center">
                 <Image
                   src="/aletheia_logo.png"
                   alt="Aletheia Logo"
-                  width={448}
-                  height={448}
+                  width={256}
+                  height={256}
                   className="object-contain"
                 />
               </div>
@@ -296,6 +291,9 @@ export default function About() {
                 Our mission transcends traditional boundaries, building brands and bridging communities through
                 world-class artistry and technologies, always with real students and real impact at the center of every
                 decision.
+              </p>
+              <p>
+                As a multi-channel communications firm, we bring this philosophy to life through full-stack event management and broadcast capabilities, partnering with organizations in technology, nonprofit, and sustainability sectors.
               </p>
             </div>
           </div>
@@ -346,10 +344,9 @@ export default function About() {
                 </p>
               </div>
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-neutral-900">Relentless Pursuit</h3>
+                <h3 className="text-xl font-semibold text-neutral-900">Standalone Spirit</h3>
                 <p className="text-base leading-relaxed tracking-wide text-neutral-600">
-                  Relentlessly pursuing perfection, we are outsiders. By choice. This perspective allows us to see
-                  opportunities others miss and create solutions that truly matter.
+                  Our courage to be different allows us to see opportunities others miss and create solutions that truly matter. We stand alone by choice.
                 </p>
               </div>
               <div className="space-y-4">
@@ -360,7 +357,7 @@ export default function About() {
                 </p>
               </div>
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-neutral-900">Collaborative Spirit</h3>
+                <h3 className="text-xl font-semibold text-neutral-900">Closing Loops</h3>
                 <p className="text-base leading-relaxed tracking-wide text-neutral-600">
                   Through partnerships with leading institutions and organizations, we amplify our reach and deepen our
                   impact, creating sustainable change that lasts.
@@ -381,16 +378,13 @@ export default function About() {
         <section className="max-w-2xl mx-auto px-6 py-16 pb-32 text-center">
           <div className="space-y-8">
             <h2 className="text-2xl md:text-3xl font-normal tracking-tight leading-tight text-neutral-900">
-              Ready to Create Impact Together?
+              Let’s Make Impact Together.
             </h2>
-            <p className="text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
-              Join us in building a future where education is accessible, authentic, and transformative for all.
-            </p>
             <Link
               href="/contact"
               className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
             >
-              Start the Conversation
+              Get in Touch.
             </Link>
           </div>
         </section>
@@ -409,7 +403,7 @@ export default function About() {
                 Stem for All
               </Link>
               <Link
-                href="/tech-for-good"
+                href="/tech4all"
                 className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
               >
                 Tech4All

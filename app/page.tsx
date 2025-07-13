@@ -76,7 +76,7 @@ export default function Component() {
               <nav className="space-y-6">
                 {[
                   { href: "/stem-for-all", label: "Stem for All" },
-                  { href: "/tech-for-good", label: "Tech4All" },
+                  { href: "/tech4all", label: "Tech4All" },
                   { href: "/about", label: "About" },
                   { href: "/gallery", label: "Gallery" },
                   { href: "/contact", label: "Contact" },
@@ -146,7 +146,7 @@ export default function Component() {
               <div className="flex space-x-8 text-sm font-normal tracking-wide text-neutral-600">
                 {[
                   { href: "/stem-for-all", label: "Stem for All" },
-                  { href: "/tech-for-good", label: "Tech4All" },
+                  { href: "/tech4all", label: "Tech4All" },
                   { href: "/about", label: "About" },
                   { href: "/gallery", label: "Gallery" },
                   { href: "/contact", label: "Contact" },

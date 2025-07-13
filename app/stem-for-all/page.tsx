@@ -48,7 +48,7 @@ export default function StemForAll() {
                   Stem for All
                 </Link>
                 <Link
-                  href="/tech-for-good"
+                  href="/tech4all"
                   className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -89,7 +89,7 @@ export default function StemForAll() {
             {/* Main Quote */}
             <div className="space-y-4">
               <p className="text-xl md:text-2xl font-normal leading-relaxed tracking-wide text-neutral-700">
-                You may say I'm a dreamer
+                "You may say I'm a dreamer
               </p>
               <p className="text-xl md:text-2xl font-normal leading-relaxed tracking-wide text-neutral-700">
                 But I'm not the only one
@@ -98,19 +98,19 @@ export default function StemForAll() {
                 I hope someday you'll join us
               </p>
               <p className="text-xl md:text-2xl font-normal leading-relaxed tracking-wide text-neutral-700">
-                And the world will be as one
+                And the world will be as one"
               </p>
             </div>
 
             {/* Song Title */}
             <div className="pt-8 space-y-2">
-              <p className="text-lg font-normal tracking-wide text-neutral-600">"Imagine"</p>
-              <p className="text-lg font-normal italic tracking-wide text-neutral-500">Imagine</p>
+              <p className="text-lg font-normal tracking-wide text-neutral-600">John Lennon</p>
+              <p className="text-lg font-normal italic tracking-wide text-neutral-500">"Imagine"</p>
             </div>
 
             {/* Attribution */}
             <div className="pt-8 border-t border-neutral-200">
-              <p className="text-base font-normal tracking-wide text-neutral-600">John Lennon, 1971</p>
+              <p className="text-base font-normal tracking-wide text-neutral-600">Imagine, 1971</p>
             </div>
           </div>
         </section>
@@ -125,28 +125,19 @@ export default function StemForAll() {
         {/* Hero Section (Second) */}
         <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
           <div className="text-center space-y-8">
-            {/* Educational Technology Indicator */}
-            <div className="flex items-center justify-center space-x-2 mb-8">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span className="text-sm font-normal tracking-wide text-neutral-600">Educational Technology</span>
-            </div>
-
             {/* Main Title */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight text-neutral-900">
               STEM for All
             </h1>
 
             {/* Subtitle */}
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-normal tracking-wide leading-relaxed text-neutral-600 mt-6">
-              Equitable Learning
-              <br />
-              Opportunities
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-normal tracking-wide leading-relaxed text-neutral-600 mt-1">
+              Equitable Learning Opportunities
             </h2>
 
             {/* Description */}
             <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 max-w-2xl mx-auto mt-8">
-              Creating accessible, inclusive learning experiences that reach every student, regardless of background or
-              ability.
+              Supporting accessible and inclusive learning for the under-resourced, neurodivergent and physically challenged.
             </p>
 
             {/* Divider */}
@@ -170,8 +161,7 @@ export default function StemForAll() {
               Join the Movement
             </h2>
             <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
-              Ready to make STEM education accessible to all? Partner with us to create equitable learning
-              opportunities.
+              All people, sharing all of the world.
             </p>
             <div className="pt-8">
               <Link
@@ -198,7 +188,7 @@ export default function StemForAll() {
                 Stem for All
               </Link>
               <Link
-                href="/tech-for-good"
+                href="/tech4all"
                 className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
               >
                 Tech4All
