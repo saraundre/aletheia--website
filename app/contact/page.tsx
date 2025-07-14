@@ -118,7 +118,7 @@ export default function Contact() {
               <nav className="space-y-6">
                 <Link
                   href="/stem-for-all"
-                  className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
+                  className="block text-base md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-6 py-3 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Stem for All
@@ -158,7 +158,7 @@ export default function Contact() {
       )}
 
       {/* Main Content */}
-      <main className="pt-24 pb-32">
+      <main className="pt-24 pb-16 md:pb-8">
         {/* Header Section */}
         <section className="max-w-2xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-normal tracking-tight leading-tight mb-8">Get In Touch</h1>
@@ -276,7 +276,7 @@ export default function Contact() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
             <div className="flex space-x-8 text-sm font-normal tracking-wide text-neutral-600">
-              <Link href="/stem-for-all" className="hover:text-neutral-900 transition-colors">
+              <Link href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100 text-sm md:text-base">
                 Stem for All
               </Link>
               <Link href="/tech4all" className="hover:text-neutral-900 transition-colors">

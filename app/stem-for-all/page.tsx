@@ -42,7 +42,7 @@ export default function StemForAll() {
               <nav className="space-y-6">
                 <Link
                   href="/stem-for-all"
-                  className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
+                  className="block text-base md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-6 py-3 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Stem for All
@@ -82,7 +82,7 @@ export default function StemForAll() {
       )}
 
       {/* Main Content */}
-      <main className="pt-24">
+      <main className="pt-24 pb-16 md:pb-8">
         {/* Section 1 - John Lennon Quote (First) */}
         <section className="max-w-3xl mx-auto px-6 py-16 md:py-24">
           <div className="text-center space-y-8">
@@ -183,7 +183,7 @@ export default function StemForAll() {
             <div className="flex space-x-8 text-sm font-normal tracking-wide text-neutral-600">
               <Link
                 href="/stem-for-all"
-                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
+                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100 text-sm md:text-base"
               >
                 Stem for All
               </Link>

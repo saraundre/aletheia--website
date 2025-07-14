@@ -87,7 +87,7 @@ export default function Component() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-6 py-3 rounded-lg hover:bg-neutral-100"
+                    className="block text-base md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-6 py-3 rounded-lg hover:bg-neutral-100"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.label}
@@ -100,7 +100,7 @@ export default function Component() {
       )}
 
       {/* Main Content */}
-      <main>
+      <main className="pb-16 md:pb-8">
         {/* Three Slide Experience */}
         <ThreeSlideExperience ref={slideExperienceRef} onComplete={handleExperienceComplete} />
 
@@ -157,7 +157,7 @@ export default function Component() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2 + index * 0.1 }}
-                    className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
+                    className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100 text-sm md:text-base"
                   >
                     {item.label}
                   </motion.a>
