@@ -271,7 +271,7 @@ export default function Gallery() {
           </p>
           <Link
             href="/contact"
-            className="inline-block py-3 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
+            className="inline-block py-3 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg mb-8"
           >
             Get Involved
           </Link>
