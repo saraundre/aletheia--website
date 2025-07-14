@@ -220,29 +220,29 @@ export default function Tech4All() {
                   Stem for All
                 </Link>
                 <Link
-                  href="/tech-for-good"
-                  className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
+                  href="/tech4all"
+                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Tech4All
                 </Link>
                 <Link
                   href="/about"
-                  className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
+                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   About
                 </Link>
                 <Link
                   href="/gallery"
-                  className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
+                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Gallery
                 </Link>
                 <Link
                   href="/contact"
-                  className="block text-2xl md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity"
+                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact
