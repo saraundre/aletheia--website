@@ -58,6 +58,10 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
     const containerRef = useRef<HTMLDivElement>(null)
     const lastScrollTime = useRef(0)
 
+    // Touch event state
+    const touchStartY = useRef<number | null>(null)
+    const touchEndY = useRef<number | null>(null)
+
     const roles = ["Storytellers.", "Innovators.", "Engineers.", "Designers.", "Strategists."]
 
     // Expose method to parent component
@@ -193,16 +197,50 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
         }
       }
 
+      // --- Touch event handlers ---
+      const handleTouchStart = (e: TouchEvent) => {
+        if (!isActive) return
+        touchStartY.current = e.touches[0].clientY
+      }
+
+      const handleTouchMove = (e: TouchEvent) => {
+        if (!isActive) return
+        touchEndY.current = e.touches[0].clientY
+      }
+
+      const handleTouchEnd = () => {
+        if (!isActive || touchStartY.current === null || touchEndY.current === null) return
+        const deltaY = touchStartY.current - touchEndY.current
+        // Threshold for swipe
+        if (Math.abs(deltaY) > 40) {
+          if (deltaY > 0) {
+            // Swipe up (next slide)
+            handleScroll({ deltaY: 100, preventDefault: () => {}, stopPropagation: () => {} } as WheelEvent)
+          } else {
+            // Swipe down (previous slide)
+            handleScroll({ deltaY: -100, preventDefault: () => {}, stopPropagation: () => {} } as WheelEvent)
+          }
+        }
+        touchStartY.current = null
+        touchEndY.current = null
+      }
+
       if (isActive) {
         document.body.style.overflow = "hidden"
         window.addEventListener("wheel", handleScroll, { passive: false })
         window.addEventListener("keydown", handleKeyDown)
+        window.addEventListener("touchstart", handleTouchStart, { passive: false })
+        window.addEventListener("touchmove", handleTouchMove, { passive: false })
+        window.addEventListener("touchend", handleTouchEnd, { passive: false })
       }
 
       return () => {
         document.body.style.overflow = "unset"
         window.removeEventListener("wheel", handleScroll)
         window.removeEventListener("keydown", handleKeyDown)
+        window.removeEventListener("touchstart", handleTouchStart)
+        window.removeEventListener("touchmove", handleTouchMove)
+        window.removeEventListener("touchend", handleTouchEnd)
       }
     }, [isActive, currentSlide, visibleRoles, roles.length, onComplete])
 
