@@ -14,7 +14,7 @@ import {
   BarChart3,
   CheckCircle,
 } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -179,6 +179,19 @@ function CoreFeaturesContent() {
 
 export default function Tech4All() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showFooter, setShowFooter] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const threshold = 32; // px from bottom
+      if (window.innerWidth < 768) {
+        setShowFooter(window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -436,7 +449,7 @@ export default function Tech4All() {
       </main>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm">
+      <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
         <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>

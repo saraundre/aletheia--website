@@ -1,7 +1,7 @@
 "use client"
 
 import { Home, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import emailjs from '@emailjs/browser'
@@ -13,6 +13,7 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [captchaValue, setCaptchaValue] = useState<string | null>(null)
+  const [showFooter, setShowFooter] = useState(false);
 
   // EmailJS configuration - use ONLY environment variables
   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
@@ -87,6 +88,18 @@ export default function Contact() {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const threshold = 32; // px from bottom
+      if (window.innerWidth < 768) {
+        setShowFooter(window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
@@ -271,7 +284,7 @@ export default function Contact() {
       </main>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm">
+      <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
         <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
