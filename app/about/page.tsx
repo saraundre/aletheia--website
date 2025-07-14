@@ -217,7 +217,7 @@ export default function About() {
               <nav className="space-y-6">
                 <Link
                   href="/stem-for-all"
-                  className="block text-base md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-6 py-3 rounded-lg hover:bg-neutral-100"
+                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Stem for All
@@ -398,7 +398,7 @@ export default function About() {
             <div className="flex space-x-8 text-sm font-normal tracking-wide text-neutral-600">
               <Link
                 href="/stem-for-all"
-                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100 text-sm md:text-base"
+                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-sm md:text-base"
               >
                 Stem for All
               </Link>
