@@ -266,14 +266,20 @@ export default function Contact() {
               )}
 
               <div className="pt-8">
-                <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={setCaptchaValue}
-                  className="my-4"
-                />
+                {RECAPTCHA_SITE_KEY ? (
+                  <ReCAPTCHA
+                    sitekey={RECAPTCHA_SITE_KEY}
+                    onChange={setCaptchaValue}
+                    className="my-4"
+                  />
+                ) : (
+                  <div className="text-red-600 text-sm mb-4">
+                    reCAPTCHA is not configured. Please check your environment variables.
+                  </div>
+                )}
                 <button
                   type="submit"
-                  disabled={isSubmitting || !captchaValue}
+                  disabled={isSubmitting || (!captchaValue && RECAPTCHA_SITE_KEY)}
                   className="w-full py-4 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
