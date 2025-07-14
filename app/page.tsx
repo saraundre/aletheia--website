@@ -143,7 +143,7 @@ export default function Component() {
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
-              <div className="flex space-x-2 text-sm font-normal tracking-wide text-neutral-600">
+              <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
                 {[
                   { href: "/stem-for-all", label: "Stem for All" },
                   { href: "/tech4all", label: "Tech4All" },
@@ -157,7 +157,7 @@ export default function Component() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2 + index * 0.1 }}
-                    className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-sm md:text-base"
+                    className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm"
                   >
                     {item.label}
                   </motion.a>
