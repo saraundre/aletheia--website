@@ -270,63 +270,40 @@ export default function About() {
       )}
 
       {/* Main Content */}
-      <main className="pt-24 pb-16 md:pb-8">
-        {/* Hero Section - Company Logo */}
-        <section className="max-w-4xl mx-auto px-6 py-16 md:py-20 pb-0">
-          <div className="text-center space-y-4">
-            <div className="flex justify-center">
-              <div className="w-64 h-64 flex items-center justify-center">
-                <Image
-                  src="/aletheia_logo.png"
-                  alt="Aletheia Logo"
-                  width={256}
-                  height={256}
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+      <main className="pb-16 md:pb-8">
+
 
         {/* About Aletheia */}
-        <section className="max-w-3xl mx-auto px-6 pt-0 pb-16">
-          <div className="text-center space-y-8">
-            <div className="space-y-6 text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
-              <p>
-                Aletheia, derived from the ancient Greek word for "truth" and "disclosure," represents our unwavering
-                commitment to authentic, transparent education and innovation.
-              </p>
-              <p>
-                We are a collective of creative adults whom the "child" in each of us survived—storytellers, innovators,
-                engineers, designers, and strategists united by a common purpose.
-              </p>
-              <p>
-                Our mission transcends traditional boundaries, building brands and bridging communities through
-                world-class artistry and technologies, always with real students and real impact at the center of every
-                decision.
-              </p>
-              <p>
-                As a multi-channel communications firm, we bring this philosophy to life through full-stack event management and broadcast capabilities, partnering with organizations in technology, nonprofit, and sustainability sectors.
-              </p>
+        <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
+          <div className="flex flex-col items-center space-y-8 w-full">
+            <div className="w-64 h-64 flex items-center justify-center">
+              <Image
+                src="/aletheia_logo.png"
+                alt="Aletheia Logo"
+                width={256}
+                height={256}
+                className="object-contain"
+              />
             </div>
-          </div>
-        </section>
-
-        {/* Sign Logo - Moved Section */}
-        <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
-          <div className="text-center space-y-8">
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic">
-              For Sentience,
+            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
+              Aletheia is a multi-channel communications firm<br />
+              with full stack event management and broadcast capabilities.<br />
+              We focus on technology, nonprofit, and sustainability.
             </p>
-            <div className="flex justify-center">
-              <div className="w-48 h-24 flex items-center justify-center">
-                <Image
-                  src="/aletheia_signature.svg"
-                  alt="Aletheia Signature"
-                  width={192}
-                  height={96}
-                  className="object-contain"
-                />
+            <div>
+              <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic mb-4">
+                For Sentience,
+              </p>
+              <div className="flex justify-center">
+                <div className="w-48 h-24 flex items-center justify-center">
+                  <Image
+                    src="/aletheia_signature.svg"
+                    alt="Aletheia Signature"
+                    width={192}
+                    height={96}
+                    className="object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>

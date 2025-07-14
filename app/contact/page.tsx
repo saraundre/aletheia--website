@@ -21,6 +21,8 @@ export default function Contact() {
   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
   const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
+  console.log("RECAPTCHA SITE KEY:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -264,7 +266,11 @@ export default function Contact() {
               )}
 
               <div className="pt-8">
-                <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY!} onChange={setCaptchaValue} className="my-4" />
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                  onChange={setCaptchaValue}
+                  className="my-4"
+                />
                 <button
                   type="submit"
                   disabled={isSubmitting || !captchaValue}
