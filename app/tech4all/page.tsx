@@ -441,36 +441,11 @@ export default function Tech4All() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
             <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
-              <Link
-                href="/stem-for-all"
-                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm"
-              >
-                Stem for All
-              </Link>
-              <Link
-                href="/tech-for-good"
-                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
-              >
-                Tech4All
-              </Link>
-              <Link
-                href="/about"
-                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
-              >
-                About
-              </Link>
-              <Link
-                href="/gallery"
-                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
-              >
-                Gallery
-              </Link>
-              <Link
-                href="/contact"
-                className="hover:text-neutral-900 transition-colors px-3 py-1 rounded-md hover:bg-neutral-100"
-              >
-                Contact
-              </Link>
+              <a href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Stem for All</a>
+              <a href="/tech4all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Tech4All</a>
+              <a href="/about" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">About</a>
+              <a href="/gallery" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Gallery</a>
+              <a href="/contact" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Contact</a>
             </div>
           </div>
         </div>

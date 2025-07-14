@@ -135,36 +135,20 @@ export default function Component() {
 
         {/* Footer */}
         {experienceComplete && (
-          <motion.footer
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 1 }}
-            className="max-w-5xl mx-auto px-6 py-3"
-          >
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
-              <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
-                {[
-                  { href: "/stem-for-all", label: "Stem for All" },
-                  { href: "/tech4all", label: "Tech4All" },
-                  { href: "/about", label: "About" },
-                  { href: "/gallery", label: "Gallery" },
-                  { href: "/contact", label: "Contact" },
-                ].map((item, index) => (
-                  <motion.a
-                    key={item.href}
-                    href={item.href}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2 + index * 0.1 }}
-                    className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm"
-                  >
-                    {item.label}
-                  </motion.a>
-                ))}
+          <footer className="fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm">
+            <div className="max-w-7xl mx-auto px-6 py-3">
+              <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
+                <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
+                  <a href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Stem for All</a>
+                  <a href="/tech4all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Tech4All</a>
+                  <a href="/about" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">About</a>
+                  <a href="/gallery" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Gallery</a>
+                  <a href="/contact" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Contact</a>
+                </div>
               </div>
             </div>
-          </motion.footer>
+          </footer>
         )}
       </main>
 
