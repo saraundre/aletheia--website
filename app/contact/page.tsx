@@ -171,7 +171,7 @@ export default function Contact() {
       )}
 
       {/* Main Content */}
-      <main className="pt-24 pb-16 md:pb-8 pb-8">
+      <main className="pt-24 pb-16 md:pb-8">
         {/* Header Section */}
         <section className="max-w-2xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-normal tracking-tight leading-tight mb-8">Get In Touch</h1>
