@@ -139,10 +139,10 @@ export default function Component() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, duration: 1 }}
-            className="max-w-5xl mx-auto px-6 py-16"
+            className="max-w-5xl mx-auto px-6 py-3"
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="text-sm font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
+              <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
               <div className="flex space-x-2 text-sm font-normal tracking-wide text-neutral-600">
                 {[
                   { href: "/stem-for-all", label: "Stem for All" },

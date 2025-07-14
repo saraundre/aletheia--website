@@ -437,9 +437,9 @@ export default function Tech4All() {
 
       {/* Footer */}
       <footer className="fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
+            <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
             <div className="flex space-x-2 text-sm font-normal tracking-wide text-neutral-600">
               <Link
                 href="/stem-for-all"
