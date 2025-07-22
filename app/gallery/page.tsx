@@ -110,6 +110,43 @@ export default function Gallery() {
         "Dr. Sein delivers the official opening speech for our charity drive collaboration with NTU Leadership Development Programme at Maker Festival 2025.",
       speaker: "Dr. Sein - Founder of STEM for ALL Charity Drive with NTU LDP 2025",
     },
+    // Photo gallery items from Maker Festival 2024
+    {
+      id: 8,
+      type: "photo",
+      src: "/gallery/photos/events/STEM for All x Maker Festival 2024.jpg",
+      title: "STEM for All x Maker Festival 2024 - Main Event",
+      description:
+        "A vibrant showcase of our collaboration at the Maker Festival 2024, featuring interactive STEM demonstrations and community engagement activities.",
+      speaker: "STEM for All Team and Community Partners",
+    },
+    {
+      id: 9,
+      type: "photo",
+      src: "/gallery/photos/events/STEM for All x Maker Festival 2024 (2).JPG",
+      title: "Maker Festival 2024 - Interactive Workshops",
+      description:
+        "Students and educators participating in hands-on STEM workshops, demonstrating the practical application of robotics and technology education.",
+      speaker: "Workshop Participants and STEM Educators",
+    },
+    {
+      id: 10,
+      type: "photo",
+      src: "/gallery/photos/events/STEM for All x Maker Festival 2024 (3).JPG",
+      title: "Community Engagement at Maker Festival 2024",
+      description:
+        "Community members exploring our STEM exhibits and learning about the impact of technology education on youth development.",
+      speaker: "Community Members and STEM for All Volunteers",
+    },
+    {
+      id: 11,
+      type: "photo",
+      src: "/gallery/photos/events/STEM for All x Maker Festival 2024 (4).jpg",
+      title: "Maker Festival 2024 - Closing Celebration",
+      description:
+        "The successful conclusion of our Maker Festival 2024 collaboration, celebrating the achievements and connections made during the event.",
+      speaker: "All Participants and Organizers",
+    },
   ]
 
   return (
@@ -187,7 +224,7 @@ export default function Gallery() {
         <section className="max-w-3xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-normal tracking-tight leading-tight mb-8">Stories in Motion</h1>
           <p className="text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
-            Watch our journey unfold through conversations with educators, innovators, and the communities we serve.
+            Watch our journey unfold through conversations with educators, innovators, and the communities we serve. Explore our photo gallery capturing memorable moments from events and workshops.
           </p>
         </section>
 
@@ -198,7 +235,7 @@ export default function Gallery() {
               <div key={item.id} className="space-y-6">
                 {/* Media Container */}
                 <div className="relative aspect-video bg-neutral-200 overflow-hidden rounded-lg">
-                  {activeVideo === item.id ? (
+                  {item.type === "video" && activeVideo === item.id ? (
                     // Embedded Video
                     <div className="relative w-full h-full">
                       <iframe
@@ -216,8 +253,8 @@ export default function Gallery() {
                         <X className="w-4 h-4 text-white" />
                       </button>
                     </div>
-                  ) : (
-                    // Thumbnail with Play Button
+                  ) : item.type === "video" ? (
+                    // Video Thumbnail with Play Button
                     <div 
                       className="relative w-full h-full group cursor-pointer"
                       onClick={() => handleVideoClick(item.id)}
@@ -234,6 +271,17 @@ export default function Gallery() {
                         </div>
                       </div>
                     </div>
+                  ) : (
+                    // Photo Display
+                    <div className="relative w-full h-full group">
+                      <img
+                        src={item.src || "/placeholder.svg"}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      {/* Photo Overlay */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                    </div>
                   )}
                 </div>
 
@@ -242,7 +290,7 @@ export default function Gallery() {
                   <div className="flex items-start justify-between">
                     <h3 className="text-xl md:text-2xl font-normal tracking-wide leading-tight pr-4">{item.title}</h3>
                     <span className="text-xs uppercase tracking-wider text-neutral-500 border border-neutral-300 px-2 py-1 rounded-full whitespace-nowrap">
-                      VIDEO
+                      {item.type === "video" ? "VIDEO" : "PHOTO"}
                     </span>
                   </div>
                   <p className="text-base leading-relaxed tracking-wide text-neutral-600">{item.description}</p>

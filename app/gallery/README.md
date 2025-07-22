@@ -1,6 +1,6 @@
-# Gallery Videos
+# Gallery - Videos and Photos
 
-This directory contains the gallery page showcasing our video content. Below is the complete list of videos featured in the gallery with their corresponding YouTube links.
+This directory contains the gallery page showcasing our video content and photo collections. The gallery now features both video interviews and photo documentation of our events and activities.
 
 ## Video Collection
 
@@ -67,21 +67,56 @@ This directory contains the gallery page showcasing our video content. Below is 
 
 ---
 
+## Photo Collection
+
+### Maker Festival 2024 Event Photos
+
+The gallery now includes a collection of photos from our collaboration at the Maker Festival 2024, showcasing the interactive nature of our STEM education initiatives.
+
+#### 1. STEM for All x Maker Festival 2024 - Main Event
+**File:** `STEM for All x Maker Festival 2024.jpg`
+**Description:** A vibrant showcase of our collaboration at the Maker Festival 2024, featuring interactive STEM demonstrations and community engagement activities.
+
+#### 2. Maker Festival 2024 - Interactive Workshops
+**File:** `STEM for All x Maker Festival 2024 (2).JPG`
+**Description:** Students and educators participating in hands-on STEM workshops, demonstrating the practical application of robotics and technology education.
+
+#### 3. Community Engagement at Maker Festival 2024
+**File:** `STEM for All x Maker Festival 2024 (3).JPG`
+**Description:** Community members exploring our STEM exhibits and learning about the impact of technology education on youth development.
+
+#### 4. Maker Festival 2024 - Closing Celebration
+**File:** `STEM for All x Maker Festival 2024 (4).jpg`
+**Description:** The successful conclusion of our Maker Festival 2024 collaboration, celebrating the achievements and connections made during the event.
+
+---
+
 ## Technical Implementation
 
+### Video Features
 - **Video Thumbnails:** Automatically generated using YouTube's thumbnail API (`https://img.youtube.com/vi/{VIDEO_ID}/maxresdefault.jpg`)
 - **Embedded Playback:** Videos play directly on the page using YouTube's embed API
 - **Interactive Controls:** Click to play/pause, close button to return to thumbnail view
+
+### Photo Features
+- **Photo Display:** High-quality photos with hover effects and smooth transitions
+- **Responsive Images:** Photos adapt to different screen sizes while maintaining aspect ratio
+- **Optimized Loading:** Photos are served from the local `/public/gallery/photos/` directory
+
+### General Features
 - **Responsive Design:** Gallery adapts to different screen sizes
 - **Accessibility:** Proper alt text, ARIA labels, and keyboard navigation support
+- **Mixed Content:** Seamless integration of videos and photos in the same gallery layout
 
 ## User Experience
 
-The gallery provides an immersive video experience:
-- **Thumbnail View:** High-quality thumbnails with play button overlay
-- **Embedded Playback:** Videos play directly on the page without leaving the gallery
+The gallery provides an immersive multimedia experience:
+- **Video Thumbnail View:** High-quality thumbnails with play button overlay
+- **Video Embedded Playback:** Videos play directly on the page without leaving the gallery
+- **Photo Display:** High-quality photos with subtle hover effects
 - **Easy Navigation:** Close button allows users to return to thumbnail view
 - **Responsive Layout:** Works seamlessly on desktop, tablet, and mobile devices
+- **Mixed Content:** Videos and photos are displayed in a unified, consistent layout
 
 ## Usage
 
@@ -98,7 +133,20 @@ The gallery page is accessible at `/gallery` and displays all videos in a respon
 3. Video plays directly on the page
 4. Click 'X' button to close video and return to thumbnail
 
-To add new videos:
+### Photo Interaction Flow:
+1. User sees photo with subtle hover effect
+2. Photo scales slightly on hover for enhanced interaction
+3. Photos are displayed at full quality without additional controls
+
+### Adding New Content:
+
+**To add new videos:**
 1. Update the `galleryItems` array in `app/gallery/page.tsx`
 2. Add the new video information to this README
-3. Ensure the YouTube link follows the format `https://youtu.be/{VIDEO_ID}` 
+3. Ensure the YouTube link follows the format `https://youtu.be/{VIDEO_ID}`
+
+**To add new photos:**
+1. Upload photos to the appropriate subdirectory in `public/gallery/photos/`
+2. Update the `galleryItems` array in `app/gallery/page.tsx` with type: "photo"
+3. Add the new photo information to this README
+4. Ensure photos follow the naming convention and quality guidelines 
