@@ -31,7 +31,14 @@ export default function Gallery() {
   }
 
   const getYouTubeEmbedUrl = (url: string) => {
-    const videoId = url.split('/').pop()
+    let videoId = ''
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1].split('?')[0]
+    } else if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1].split('&')[0]
+    } else {
+      videoId = url.split('/').pop() || ''
+    }
     return `https://www.youtube.com/embed/${videoId}?autoplay=1`
   }
 
@@ -146,6 +153,16 @@ export default function Gallery() {
       description:
         "The successful conclusion of our Maker Festival 2024 collaboration, celebrating the achievements and connections made during the event.",
       speaker: "All Participants and Organizers",
+    },
+    {
+      id: 12,
+      type: "video",
+      src: "https://img.youtube.com/vi/EoqljUsniQg/hqdefault.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=EoqljUsniQg",
+      title: "Kid's first encounter with Sparkie",
+      description:
+        "Watch the magical moment as children meet Sparkie for the first time, experiencing the wonder of interactive technology and robotics education.",
+      speaker: "STEM for All Team and Community Participants",
     },
   ]
 
@@ -263,6 +280,12 @@ export default function Gallery() {
                         src={item.src || "/placeholder.svg"}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          if (target.src !== "/placeholder.svg") {
+                            target.src = "/placeholder.svg";
+                          }
+                        }}
                       />
                       {/* Video Play Button Overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
@@ -278,6 +301,12 @@ export default function Gallery() {
                         src={item.src || "/placeholder.svg"}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          if (target.src !== "/placeholder.svg") {
+                            target.src = "/placeholder.svg";
+                          }
+                        }}
                       />
                       {/* Photo Overlay */}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
