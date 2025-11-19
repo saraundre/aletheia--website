@@ -164,6 +164,42 @@ export default function Gallery() {
         "Watch the magical moment as children meet Sparkie for the first time, experiencing the wonder of interactive technology and robotics education.",
       speaker: "STEM for All Team and Community Participants",
     },
+    {
+      id: 13,
+      type: "photo",
+      src: "/gallery/photos/events/SparkOS x Ugly duck school Yunan 2025.jpg",
+      title: "STEM for All x SparkOS trailblazing in China, Yunnan. 2025",
+      description:
+        "STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.",
+      speaker: "STEM for All x SparkOS Team and Ugly Duckling School, Yunnan",
+    },
+    {
+      id: 14,
+      type: "photo",
+      src: "/gallery/photos/events/SparkOS x Yuegu Foshan 2025.jpg",
+      title: "STEM for All x SparkOS Kiai in China, Foshan. 2025",
+      description:
+        "STEM for All x SparkOS at community spaces for good. Designed to foster social connections, provide skill training and ensure sustainable community empowerment. A collaboration with Yuegu, Foshan.",
+      speaker: "STEM for All x SparkOS Team and Yuegu, Foshan",
+    },
+    {
+      id: 15,
+      type: "photo",
+      src: "/gallery/photos/events/SparkOS x STEM for All x Maker Festival 2025 Guangzhou.jpg.jpg",
+      title: "Maker Faire 2025, China Guangzhou. 2025",
+      description:
+        "STEM for All at Maker Faire 2025, Guangzhou to share about inclusivity, equitable quality education and learning opportunities for all.",
+      speaker: "STEM for All Team at Maker Faire 2025, Guangzhou",
+    },
+    {
+      id: 16,
+      type: "photo",
+      src: "/gallery/photos/events/SparkOS x Beijing 2025.jpg",
+      title: "STEM for All x SparkOS at China, Beijing. 2025",
+      description:
+        "\"Individually, we are one drop. Together, we are an ocean\", says Ryunosuke Satoro. STEM for All x SparkOS is part of United Nations Sustainable Development Goals to create an immense and powerful impact for people and planet (animals included). A collaboration with Zhengxin, Beijing.",
+      speaker: "STEM for All x SparkOS Team and Zhengxin, Beijing",
+    },
   ]
 
   return (
@@ -252,7 +288,7 @@ export default function Gallery() {
               <div key={item.id} className="space-y-6">
                 {/* Media Container */}
                 <div className="relative aspect-video bg-neutral-200 overflow-hidden rounded-lg">
-                  {item.type === "video" && activeVideo === item.id ? (
+                  {item.type === "video" && activeVideo === item.id && item.videoUrl ? (
                     // Embedded Video
                     <div className="relative w-full h-full">
                       <iframe
@@ -277,13 +313,14 @@ export default function Gallery() {
                       onClick={() => handleVideoClick(item.id)}
                     >
                       <img
-                        src={item.src || "/placeholder.svg"}
+                        src={item.src || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3EImage Loading...%3C/text%3E%3C/svg%3E"}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          if (target.src !== "/placeholder.svg") {
-                            target.src = "/placeholder.svg";
+                          const placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23666'%3EImage Coming Soon%3C/text%3E%3C/svg%3E";
+                          if (!target.src.includes('data:image/svg+xml')) {
+                            target.src = placeholder;
                           }
                         }}
                       />
@@ -298,13 +335,14 @@ export default function Gallery() {
                     // Photo Display
                     <div className="relative w-full h-full group">
                       <img
-                        src={item.src || "/placeholder.svg"}
+                        src={item.src || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3EImage Loading...%3C/text%3E%3C/svg%3E"}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          if (target.src !== "/placeholder.svg") {
-                            target.src = "/placeholder.svg";
+                          const placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23666'%3EImage Coming Soon%3C/text%3E%3C/svg%3E";
+                          if (!target.src.includes('data:image/svg+xml')) {
+                            target.src = placeholder;
                           }
                         }}
                       />

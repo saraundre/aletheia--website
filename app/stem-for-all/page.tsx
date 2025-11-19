@@ -167,6 +167,38 @@ export default function StemForAll() {
           </div>
         </section>
 
+        {/* Yunnan Collaboration Section */}
+        <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+          <div className="text-center space-y-8">
+            {/* Main Title */}
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-neutral-900">
+              STEM for All x SparkOS trailblazing in China, Yunnan.
+            </h2>
+            <p className="text-xl md:text-2xl font-normal tracking-wide text-neutral-600 mt-2">
+              2025
+            </p>
+
+            {/* Subtitle */}
+            <div className="pt-8 max-w-3xl mx-auto">
+              <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
+                STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.
+              </p>
+            </div>
+
+            {/* Divider */}
+            <div className="flex justify-center mt-12">
+              <div className="w-24 h-px bg-neutral-300"></div>
+            </div>
+          </div>
+        </section>
+
+        {/* Divider */}
+        <section className="max-w-4xl mx-auto px-6 py-16">
+          <div className="flex justify-center">
+            <div className="w-px h-24 bg-neutral-300"></div>
+          </div>
+        </section>
+
         {/* Join the Movement Section */}
         <section className="max-w-3xl mx-auto px-6 py-16 md:py-24">
           <div className="text-center space-y-6">
