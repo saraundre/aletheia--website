@@ -42,6 +42,18 @@ export default function Gallery() {
     return `https://www.youtube.com/embed/${videoId}?autoplay=1`
   }
 
+  // Helper to encode image paths with special characters
+  const getImagePath = (path: string) => {
+    // Only encode the filename part, keep path separators intact
+    const lastSlashIndex = path.lastIndexOf('/')
+    if (lastSlashIndex === -1) {
+      return encodeURIComponent(path)
+    }
+    const dirPath = path.substring(0, lastSlashIndex + 1)
+    const filename = path.substring(lastSlashIndex + 1)
+    return dirPath + encodeURIComponent(filename)
+  }
+
   // Real gallery content based on provided images
   const galleryItems = [
     {
@@ -167,7 +179,7 @@ export default function Gallery() {
     {
       id: 13,
       type: "photo",
-      src: "/gallery/photos/events/SparkOS x Ugly duck school Yunan 2025.jpg",
+      src: "/gallery/photos/events/SparkOS x Ugly duck school Yunan\u00A02025.jpg",
       title: "STEM for All x SparkOS trailblazing in China, Yunnan. 2025",
       description:
         "STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.",
@@ -176,7 +188,7 @@ export default function Gallery() {
     {
       id: 14,
       type: "photo",
-      src: "/gallery/photos/events/SparkOS x Yuegu Foshan 2025.jpg",
+      src: "/gallery/photos/events/SparkOS x Yuegu Foshan\u00A02025.jpg",
       title: "STEM for All x SparkOS Kiai in China, Foshan. 2025",
       description:
         "STEM for All x SparkOS at community spaces for good. Designed to foster social connections, provide skill training and ensure sustainable community empowerment. A collaboration with Yuegu, Foshan.",
@@ -194,7 +206,7 @@ export default function Gallery() {
     {
       id: 16,
       type: "photo",
-      src: "/gallery/photos/events/SparkOS x Beijing 2025.jpg",
+      src: "/gallery/photos/events/SparkOS x Beijing\u00A02025.jpg",
       title: "STEM for All x SparkOS at China, Beijing. 2025",
       description:
         "\"Individually, we are one drop. Together, we are an ocean\", says Ryunosuke Satoro. STEM for All x SparkOS is part of United Nations Sustainable Development Goals to create an immense and powerful impact for people and planet (animals included). A collaboration with Zhengxin, Beijing.",
@@ -335,7 +347,7 @@ export default function Gallery() {
                     // Photo Display
                     <div className="relative w-full h-full group">
                       <img
-                        src={item.src || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3EImage Loading...%3C/text%3E%3C/svg%3E"}
+                        src={item.src ? getImagePath(item.src) : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3EImage Loading...%3C/text%3E%3C/svg%3E"}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         onError={(e) => {
