@@ -94,19 +94,19 @@ The gallery now includes a collection of photos from our collaboration at the Ma
 ### China Collaborations 2025
 
 #### 1. STEM for All x SparkOS trailblazing in China, Yunnan. 2025
-**File:** `STEM for All x SparkOS China Yunnan 2025.jpg`
+**File:** `SparkOS x Ugly duck school Yunan 2025.jpg`
 **Description:** STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.
 
 #### 2. STEM for All x SparkOS Kiai in China, Foshan. 2025
-**File:** `STEM for All x SparkOS Kiai China Foshan 2025.jpg`
+**File:** `SparkOS x Yuegu Foshan 2025.jpg`
 **Description:** STEM for All x SparkOS at community spaces for good. Designed to foster social connections, provide skill training and ensure sustainable community empowerment. A collaboration with Yuegu, Foshan.
 
 #### 3. Maker Faire 2025, China Guangzhou. 2025
-**File:** `Maker Faire 2025 China Guangzhou.jpg`
+**File:** `SparkOS x STEM for All x Maker Festival 2025 Guangzhou.jpg.jpg`
 **Description:** STEM for All at Maker Faire 2025, Guangzhou to share about inclusivity, equitable quality education and learning opportunities for all.
 
 #### 4. STEM for All x SparkOS at China, Beijing. 2025
-**File:** `STEM for All x SparkOS China Beijing 2025.jpg`
+**File:** `SparkOS x Beijing 2025.jpg`
 **Description:** "Individually, we are one drop. Together, we are an ocean", says Ryunosuke Satoro. STEM for All x SparkOS is part of United Nations Sustainable Development Goals to create an immense and powerful impact for people and planet (animals included). A collaboration with Zhengxin, Beijing.
 
 ---
