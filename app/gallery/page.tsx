@@ -180,7 +180,7 @@ export default function Gallery() {
       id: 13,
       type: "photo",
       src: "/gallery/photos/events/SparkOS x Ugly duck school Yunan\u00A02025.jpg",
-      title: "STEM for All x SparkOS trailblazing in China, Yunnan. 2025",
+      title: "SparkOS Team at Maker Faire 2025, Guangzhou",
       description:
         "STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.",
       speaker: "STEM for All x SparkOS Team and Ugly Duckling School, Yunnan",
@@ -198,7 +198,7 @@ export default function Gallery() {
       id: 15,
       type: "photo",
       src: "/gallery/photos/events/SparkOS x STEM for All x Maker Festival 2025 Guangzhou.jpg.jpg",
-      title: "Maker Faire 2025, China Guangzhou. 2025",
+      title: "SparkOS Team at Maker Faire 2025, Guangzhou",
       description:
         "STEM for All at Maker Faire 2025, Guangzhou to share about inclusivity, equitable quality education and learning opportunities for all.",
       speaker: "STEM for All Team at Maker Faire 2025, Guangzhou",
