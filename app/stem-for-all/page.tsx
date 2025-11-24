@@ -153,6 +153,16 @@ export default function StemForAll() {
               Supporting accessible and inclusive learning for the under-resourced, neurodivergent and physically challenged.
             </p>
 
+            {/* Call to Action */}
+            <div className="pt-8 flex justify-center">
+              <Link
+                href="/gallery"
+                className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
+              >
+                See Us in Action
+              </Link>
+            </div>
+
             {/* Divider */}
             <div className="flex justify-center mt-12">
               <div className="w-24 h-px bg-neutral-300"></div>
