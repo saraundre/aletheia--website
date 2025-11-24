@@ -177,6 +177,15 @@ export default function Gallery() {
       speaker: "STEM for All Team and Community Participants",
     },
     {
+      id: 13,
+      type: "photo",
+      src: "/gallery/photos/events/SparkOS x Ugly duck school Yunan\u00A02025.jpg",
+      title: "STEM for All x SparkOS Trailblazing in China, Yunnan. 2025",
+      description:
+        "STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.",
+      speaker: "STEM for All x SparkOS Team and Ugly Duckling School, Yunnan",
+    },
+    {
       id: 14,
       type: "photo",
       src: "/gallery/photos/events/SparkOS x Yuegu Foshan\u00A02025.jpg",

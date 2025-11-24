@@ -93,7 +93,7 @@ The gallery now includes a collection of photos from our collaboration at the Ma
 
 ### China Collaborations 2025
 
-#### 1. STEM for All x SparkOS trailblazing in China, Yunnan. 2025
+#### 1. STEM for All x SparkOS Trailblazing in China, Yunnan. 2025
 **File:** `SparkOS x Ugly duck school Yunan 2025.jpg`
 **Description:** STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.
 
