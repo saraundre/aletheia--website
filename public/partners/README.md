@@ -9,7 +9,7 @@ The following organizations are listed in the CollaboratorsCarousel component:
 - Science Centre Singapore
 - National Library Board
 - Rakuten Asia
-- Child Street 11
+- Child at Street 11
 - Mom Don't Cry Foundation
 - National University Singapore
 - MakeIT at Libraries

@@ -75,7 +75,7 @@ export default function Gallery() {
       title: "STEM for All: Equitable Learning",
       description:
         "Discover how we're making STEM education accessible to every student through innovative partnerships and community outreach.",
-      speaker: "Steve Tung — Child Street 11, Head Marketing & Sustainable Sponsorships",
+      speaker: "Steve Tung — Child at Street 11, Head Marketing & Sustainable Sponsorships",
     },
     {
       id: 3,
@@ -103,10 +103,10 @@ export default function Gallery() {
       type: "video",
       src: "https://img.youtube.com/vi/jwfFaKxnsGY/hqdefault.jpg",
       videoUrl: "https://youtu.be/jwfFaKxnsGY",
-      title: "Child Street 11 Kids: Inspiring Journeys",
+      title: "Child at Street 11 Kids: Inspiring Journeys",
       description:
         "Follow the inspiring journeys of children from Street 11 as they discover new possibilities through STEM education and community support.",
-      speaker: "Featuring children and educators from the Child Street 11 program",
+      speaker: "Featuring children and educators from the Child at Street 11 program",
     },
     {
       id: 6,
@@ -134,9 +134,9 @@ export default function Gallery() {
       id: 8,
       type: "photo",
       src: "/gallery/photos/events/STEM for All x Maker Festival 2024.jpg",
-      title: "STEM for All x Maker Festival 2024 - Main Event",
+      title: "Suncare: Engaging with Scratch",
       description:
-        "A vibrant showcase of our collaboration at the Maker Festival 2024, featuring interactive STEM demonstrations and community engagement activities.",
+        "Learning through play, where the workshop merges block-based programming with imaginative, creative thinking to spark curiosity and confidence in every learner.",
       speaker: "STEM for All Team and Community Partners",
     },
     {
@@ -171,19 +171,10 @@ export default function Gallery() {
       type: "video",
       src: "https://img.youtube.com/vi/EoqljUsniQg/hqdefault.jpg",
       videoUrl: "https://www.youtube.com/watch?v=EoqljUsniQg",
-      title: "Kid's first encounter with Sparkie",
+      title: "In Conversation with Sparkie",
       description:
-        "Watch the magical moment as children meet Sparkie for the first time, experiencing the wonder of interactive technology and robotics education.",
+        "See the twinkle in their eyes as Sparkie turns simple questions into a luminous journey of curiosity, insight, and discovery.",
       speaker: "STEM for All Team and Community Participants",
-    },
-    {
-      id: 13,
-      type: "photo",
-      src: "/gallery/photos/events/SparkOS x Ugly duck school Yunan\u00A02025.jpg",
-      title: "STEM for All x SparkOS trailblazing in China, Yunnan. 2025",
-      description:
-        "STEM for All x SparkOS is on a mission to create a global community, one relationship at a time. We are on track to make a difference for neurodivergent, under resourced and minority communities. A collaboration with Ugly Duckling School, Yunnan.",
-      speaker: "STEM for All x SparkOS Team and Ugly Duckling School, Yunnan",
     },
     {
       id: 14,

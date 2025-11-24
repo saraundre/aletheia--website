@@ -27,7 +27,7 @@ function CollaboratorsCarousel() {
       image: "/partners/rakuten-asia.svg"
     },
     {
-      name: "Child Street 11",
+      name: "Child at Street 11",
       image: "/partners/child-at-street-11.png"
     },
     {

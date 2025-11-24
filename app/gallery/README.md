@@ -18,7 +18,7 @@ This directory contains the gallery page showcasing our video content and photo 
 
 **Description:** Discover how we're making STEM education accessible to every student through innovative partnerships and community outreach.
 
-**Speaker:** Steve Tung — Child Street 11, Head Marketing & Sustainable Sponsorships
+**Speaker:** Steve Tung — Child at Street 11, Head Marketing & Sustainable Sponsorships
 
 ---
 
@@ -40,12 +40,12 @@ This directory contains the gallery page showcasing our video content and photo 
 
 ---
 
-### 5. Child Street 11 Kids: Inspiring Journeys
+### 5. Child at Street 11 Kids: Inspiring Journeys
 **YouTube Link:** https://youtu.be/jwfFaKxnsGY
 
 **Description:** Follow the inspiring journeys of children from Street 11 as they discover new possibilities through STEM education and community support.
 
-**Speaker:** Featuring children and educators from the Child Street 11 program
+**Speaker:** Featuring children and educators from the Child at Street 11 program
 
 ---
 
