@@ -286,9 +286,7 @@ export default function About() {
               />
             </div>
             <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
-              Aletheia is a multi-channel communications firm<br />
-              with full stack event management and broadcast capabilities.<br />
-              We focus on technology, nonprofit, and sustainability.
+              Aletheia is a government-aligned, research-driven EdTech ecosystem integrating national STEM education, university R&D, charitable impact programmes, and innovation initiatives. We operate as both a technology implementation partner and a national ecosystem enabler—aligning public institutions, academia, and industry to advance scalable, sustainable innovation.
             </p>
             <div>
               <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic mb-4">
