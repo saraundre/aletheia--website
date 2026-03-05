@@ -10,11 +10,11 @@ export default function StemForAll() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showFooter, setShowFooter] = useState(false);
   const [hasHeroTyped, setHasHeroTyped] = useState(false)
-  const [hasScopeTyped, setHasScopeTyped] = useState(false)
   const [heroTypedTitle, setHeroTypedTitle] = useState("")
-  const [scopeTypedTitle, setScopeTypedTitle] = useState("")
   const heroRef = useRef<HTMLElement | null>(null)
   const scopeRef = useRef<HTMLElement | null>(null)
+  const scopePanelsRef = useRef<Array<HTMLElement | null>>([])
+  const scopeWheelLockRef = useRef(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +51,6 @@ export default function StemForAll() {
   })
 
   const HERO_TITLE = "STEM for All"
-  const SCOPE_TITLE = "Research-backed learning. Inclusive by design."
 
   const heroY = useTransform(
     heroProgress,
@@ -62,17 +61,14 @@ export default function StemForAll() {
   const scopeTilt = useTransform(
     scopeProgress,
     [0, 0.5, 1],
-    prefersReducedMotion ? [0, 0, 0] : [0.8, 0, -0.8]
+    prefersReducedMotion ? [0, 0, 0] : [0.7, 0, -0.7]
   )
 
   const scopeScale = useTransform(
     scopeProgress,
     [0, 0.5, 1],
-    prefersReducedMotion ? [1, 1, 1] : [0.985, 1.01, 0.99]
+    prefersReducedMotion ? [1, 1, 1] : [0.995, 1.005, 0.995]
   )
-
-  const topOrbY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -120])
-  const bottomOrbY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 120])
 
   const revealItem = {
     hidden: {
@@ -85,6 +81,22 @@ export default function StemForAll() {
       y: 0,
       filter: "blur(0px)",
       transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+    },
+  }
+
+  const revealPanel = {
+    hidden: {
+      opacity: 0,
+      y: prefersReducedMotion ? 0 : 46,
+      scale: prefersReducedMotion ? 1 : 0.988,
+      filter: prefersReducedMotion ? "blur(0px)" : "blur(10px)",
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)",
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
     },
   }
 
@@ -112,14 +124,14 @@ export default function StemForAll() {
     },
   }
 
+  const panelViewport = { once: false, amount: 0.52 }
+
   useEffect(() => {
     if (prefersReducedMotion) {
       setHeroTypedTitle(HERO_TITLE)
-      setScopeTypedTitle(SCOPE_TITLE)
       setHasHeroTyped(true)
-      setHasScopeTyped(true)
     }
-  }, [prefersReducedMotion, HERO_TITLE, SCOPE_TITLE])
+  }, [prefersReducedMotion, HERO_TITLE])
 
   useEffect(() => {
     if (!hasHeroTyped || prefersReducedMotion) {
@@ -138,23 +150,209 @@ export default function StemForAll() {
   }, [hasHeroTyped, prefersReducedMotion, HERO_TITLE])
 
   useEffect(() => {
-    if (!hasScopeTyped || prefersReducedMotion) {
+    if (prefersReducedMotion) {
       return
     }
-    let index = 0
-    const intervalId = setInterval(() => {
-      index += 1
-      setScopeTypedTitle(SCOPE_TITLE.slice(0, index))
-      if (index >= SCOPE_TITLE.length) {
-        clearInterval(intervalId)
-      }
-    }, 18)
 
-    return () => clearInterval(intervalId)
-  }, [hasScopeTyped, prefersReducedMotion, SCOPE_TITLE])
+    const shouldEnableDesktopSnap = window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches
+    if (!shouldEnableDesktopSnap) {
+      return
+    }
+
+    const handleWheel = (event: WheelEvent) => {
+      const section = scopeRef.current
+      if (!section) {
+        return
+      }
+
+      const sectionRect = section.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const isWithinStemPanels =
+        sectionRect.top < viewportHeight * 0.5 && sectionRect.bottom > viewportHeight * 0.5
+
+      if (!isWithinStemPanels) {
+        return
+      }
+
+      const panels = scopePanelsRef.current.filter((panel): panel is HTMLElement => panel !== null)
+      if (panels.length === 0) {
+        return
+      }
+
+      const direction = Math.sign(event.deltaY)
+      if (direction === 0) {
+        return
+      }
+
+      const firstPanelRect = panels[0].getBoundingClientRect()
+      const lastPanelRect = panels[panels.length - 1].getBoundingClientRect()
+      const entrySnapOffset = viewportHeight * 0.08
+      const enteringStemFromTop = direction > 0 && firstPanelRect.top > entrySnapOffset
+      const enteringStemFromBottom =
+        direction < 0 && lastPanelRect.bottom < viewportHeight - entrySnapOffset
+
+      if (enteringStemFromTop) {
+        if (scopeWheelLockRef.current) {
+          event.preventDefault()
+          return
+        }
+
+        event.preventDefault()
+        scopeWheelLockRef.current = true
+        panels[0].scrollIntoView({ behavior: "smooth", block: "start" })
+
+        window.setTimeout(() => {
+          scopeWheelLockRef.current = false
+        }, 650)
+        return
+      }
+
+      if (enteringStemFromBottom) {
+        if (scopeWheelLockRef.current) {
+          event.preventDefault()
+          return
+        }
+
+        event.preventDefault()
+        scopeWheelLockRef.current = true
+        panels[panels.length - 1].scrollIntoView({ behavior: "smooth", block: "start" })
+
+        window.setTimeout(() => {
+          scopeWheelLockRef.current = false
+        }, 650)
+        return
+      }
+
+      let activeIndex = 0
+      let nearestDistance = Number.POSITIVE_INFINITY
+      for (let index = 0; index < panels.length; index += 1) {
+        const rect = panels[index].getBoundingClientRect()
+        const center = rect.top + rect.height / 2
+        const distance = Math.abs(center - viewportHeight / 2)
+        if (distance < nearestDistance) {
+          nearestDistance = distance
+          activeIndex = index
+        }
+      }
+
+      const nextIndex =
+        direction > 0
+          ? Math.min(activeIndex + 1, panels.length - 1)
+          : Math.max(activeIndex - 1, 0)
+
+      if (nextIndex === activeIndex) {
+        return
+      }
+
+      if (scopeWheelLockRef.current) {
+        event.preventDefault()
+        return
+      }
+
+      event.preventDefault()
+      scopeWheelLockRef.current = true
+      panels[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" })
+
+      window.setTimeout(() => {
+        scopeWheelLockRef.current = false
+      }, 650)
+    }
+
+    window.addEventListener("wheel", handleWheel, { passive: false })
+    return () => {
+      window.removeEventListener("wheel", handleWheel)
+    }
+  }, [prefersReducedMotion])
 
   const heroTypingActive = !prefersReducedMotion && hasHeroTyped && heroTypedTitle.length < HERO_TITLE.length
-  const scopeTypingActive = !prefersReducedMotion && hasScopeTyped && scopeTypedTitle.length < SCOPE_TITLE.length
+  const stemExperienceItems = [
+    {
+      title: "Hands-on STEM activities",
+      description: "robotics, logic thinking, creative exploration",
+      icon: Microscope,
+    },
+    {
+      title: "AI-assisted adaptive learning",
+      description: "powered by SparkOS",
+      icon: Target,
+    },
+    {
+      title: "Emotion-aware learning support",
+      description: "behaviour-responsive guidance",
+      icon: Heart,
+    },
+    {
+      title: "Small-group guidance",
+      description: "in a safe, low-stress environment",
+      icon: Handshake,
+    },
+  ]
+
+  const stemOutcomeItems = [
+    "Increased curiosity and creativity",
+    "Stronger confidence and motivation",
+    "Improved problem-solving skills",
+    "A positive, supportive learning experience",
+  ]
+
+  const collaboratorLogos = [
+    {
+      name: "Aletheia EdTech R&D Singapore",
+      src: "/logos/aletheia-logo.png",
+      width: 172,
+      height: 52,
+    },
+    {
+      name: "SparkOS Education Ecosystem",
+      src: "/logos/sparkos-wordmark.svg",
+      iconSrc: "/logos/sparkos-icon.svg",
+      width: 182,
+      height: 48,
+      iconWidth: 38,
+      iconHeight: 38,
+    },
+    {
+      name: "Nanyang Technological University (NTU), Singapore",
+      src: "/logos/ntu-wordmark.svg",
+      width: 228,
+      height: 72,
+    },
+    {
+      name: "Robotics Games Society (RGS)",
+      src: "/logos/rgs-logo.svg",
+      width: 186,
+      height: 72,
+    },
+  ]
+  const renderCollaboratorCard = (collaborator: typeof collaboratorLogos[number], key: string) => (
+    <article
+      key={key}
+      className="border border-neutral-300/90 rounded-xl bg-white/95 px-5 py-6 text-center space-y-4 h-full min-h-[210px] shadow-[0_10px_24px_rgba(0,0,0,0.04)]"
+      aria-label={collaborator.name}
+    >
+      <div className="flex flex-col items-center justify-center gap-2.5 min-h-[104px]">
+        {collaborator.iconSrc && (
+          <Image
+            src={collaborator.iconSrc}
+            alt="SparkOS icon"
+            width={(collaborator.iconWidth ?? 0) + 4}
+            height={(collaborator.iconHeight ?? 0) + 4}
+            className="object-contain h-10 w-10"
+          />
+        )}
+        <Image
+          src={collaborator.src}
+          alt={`${collaborator.name} logo`}
+          width={collaborator.width}
+          height={collaborator.height}
+          className="object-contain w-auto h-auto max-h-20"
+        />
+      </div>
+      <p className="text-sm md:text-base font-normal leading-relaxed tracking-normal text-neutral-700">
+        {collaborator.name}
+      </p>
+    </article>
+  )
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
@@ -339,7 +537,7 @@ export default function StemForAll() {
             >
               <Link
                 href="/gallery"
-                className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
+                className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
               >
                 See Us in Action
               </Link>
@@ -359,197 +557,250 @@ export default function StemForAll() {
           </div>
         </section>
 
-        {/* STEMforALL Programme Scope */}
-        <section ref={scopeRef} className="max-w-6xl mx-auto px-6 py-8 md:py-12">
+        {/* STEMforALL Programme Details */}
+        <section ref={scopeRef} className="max-w-5xl mx-auto px-6">
           <motion.div
-            className="relative rounded-3xl border border-neutral-200 bg-gradient-to-b from-white to-neutral-100/70 px-5 py-8 md:px-10 md:py-12 shadow-sm overflow-hidden"
+            className="relative overflow-hidden"
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.12 }}
+            viewport={{ once: true, amount: 0.15 }}
             style={{ rotate: scopeTilt, scale: scopeScale }}
-            onViewportEnter={() => {
-              if (!hasScopeTyped) {
-                setScopeTypedTitle(SCOPE_TITLE.slice(0, 1))
-                setHasScopeTyped(true)
-              }
-            }}
           >
-            <motion.div
-              className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-neutral-200/40 blur-3xl"
-              style={{ y: topOrbY }}
-            />
-            <motion.div
-              className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-neutral-200/35 blur-3xl"
-              style={{ y: bottomOrbY }}
-            />
-
-            <div className="relative space-y-8 md:space-y-10">
-              <motion.div className="text-center space-y-4" variants={revealItem}>
-                <p className="text-xs md:text-sm font-medium tracking-[0.28em] uppercase text-neutral-500">
-                  STEMforALL Programme Scope
-                </p>
-                <motion.h2
-                  className="text-2xl md:text-4xl font-bold tracking-tight leading-tight text-neutral-900"
-                  variants={revealClip}
-                >
-                  {hasScopeTyped ? scopeTypedTitle : SCOPE_TITLE}
-                  {scopeTypingActive && (
-                    <motion.span
-                      className="inline-block ml-1 text-neutral-500"
-                      animate={{ opacity: [1, 0, 1] }}
-                      transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
-                    >
-                      |
-                    </motion.span>
-                  )}
-                </motion.h2>
-                <div className="w-20 h-px bg-neutral-300 mx-auto"></div>
-              </motion.div>
-
+            <div className="relative">
               <motion.section
-                className="rounded-2xl border border-neutral-200 bg-white p-6 md:p-8 shadow-sm space-y-5"
-                variants={revealItem}
-                whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                ref={(el) => {
+                  scopePanelsRef.current[0] = el
+                }}
+                className="min-h-screen scroll-mt-24 md:scroll-mt-28 pt-20 pb-10 md:pt-24 md:pb-12 flex flex-col justify-center space-y-7 md:space-y-9 text-center"
+                variants={revealPanel}
+                initial="hidden"
+                whileInView="show"
+                viewport={panelViewport}
+                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                aria-labelledby="stem-about-title"
               >
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-                    <Sprout className="w-4 h-4" />
-                  </span>
+                <div className="flex items-center justify-center gap-3">
+                  <motion.span
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700"
+                    whileHover={prefersReducedMotion ? undefined : { scale: 1.08, rotate: -6 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                  >
+                    <Sprout className="w-5 h-5" />
+                  </motion.span>
                   <motion.h3
-                    className="text-xl md:text-2xl font-bold tracking-tight leading-tight text-neutral-900"
+                    id="stem-about-title"
+                    className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900"
                     variants={revealClip}
                   >
                     ABOUT STEMFORALL
                   </motion.h3>
                 </div>
-                <div className="space-y-4">
-                  <p className="text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
+                <div className="space-y-5 max-w-2xl mx-auto">
+                  <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
                     STEMforALL is a social impact education initiative initiated by Aletheia EdTech R&amp;D Singapore.
                   </p>
-                  <p className="text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
+                  <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
                     We believe that education should never be limited by financial background or learning differences.
                   </p>
-                  <p className="text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
+                  <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
                     In today&apos;s AI-driven world, STEM skills are essential. This programme provides free, inclusive, and child-centred STEM learning to help every child build confidence, curiosity, and future-ready skills.
                   </p>
                 </div>
               </motion.section>
 
-              <div className="grid gap-5 md:gap-6 md:grid-cols-2">
-                <motion.section
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 md:p-7 shadow-sm space-y-5"
-                  variants={revealItem}
-                  whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-                      <Microscope className="w-4 h-4" />
-                    </span>
-                    <motion.h3
-                      className="text-xl md:text-2xl font-bold tracking-tight leading-tight text-neutral-900"
-                      variants={revealClip}
-                    >
-                      WHAT CHILDREN WILL EXPERIENCE
-                    </motion.h3>
-                  </div>
-                  <ul className="list-disc pl-5 space-y-3 text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600 marker:text-neutral-400">
-                    <li>Hands-on STEM activities (robotics, logic thinking, creative exploration)</li>
-                    <li>AI-assisted adaptive learning powered by SparkOS</li>
-                    <li>Emotion-aware and behaviour-responsive learning support</li>
-                    <li>Small-group guidance in a safe, low-stress environment</li>
-                    <li>Learning designed for different abilities and learning styles</li>
-                  </ul>
-                </motion.section>
+              <motion.section
+                ref={(el) => {
+                  scopePanelsRef.current[1] = el
+                }}
+                className="min-h-screen scroll-mt-24 md:scroll-mt-28 pt-20 pb-10 md:pt-24 md:pb-12 border-t border-neutral-200 flex flex-col justify-center space-y-7 md:space-y-9"
+                variants={revealPanel}
+                initial="hidden"
+                whileInView="show"
+                viewport={panelViewport}
+                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                aria-labelledby="stem-experience-title"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <motion.span
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700"
+                    whileHover={prefersReducedMotion ? undefined : { scale: 1.08, rotate: -6 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                  >
+                    <Microscope className="w-5 h-5" />
+                  </motion.span>
+                  <motion.h3
+                    id="stem-experience-title"
+                    className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900 text-center"
+                    variants={revealClip}
+                  >
+                    WHAT CHILDREN WILL EXPERIENCE
+                  </motion.h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6">
+                  {stemExperienceItems.map((item) => {
+                    const ItemIcon = item.icon
+                    return (
+                      <article
+                        key={item.title}
+                        className="rounded-xl border border-neutral-300/90 bg-white/95 p-5 md:p-6 text-center space-y-3.5 shadow-[0_10px_24px_rgba(0,0,0,0.04)] min-h-[236px] flex flex-col"
+                      >
+                        <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
+                          <ItemIcon className="w-6 h-6" />
+                        </span>
+                        <h4 className="text-xl md:text-2xl font-semibold tracking-tight leading-snug text-neutral-900">
+                          {item.title}
+                        </h4>
+                        <p className="text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+                          {item.description}
+                        </p>
+                      </article>
+                    )
+                  })}
+                </div>
+                <p className="text-center text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
+                  Learning designed for different abilities and learning styles
+                </p>
+              </motion.section>
 
-                <motion.section
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 md:p-7 shadow-sm space-y-5"
-                  variants={revealItem}
-                  whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-                      <Handshake className="w-4 h-4" />
-                    </span>
-                    <motion.h3
-                      className="text-xl md:text-2xl font-bold tracking-tight leading-tight text-neutral-900"
-                      variants={revealClip}
-                    >
-                      COLLABORATION PARTNERS
-                    </motion.h3>
-                  </div>
-                  <ul className="list-disc pl-5 space-y-3 text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600 marker:text-neutral-400">
-                    <li>Aletheia EdTech R&amp;D Singapore</li>
-                    <li>SparkOS Education Ecosystem</li>
-                    <li>Nanyang Technological University (NTU), Singapore</li>
-                    <li>Robotics Games Society (RGS)</li>
-                    <li>Educators, community partners, and volunteers</li>
-                  </ul>
-                </motion.section>
+              <motion.section
+                ref={(el) => {
+                  scopePanelsRef.current[2] = el
+                }}
+                className="min-h-screen scroll-mt-24 md:scroll-mt-28 pt-20 pb-10 md:pt-24 md:pb-12 border-t border-neutral-200 flex flex-col justify-center space-y-7 md:space-y-9"
+                variants={revealPanel}
+                initial="hidden"
+                whileInView="show"
+                viewport={panelViewport}
+                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                aria-labelledby="stem-partners-title"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <motion.span
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700"
+                    whileHover={prefersReducedMotion ? undefined : { scale: 1.08, rotate: -6 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                  >
+                    <Handshake className="w-5 h-5" />
+                  </motion.span>
+                  <motion.h3
+                    id="stem-partners-title"
+                    className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900 text-center"
+                    variants={revealClip}
+                  >
+                    COLLABORATION PARTNERS
+                  </motion.h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6">
+                  {collaboratorLogos.map((collaborator) =>
+                    renderCollaboratorCard(collaborator, `collaborator-${collaborator.name}`)
+                  )}
+                </div>
+                <p className="text-center text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
+                  Educators, community partners, and volunteers
+                </p>
+              </motion.section>
 
-                <motion.section
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 md:p-7 shadow-sm space-y-5"
-                  variants={revealItem}
-                  whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-                      <Heart className="w-4 h-4" />
-                    </span>
-                    <motion.h3
-                      className="text-xl md:text-2xl font-bold tracking-tight leading-tight text-neutral-900"
-                      variants={revealClip}
-                    >
-                      WHY THIS PROGRAMME IS FREE
-                    </motion.h3>
-                  </div>
-                  <div className="space-y-4">
-                    <p className="text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
-                      We believe every child deserves to be seen, understood, and supported.
-                    </p>
-                    <p className="text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600">
-                      STEMforALL removes financial and systemic barriers to education, especially for children with special learning needs. This initiative is part of Aletheia&apos;s Tech-for-Good commitment, using technology and education research to create meaningful social impact.
-                    </p>
-                  </div>
-                </motion.section>
+              <motion.section
+                ref={(el) => {
+                  scopePanelsRef.current[3] = el
+                }}
+                className="min-h-screen scroll-mt-24 md:scroll-mt-28 pt-20 pb-10 md:pt-24 md:pb-12 border-t border-neutral-200 flex flex-col justify-center space-y-5 md:space-y-6 text-center"
+                variants={revealPanel}
+                initial="hidden"
+                whileInView="show"
+                viewport={panelViewport}
+                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                aria-labelledby="stem-free-title"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <motion.span
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700"
+                    whileHover={prefersReducedMotion ? undefined : { scale: 1.08, rotate: -6 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                  >
+                    <Heart className="w-5 h-5" />
+                  </motion.span>
+                  <motion.h3
+                    id="stem-free-title"
+                    className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900"
+                    variants={revealClip}
+                  >
+                    WHY THIS PROGRAMME IS FREE
+                  </motion.h3>
+                </div>
+                <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700 max-w-3xl mx-auto">
+                  We believe every child deserves to be seen, understood, and supported.
+                </p>
+                <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700 max-w-3xl mx-auto">
+                  STEMforALL removes financial and systemic barriers to education, especially for children with special learning needs. This initiative is part of Aletheia&apos;s Tech-for-Good commitment, using technology and education research to create meaningful social impact.
+                </p>
+              </motion.section>
 
-                <motion.section
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 md:p-7 shadow-sm space-y-5"
-                  variants={revealItem}
-                  whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-                      <Target className="w-4 h-4" />
-                    </span>
-                    <motion.h3
-                      className="text-xl md:text-2xl font-bold tracking-tight leading-tight text-neutral-900"
-                      variants={revealClip}
+              <motion.section
+                ref={(el) => {
+                  scopePanelsRef.current[4] = el
+                }}
+                className="min-h-screen scroll-mt-24 md:scroll-mt-28 pt-20 pb-10 md:pt-24 md:pb-12 border-t border-neutral-200 flex flex-col justify-center space-y-7 md:space-y-9"
+                variants={revealPanel}
+                initial="hidden"
+                whileInView="show"
+                viewport={panelViewport}
+                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                aria-labelledby="stem-outcomes-title"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <motion.span
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700"
+                    whileHover={prefersReducedMotion ? undefined : { scale: 1.08, rotate: -6 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                  >
+                    <Target className="w-5 h-5" />
+                  </motion.span>
+                  <motion.h3
+                    id="stem-outcomes-title"
+                    className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900 text-center"
+                    variants={revealClip}
+                  >
+                    LEARNING OUTCOMES
+                  </motion.h3>
+                </div>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto">
+                  {stemOutcomeItems.map((outcome) => (
+                    <li
+                      key={outcome}
+                      className="rounded-xl border border-neutral-300/90 bg-white/95 px-5 py-5 md:px-6 md:py-6 text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700 shadow-[0_10px_24px_rgba(0,0,0,0.04)] min-h-[104px] flex items-center"
                     >
-                      LEARNING OUTCOMES
-                    </motion.h3>
-                  </div>
-                  <ul className="list-disc pl-5 space-y-3 text-base md:text-lg font-normal leading-relaxed tracking-wide text-neutral-600 marker:text-neutral-400">
-                    <li>Increased curiosity and creativity</li>
-                    <li>Stronger confidence and motivation</li>
-                    <li>Improved problem-solving skills</li>
-                    <li>A positive, supportive learning experience</li>
-                  </ul>
-                  <div className="pt-3 border-t border-neutral-200 space-y-2">
-                    <p className="text-lg md:text-xl font-semibold tracking-wide text-neutral-900">
-                      STEMforALL &mdash; Tech for Good &middot; Education for All
-                    </p>
-                    <p className="text-base md:text-lg font-normal tracking-wide text-neutral-600">
-                      Powered by SparkOS Education Ecosystem
-                    </p>
-                  </div>
-                </motion.section>
-              </div>
+                      {outcome}
+                    </li>
+                  ))}
+                </ul>
+              </motion.section>
+
+              <motion.section
+                ref={(el) => {
+                  scopePanelsRef.current[5] = el
+                }}
+                className="min-h-screen scroll-mt-24 md:scroll-mt-28 pt-20 pb-10 md:pt-24 md:pb-12 border-t border-neutral-300 flex flex-col justify-center space-y-3 text-center"
+                variants={revealPanel}
+                initial="hidden"
+                whileInView="show"
+                viewport={panelViewport}
+                whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+              >
+                <p className="text-2xl md:text-4xl font-semibold tracking-tight text-neutral-900">
+                  STEMforALL &mdash; Tech for Good &middot; Education for All
+                </p>
+                <p className="text-lg md:text-xl font-normal tracking-normal text-neutral-600">
+                  Powered by SparkOS Education Ecosystem
+                </p>
+              </motion.section>
             </div>
           </motion.div>
         </section>
@@ -584,7 +835,7 @@ export default function StemForAll() {
             >
               <Link
                 href="/contact"
-                className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
+                className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
               >
                 Get Involved
               </Link>
@@ -633,6 +884,7 @@ export default function StemForAll() {
           </div>
         </div>
       </footer>
+
     </div>
   )
 }
