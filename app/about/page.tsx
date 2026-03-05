@@ -274,26 +274,41 @@ export default function About() {
 
 
         {/* About Aletheia */}
-        <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
-          <div className="flex flex-col items-center space-y-8 w-full">
-            <div className="w-64 h-64 flex items-center justify-center">
+        <section className="min-h-screen flex items-center px-6 pt-28 pb-16 md:pt-32 md:pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, amount: 0.35 }}
+            className="w-full max-w-5xl mx-auto text-center space-y-8 md:space-y-10"
+          >
+            <div className="space-y-4">
+              <p className="text-xs md:text-sm font-medium tracking-[0.24em] uppercase text-neutral-500">
+                About Aletheia
+              </p>
+              <div className="w-14 h-px bg-neutral-300 mx-auto" />
+            </div>
+
+            <div className="w-44 h-20 md:w-52 md:h-24 flex items-center justify-center mx-auto">
               <Image
                 src="/aletheia_logo.png"
                 alt="Aletheia Logo"
-                width={256}
-                height={256}
+                width={208}
+                height={96}
                 className="object-contain"
               />
             </div>
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600">
-              Aletheia is a government-aligned, research-driven EdTech ecosystem integrating national STEM education, university R&D, charitable impact programmes, and innovation initiatives. We operate as both a technology implementation partner and a national ecosystem enabler—aligning public institutions, academia, and industry to advance scalable, sustainable innovation.
+
+            <p className="text-lg md:text-2xl font-normal leading-relaxed tracking-normal text-neutral-700 max-w-4xl mx-auto">
+              Aletheia is a government-aligned, research-driven EdTech ecosystem integrating national STEM education, university R&amp;D, charitable impact programmes, and innovation initiatives. We operate as both a technology implementation partner and a national ecosystem enabler&mdash;aligning public institutions, academia, and industry to advance scalable, sustainable innovation.
             </p>
-            <div>
-              <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic mb-4">
+
+            <div className="pt-2 space-y-4">
+              <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 italic">
                 For Sentience,
               </p>
               <div className="flex justify-center">
-                <div className="w-48 h-24 flex items-center justify-center">
+                <div className="w-40 h-16 md:w-48 md:h-20 flex items-center justify-center">
                   <Image
                     src="/aletheia_signature.svg"
                     alt="Aletheia Signature"
@@ -304,7 +319,7 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Divider */}
@@ -318,35 +333,35 @@ export default function About() {
         <CollaboratorsCarousel />
 
         {/* Our Approach */}
-        <section className="max-w-4xl mx-auto px-6 py-16">
+        <section className="max-w-5xl mx-auto px-6 py-16 md:py-20">
           <div className="text-center space-y-12">
-            <h2 className="text-3xl md:text-4xl font-normal tracking-tight leading-tight text-neutral-900">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900">
               Our Approach
             </h2>
-            <div className="grid md:grid-cols-2 gap-12 text-left">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-neutral-900">Authentic Innovation</h3>
-                <p className="text-base leading-relaxed tracking-wide text-neutral-600">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-7 text-left">
+              <div className="space-y-4 border border-neutral-200 rounded-xl bg-white/85 p-6 md:p-7">
+                <h3 className="text-2xl font-semibold tracking-tight text-neutral-900">Authentic Innovation</h3>
+                <p className="text-lg leading-relaxed tracking-normal text-neutral-700">
                   We solve business problems by tailoring solutions based on a mix of strategy, content, and unique
                   proposition. No communications white noise. No BS.
                 </p>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-neutral-900">Standalone Spirit</h3>
-                <p className="text-base leading-relaxed tracking-wide text-neutral-600">
+              <div className="space-y-4 border border-neutral-200 rounded-xl bg-white/85 p-6 md:p-7">
+                <h3 className="text-2xl font-semibold tracking-tight text-neutral-900">Standalone Spirit</h3>
+                <p className="text-lg leading-relaxed tracking-normal text-neutral-700">
                   Our courage to be different allows us to see opportunities others miss and create solutions that truly matter. We stand alone by choice.
                 </p>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-neutral-900">Community-Centered</h3>
-                <p className="text-base leading-relaxed tracking-wide text-neutral-600">
+              <div className="space-y-4 border border-neutral-200 rounded-xl bg-white/85 p-6 md:p-7">
+                <h3 className="text-2xl font-semibold tracking-tight text-neutral-900">Community-Centered</h3>
+                <p className="text-lg leading-relaxed tracking-normal text-neutral-700">
                   Every initiative we undertake is designed with real students, real educators, and real communities at
-                  its heart. Impact isn't just measured—it's lived.
+                  its heart. Impact isn&apos;t just measured&mdash;it&apos;s lived.
                 </p>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-neutral-900">Closing Loops</h3>
-                <p className="text-base leading-relaxed tracking-wide text-neutral-600">
+              <div className="space-y-4 border border-neutral-200 rounded-xl bg-white/85 p-6 md:p-7">
+                <h3 className="text-2xl font-semibold tracking-tight text-neutral-900">Closing Loops</h3>
+                <p className="text-lg leading-relaxed tracking-normal text-neutral-700">
                   Through partnerships with leading institutions and organizations, we amplify our reach and deepen our
                   impact, creating sustainable change that lasts.
                 </p>
@@ -366,11 +381,11 @@ export default function About() {
         <section className="max-w-2xl mx-auto px-6 py-16 pb-32 text-center">
           <div className="space-y-8">
             <h2 className="text-2xl md:text-3xl font-normal tracking-tight leading-tight text-neutral-900">
-              Let’s Make Impact Together.
+              Let&apos;s Make Impact Together.
             </h2>
             <Link
               href="/contact"
-              className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
+              className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
             >
               Get in Touch.
             </Link>
@@ -382,7 +397,7 @@ export default function About() {
       <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
         <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
+            <div className="text-xs font-normal tracking-wide text-neutral-600">&copy; 2024 Aletheia</div>
             <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
               <a href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Stem for All</a>
               <a href="/tech4all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Tech4All</a>
