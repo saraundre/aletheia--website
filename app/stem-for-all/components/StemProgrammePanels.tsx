@@ -351,7 +351,7 @@ export function StemProgrammePanels({
         viewport={panelViewport}
       >
         <div className={`mx-auto max-w-4xl space-y-3 text-center md:space-y-4 ${panelContentFeatureClass}`}>
-          <p className="text-2xl md:text-4xl font-semibold tracking-tight text-neutral-900">
+          <p className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900">
             <span className="block">STEMforALL &mdash; Tech for Good</span>
             <span className="block">Education for All</span>
           </p>
