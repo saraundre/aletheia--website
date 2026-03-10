@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "prebuild": "node scripts/log-env.js",
-    "build": "next build",
+    "build": "node scripts/build.js",
+    "build:next": "next build",
     "dev": "next dev",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preview:static": "node scripts/serve-static.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

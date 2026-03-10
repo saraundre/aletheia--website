@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import SparkieBuddy from "@/components/animations/sparkie-buddy"
 
 function CoreFeaturesContent() {
   const [activeFeature, setActiveFeature] = useState(0)
@@ -41,8 +42,8 @@ function CoreFeaturesContent() {
       icon: Target,
       title: "Adaptive Paths",
       description: "Every mind is unique. Every learning path should be too.",
-      metric: "In Progress",
-      demo: "Generating personalized curriculum for ADHD learning style...",
+      metric: "Personalized",
+      demo: "Generating personalized curriculum for Students Unique learning style...",
       status: true,
     },
     {
@@ -87,13 +88,7 @@ function CoreFeaturesContent() {
                         {feature.title}
                       </h3>
                       {feature.metric && (
-                        <span
-                          className={`text-xs font-medium px-2 py-1 rounded ${
-                            feature.title === "Adaptive Paths"
-                              ? "bg-blue-100 text-blue-700"
-                              : "text-neutral-500 bg-neutral-100"
-                          }`}
-                        >
+                        <span className="text-xs font-medium px-2 py-1 rounded text-neutral-500 bg-neutral-100">
                           {feature.metric}
                         </span>
                       )}
@@ -156,13 +151,13 @@ function CoreFeaturesContent() {
               {/* Status/Performance section */}
               <div className="bg-neutral-100 rounded-lg p-3 ml-4 mt-4">
                 <div className="text-xs text-neutral-500 mb-1">
-                  {features[activeFeature].title === "Adaptive Paths" ? "Status" : "Performance"}
+                  Performance
                 </div>
                 <div className="flex items-center gap-2 text-sm font-medium text-neutral-700">
                   {features[activeFeature].title === "Adaptive Paths" ? (
-                    <div className="flex items-center space-x-2">
-                      <span className="text-yellow-700 bg-yellow-100 px-2 py-1 rounded font-semibold">In Progress</span>
-                      <span className="text-yellow-800 bg-yellow-200 px-2 py-1 rounded font-semibold">BETA</span>
+                    <div>
+                      <span>Every mind is unique.</span>
+                      <span className="block">Every learning path should be too.</span>
                     </div>
                   ) : (
                     features[activeFeature].metric
@@ -306,23 +301,23 @@ export default function Tech4All() {
                   <div className="space-y-2 ml-4">
                     <div className="flex items-center space-x-2">
                       <span className="text-green-500">✓</span>
-                      <span className="text-neutral-700">Pilot launching soon</span>
+                      <span className="text-neutral-700">Pilot rollout starting soon</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-green-500">✓</span>
-                      <span className="text-neutral-700">Target: +25% improvement vs traditional methods</span>
+                      <span className="text-neutral-700">Expected +25% learning gains vs traditional classrooms</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-green-500">✓</span>
-                      <span className="text-neutral-700">Expanding to China, Singapore, and beyond</span>
+                      <span className="text-neutral-700">Expansion underway: China, Singapore, and international partners</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-green-500">✓</span>
-                      <span className="text-neutral-700">Emotional AI ready</span>
+                      <span className="text-neutral-700">Emotional AI engine online</span>
                     </div>
                   </div>
                   <div className="text-blue-600 mt-6">$ spark --impact neurodivergent</div>
-                  <div className="ml-4 text-cyan-600">"Ready to transform learning for All students"</div>
+                  <div className="ml-4 text-cyan-600">"Built for diverse minds. Ready to transform learning for every student."</div>
                 </div>
               </div>
             </div>
@@ -425,8 +420,14 @@ export default function Tech4All() {
           </div>
         </section>
 
+        <section className="max-w-4xl mx-auto px-6 pt-0 pb-0">
+          <div className="flex justify-center">
+            <SparkieBuddy size={148} />
+          </div>
+        </section>
+
         {/* Call to Action Section */}
-        <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <section className="max-w-4xl mx-auto px-6 pt-1 pb-16 md:pt-2 md:pb-24">
           <div className="text-center space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-900">
               Ready to Transform Learning?
