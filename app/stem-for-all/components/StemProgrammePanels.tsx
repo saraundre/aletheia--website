@@ -102,7 +102,7 @@ const panelBaseClass =
 const panelContentAboutClass = "w-full md:-translate-y-2"
 const panelContentClass = "w-full md:-translate-y-6"
 const panelContentLiftedClass = "w-full md:-translate-y-16"
-const panelContentFeatureClass = "w-full md:-translate-y-24"
+const panelContentFeatureClass = "w-full md:-translate-y-16"
 
 function renderCollaboratorCard(collaborator: CollaboratorLogo, key: string) {
   return (
@@ -344,7 +344,7 @@ export function StemProgrammePanels({
         ref={(el) => {
           scopePanelsRef.current[5] = el
         }}
-        className={`${panelBaseClass} border-t border-neutral-300 text-center`}
+        className={`${panelBaseClass} text-center`}
         variants={revealPanel}
         initial="hidden"
         whileInView="show"
