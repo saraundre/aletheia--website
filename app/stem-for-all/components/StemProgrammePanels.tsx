@@ -350,11 +350,15 @@ export function StemProgrammePanels({
         whileInView="show"
         viewport={panelViewport}
       >
-        <div className={`mx-auto max-w-4xl space-y-3 text-center md:space-y-4 ${panelContentFeatureClass}`}>
-          <p className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900">
-            <span className="block">STEMforALL &mdash; Tech for Good</span>
-            <span className="block">Education for All</span>
-          </p>
+        <div className={`mx-auto max-w-4xl space-y-4 text-center md:space-y-5 ${panelContentFeatureClass}`}>
+          <div className="text-neutral-900">
+            <p className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+              STEMforALL &mdash; Tech for Good
+            </p>
+            <p className="mt-4 text-2xl md:text-4xl font-semibold tracking-tight leading-tight md:mt-5">
+              Education for All
+            </p>
+          </div>
           <p className="text-lg md:text-xl font-normal tracking-normal text-neutral-600">
             Powered by SparkOS Education Ecosystem
           </p>

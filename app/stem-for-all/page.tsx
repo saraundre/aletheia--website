@@ -259,10 +259,6 @@ export default function StemForAll() {
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-neutral-900/20 via-neutral-900/50 to-neutral-900/20 z-[60] origin-left"
-        style={{ scaleX: smoothProgress }}
-      />
       <div className="hidden md:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 h-40 w-px bg-neutral-300/70">
         <motion.div
           className="w-full h-full bg-neutral-900/55 origin-top"
