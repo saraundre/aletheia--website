@@ -17,6 +17,7 @@ interface TypewriterProps {
 export function Typewriter({ text, speed = 100, className = "" }: TypewriterProps) {
   const [displayText, setDisplayText] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [cursorVisible, setCursorVisible] = useState(true)
 
   useEffect(() => {
     if (currentIndex < text.length) {
@@ -24,7 +25,9 @@ export function Typewriter({ text, speed = 100, className = "" }: TypewriterProp
         setDisplayText((prev) => prev + text[currentIndex])
         setCurrentIndex((prev) => prev + 1)
       }, speed)
-
+      return () => clearTimeout(timeout)
+    } else {
+      const timeout = setTimeout(() => setCursorVisible(false), 1200)
       return () => clearTimeout(timeout)
     }
   }, [currentIndex, text, speed])
@@ -32,7 +35,7 @@ export function Typewriter({ text, speed = 100, className = "" }: TypewriterProp
   return (
     <span className={className}>
       {displayText}
-      <span className="animate-pulse">|</span>
+      {cursorVisible && <span className="animate-pulse">|</span>}
     </span>
   )
 }
@@ -308,7 +311,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 3, duration: 1 }}
-                className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-600 max-w-3xl mx-auto"
+                className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-700 max-w-3xl mx-auto"
               >
                 We are a collective of creative adults whom the {"'child'"} in each of us survived.
               </motion.p>
@@ -510,7 +513,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.15 }}
-                        className="text-xs uppercase tracking-wider"
+                        className="text-xs uppercase tracking-wider font-medium text-neutral-500"
                       >
                         Scroll to reveal
                       </motion.div>
@@ -526,7 +529,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                         <motion.div
                           animate={{ y: [0, 8, 0] }}
                           transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                          className="text-xs uppercase tracking-wider"
+                          className="text-xs uppercase tracking-wider font-medium text-neutral-500"
                         >
                           Continue scrolling
                         </motion.div>

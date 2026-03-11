@@ -1,31 +1,22 @@
 "use client"
 
-import { Home, X } from "lucide-react"
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
+import { useState } from "react"
+import { ChevronDown } from "lucide-react"
 import emailjs from '@emailjs/browser'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { Nav } from "@/components/nav"
+import { Footer } from "@/components/footer"
 
 export default function Contact() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [captchaValue, setCaptchaValue] = useState<string | null>(null)
-  const [showFooter, setShowFooter] = useState(false);
 
-  // EmailJS configuration - use ONLY environment variables
   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
   const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-
-  console.log("RECAPTCHA SITE KEY:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,10 +24,8 @@ export default function Contact() {
     setSubmitStatus('idle');
     setErrorMessage('');
 
-    // Store a reference to the form
     const form = e.currentTarget;
 
-    // Check for missing env vars
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       setIsSubmitting(false);
       setSubmitStatus('error');
@@ -83,7 +72,7 @@ export default function Contact() {
         setErrorMessage('Failed to send message');
       }
     } catch (error) {
-      console.error('EmailJS error:', error);
+      console.error('[Contact] EmailJS send failed:', error);
       setSubmitStatus('error');
       setErrorMessage('Failed to send message. Please try again.');
     } finally {
@@ -91,89 +80,11 @@ export default function Contact() {
     }
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const threshold = 32; // px from bottom
-      if (window.innerWidth < 768) {
-        setShowFooter(window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
-            <Link href="/">
-              <Image
-                src="/aletheia_logo.png"
-                alt="Aletheia Logo"
-                width={100}
-                height={32}
-                className="object-contain"
-              />
-            </Link>
-            <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Home className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif flex flex-col">
+      <Nav />
 
-      {/* Menu Overlay */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-neutral-50/95 backdrop-blur-sm">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center space-y-8">
-              <nav className="space-y-6">
-                <Link
-                  href="/stem-for-all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Stem for All
-                </Link>
-                <Link
-                  href="/tech4all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Tech4All
-                </Link>
-                <Link
-                  href="/about"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link
-                  href="/gallery"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Gallery
-                </Link>
-                <Link
-                  href="/contact"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className="pt-24 pb-16 md:pb-8">
+      <main className="flex-1 pt-24">
         {/* Header Section */}
         <section className="max-w-2xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-normal tracking-tight leading-tight mb-8">Get In Touch</h1>
@@ -183,7 +94,7 @@ export default function Contact() {
         </section>
 
         {/* Contact Form */}
-        <section className="max-w-lg mx-auto px-6">
+        <section className="max-w-lg mx-auto px-6 pb-24">
           {submitStatus === 'success' ? (
             <div className="text-center space-y-4">
               <div className="text-green-600 text-lg font-medium">Message sent successfully!</div>
@@ -230,12 +141,12 @@ export default function Contact() {
                   />
                 </div>
 
-                <div>
+                <div className="relative">
                   <select
                     name="interest"
                     required
                     disabled={isSubmitting}
-                    className="w-full px-4 py-4 border border-neutral-300 bg-transparent text-neutral-900 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg appearance-none cursor-pointer rounded-lg disabled:opacity-50"
+                    className="w-full px-4 py-4 pr-10 border border-neutral-300 bg-transparent text-neutral-900 focus:outline-none focus:border-neutral-900 transition-colors font-serif text-lg appearance-none cursor-pointer rounded-lg disabled:opacity-50"
                   >
                     <option value="">Interest Area</option>
                     <option value="pilot-program">Pilot Program</option>
@@ -245,6 +156,9 @@ export default function Contact() {
                     <option value="join-team">Join Our Team</option>
                     <option value="other">Other</option>
                   </select>
+                  <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                    <ChevronDown className="w-4 h-4 text-neutral-400" />
+                  </div>
                 </div>
 
                 <div>
@@ -279,7 +193,7 @@ export default function Contact() {
                 )}
                 <button
                   type="submit"
-                  disabled={isSubmitting || (!captchaValue && RECAPTCHA_SITE_KEY)}
+                  disabled={isSubmitting || (!captchaValue && !!RECAPTCHA_SITE_KEY)}
                   className="w-full py-4 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -295,21 +209,7 @@ export default function Contact() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
-            <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
-              <a href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Stem for All</a>
-              <a href="/tech4all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Tech4All</a>
-              <a href="/about" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">About</a>
-              <a href="/gallery" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Gallery</a>
-              <a href="/contact" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

@@ -1,30 +1,13 @@
 "use client"
 
-import { Home, X, Play } from "lucide-react"
-import { useEffect, useState } from "react"
+import { X, Play } from "lucide-react"
+import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { Nav } from "@/components/nav"
+import { Footer } from "@/components/footer"
 
 export default function Gallery() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeVideo, setActiveVideo] = useState<number | null>(null)
-  const [showFooter, setShowFooter] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const threshold = 32; // px from bottom
-      if (window.innerWidth < 768) {
-        setShowFooter(window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
 
   const handleVideoClick = (videoId: number) => {
     setActiveVideo(activeVideo === videoId ? null : videoId)
@@ -42,9 +25,7 @@ export default function Gallery() {
     return `https://www.youtube.com/embed/${videoId}?autoplay=1`
   }
 
-  // Helper to encode image paths with special characters
   const getImagePath = (path: string) => {
-    // Only encode the filename part, keep path separators intact
     const lastSlashIndex = path.lastIndexOf('/')
     if (lastSlashIndex === -1) {
       return encodeURIComponent(path)
@@ -54,7 +35,6 @@ export default function Gallery() {
     return dirPath + encodeURIComponent(filename)
   }
 
-  // Real gallery content based on provided images
   const galleryItems = [
     {
       id: 1,
@@ -129,7 +109,6 @@ export default function Gallery() {
         "Dr. Sein delivers the official opening speech for our charity drive collaboration with NTU Leadership Development Programme at Maker Festival 2025.",
       speaker: "Dr. Sein - Founder of STEM for ALL Charity Drive with NTU LDP 2025",
     },
-    // Photo gallery items from Maker Festival 2024
     {
       id: 8,
       type: "photo",
@@ -215,76 +194,10 @@ export default function Gallery() {
   ]
 
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
-            <Link href="/">
-              <Image
-                src="/aletheia_logo.png"
-                alt="Aletheia Logo"
-                width={100}
-                height={32}
-                className="object-contain"
-              />
-            </Link>
-            <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Home className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif flex flex-col">
+      <Nav />
 
-      {/* Menu Overlay */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-neutral-50/95 backdrop-blur-sm">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center space-y-8">
-              <nav className="space-y-6">
-                <Link
-                  href="/stem-for-all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Stem for All
-                </Link>
-                <Link
-                  href="/tech4all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Tech4All
-                </Link>
-                <Link
-                  href="/about"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link
-                  href="/gallery"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Gallery
-                </Link>
-                <Link
-                  href="/contact"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className="pt-24 pb-16 md:pb-8">
+      <main className="flex-1 pt-24">
         {/* Header Section */}
         <section className="max-w-3xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-normal tracking-tight leading-tight mb-8">Stories in Motion</h1>
@@ -301,7 +214,6 @@ export default function Gallery() {
                 {/* Media Container */}
                 <div className="relative aspect-video bg-neutral-200 overflow-hidden rounded-lg">
                   {item.type === "video" && activeVideo === item.id && item.videoUrl ? (
-                    // Embedded Video
                     <div className="relative w-full h-full">
                       <iframe
                         src={getYouTubeEmbedUrl(item.videoUrl)}
@@ -319,8 +231,7 @@ export default function Gallery() {
                       </button>
                     </div>
                   ) : item.type === "video" ? (
-                    // Video Thumbnail with Play Button
-                    <div 
+                    <div
                       className="relative w-full h-full group cursor-pointer"
                       onClick={() => handleVideoClick(item.id)}
                     >
@@ -336,7 +247,6 @@ export default function Gallery() {
                           }
                         }}
                       />
-                      {/* Video Play Button Overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
                         <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
                           <Play className="w-6 h-6 text-neutral-900 ml-1" />
@@ -344,7 +254,6 @@ export default function Gallery() {
                       </div>
                     </div>
                   ) : (
-                    // Photo Display
                     <div className="relative w-full h-full group">
                       <img
                         src={item.src ? getImagePath(item.src) : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3EImage Loading...%3C/text%3E%3C/svg%3E"}
@@ -358,7 +267,6 @@ export default function Gallery() {
                           }
                         }}
                       />
-                      {/* Photo Overlay */}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                     </div>
                   )}
@@ -374,7 +282,6 @@ export default function Gallery() {
                   </div>
                   <p className="text-base leading-relaxed tracking-wide text-neutral-600">{item.description}</p>
 
-                  {/* Speaker/Attribution */}
                   <div className="pt-2 border-t border-neutral-200">
                     <p className="text-sm text-neutral-500 leading-relaxed italic">{item.speaker}</p>
                   </div>
@@ -392,34 +299,20 @@ export default function Gallery() {
         </section>
 
         {/* Call to Action */}
-        <section className="max-w-2xl mx-auto px-6 text-center">
+        <section className="max-w-2xl mx-auto px-6 pb-24 text-center">
           <p className="text-lg font-normal leading-relaxed tracking-wide text-neutral-600 mb-8">
             Want to be part of our story? Join us in making STEM education accessible to all.
           </p>
           <Link
             href="/contact"
-            className="inline-block py-3 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg mb-8"
+            className="inline-block py-3 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg"
           >
             Get Involved
           </Link>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-xs font-normal tracking-wide text-neutral-600">© 2024 Aletheia</div>
-            <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
-              <a href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Stem for All</a>
-              <a href="/tech4all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Tech4All</a>
-              <a href="/about" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">About</a>
-              <a href="/gallery" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Gallery</a>
-              <a href="/contact" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

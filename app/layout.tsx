@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Aletheia',
-  description: 'Aletheia website',
+  description: 'A government-aligned, research-driven EdTech ecosystem advancing equitable education, community impact, and innovation.',
 }
 
 export default function RootLayout({

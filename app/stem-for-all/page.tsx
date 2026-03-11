@@ -1,37 +1,19 @@
 "use client"
 
-import { Home, X } from "lucide-react"
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { Nav } from "@/components/nav"
+import { Footer } from "@/components/footer"
 import { StemProgrammePanels } from "./components/StemProgrammePanels"
 
 export default function StemForAll() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [showFooter, setShowFooter] = useState(false);
   const [hasHeroTyped, setHasHeroTyped] = useState(false)
   const [heroTypedTitle, setHeroTypedTitle] = useState("")
   const heroRef = useRef<HTMLElement | null>(null)
   const scopeRef = useRef<HTMLElement | null>(null)
   const scopePanelsRef = useRef<Array<HTMLElement | null>>([])
   const scopeWheelLockRef = useRef(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const threshold = 32; // px from bottom
-      if (window.innerWidth < 768) {
-        setShowFooter(window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
 
   const prefersReducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll()
@@ -258,7 +240,7 @@ export default function StemForAll() {
   const heroTypingActive = !prefersReducedMotion && hasHeroTyped && heroTypedTitle.length < HERO_TITLE.length
 
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif flex flex-col">
       <div className="hidden md:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 h-40 w-px bg-neutral-300/70">
         <motion.div
           className="w-full h-full bg-neutral-900/55 origin-top"
@@ -266,82 +248,15 @@ export default function StemForAll() {
         />
       </div>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
-            <Link href="/">
-              <Image
-                src="/aletheia_logo.png"
-                alt="Aletheia Logo"
-                width={100}
-                height={32}
-                className="object-contain"
-              />
-            </Link>
-            <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Home className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Nav />
 
-      {/* Menu Overlay */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-neutral-50/95 backdrop-blur-sm">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center space-y-8">
-              <nav className="space-y-6">
-                <Link
-                  href="/stem-for-all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Stem for All
-                </Link>
-                <Link
-                  href="/tech4all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Tech4All
-                </Link>
-                <Link
-                  href="/about"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link
-                  href="/gallery"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Gallery
-                </Link>
-                <Link
-                  href="/contact"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className="pt-24 pb-16 md:pb-8">
+      <main className="flex-1 pt-24">
         {/* Section 1 - John Lennon Quote (First) */}
         <motion.section
           className="max-w-3xl mx-auto px-6 py-16 md:py-24"
           variants={revealItem}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          animate="show"
         >
           <div className="text-center space-y-8">
             {/* Main Quote */}
@@ -511,47 +426,7 @@ export default function StemForAll() {
         </motion.section>
       </main>
 
-      {/* Footer */}
-      <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-xs font-normal tracking-wide text-neutral-600">&copy; 2024 Aletheia</div>
-            <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
-              <Link
-                href="/stem-for-all"
-                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm"
-              >
-                Stem for All
-              </Link>
-              <Link
-                href="/tech4all"
-                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100"
-              >
-                Tech4All
-              </Link>
-              <Link
-                href="/about"
-                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100"
-              >
-                About
-              </Link>
-              <Link
-                href="/gallery"
-                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100"
-              >
-                Gallery
-              </Link>
-              <Link
-                href="/contact"
-                className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100"
-              >
-                Contact
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
-
+      <Footer />
     </div>
   )
 }

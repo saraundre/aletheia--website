@@ -1,11 +1,11 @@
 "use client"
 
-import { Home, X } from "lucide-react"
-import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import { Nav } from "@/components/nav"
+import { Footer } from "@/components/footer"
 
 function CollaboratorsCarousel() {
   const [ref, inView] = useInView({
@@ -153,7 +153,7 @@ function CollaboratorsCarousel() {
             transform: translateX(0%);
           }
         }
-        
+
         @keyframes scroll-left {
           0% {
             transform: translateX(0%);
@@ -162,15 +162,15 @@ function CollaboratorsCarousel() {
             transform: translateX(-50%);
           }
         }
-        
+
         .animate-scroll-right {
           animation: scroll-right 40s linear infinite;
         }
-        
+
         .animate-scroll-left {
           animation: scroll-left 35s linear infinite;
         }
-        
+
         .animate-scroll-right:hover,
         .animate-scroll-left:hover {
           animation-play-state: paused;
@@ -181,105 +181,17 @@ function CollaboratorsCarousel() {
 }
 
 export default function About() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [showFooter, setShowFooter] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const threshold = 32; // px from bottom
-      if (window.innerWidth < 768) {
-        setShowFooter(window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
-            <Link href="/">
-              <Image
-                src="/aletheia_logo.png"
-                alt="Aletheia Logo"
-                width={100}
-                height={32}
-                className="object-contain"
-              />
-            </Link>
-            <button onClick={toggleMenu} className="hover:opacity-70 transition-opacity" aria-label="Toggle menu">
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Home className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-serif flex flex-col">
+      <Nav />
 
-      {/* Menu Overlay */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-neutral-50/95 backdrop-blur-sm">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center space-y-8">
-              <nav className="space-y-6">
-                <Link
-                  href="/stem-for-all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Stem for All
-                </Link>
-                <Link
-                  href="/tech4all"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Tech4All
-                </Link>
-                <Link
-                  href="/about"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link
-                  href="/gallery"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Gallery
-                </Link>
-                <Link
-                  href="/contact"
-                  className="block text-sm md:text-3xl font-normal tracking-wide hover:opacity-70 transition-opacity px-2 py-1 rounded-lg hover:bg-neutral-100"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className="pb-16 md:pb-8">
-
-
+      <main className="flex-1 pt-24">
         {/* About Aletheia */}
-        <section className="min-h-screen flex items-center px-6 pt-28 pb-16 md:pt-32 md:pb-20">
+        <section className="px-6 py-20 md:py-28">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            viewport={{ once: true, amount: 0.35 }}
             className="w-full max-w-5xl mx-auto text-center space-y-8 md:space-y-10"
           >
             <div className="space-y-4">
@@ -378,7 +290,7 @@ export default function About() {
         </section>
 
         {/* Call to Action */}
-        <section className="max-w-2xl mx-auto px-6 py-16 pb-32 text-center">
+        <section className="max-w-2xl mx-auto px-6 py-16 pb-24 text-center">
           <div className="space-y-8">
             <h2 className="text-2xl md:text-3xl font-normal tracking-tight leading-tight text-neutral-900">
               Let&apos;s Make Impact Together.
@@ -393,21 +305,7 @@ export default function About() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className={`fixed bottom-0 left-0 right-0 bg-neutral-50/80 backdrop-blur-sm ${showFooter ? '' : 'hidden'} md:block`}>
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-xs font-normal tracking-wide text-neutral-600">&copy; 2024 Aletheia</div>
-            <div className="flex space-x-2 text-xs font-normal tracking-wide text-neutral-600">
-              <a href="/stem-for-all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Stem for All</a>
-              <a href="/tech4all" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Tech4All</a>
-              <a href="/about" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">About</a>
-              <a href="/gallery" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Gallery</a>
-              <a href="/contact" className="hover:text-neutral-900 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 text-xs md:text-sm">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
