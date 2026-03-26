@@ -752,7 +752,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                 transition={{ delay: 0.2, duration: 0.8 }}
                 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide"
               >
-                Building brands and bridging communities through world-class artistry and technologies.
+                Bridging communities with heart and through world-class artistry and technologies.
               </motion.div>
 
               <motion.div
@@ -761,7 +761,7 @@ export const ThreeSlideExperience = forwardRef<ThreeSlideExperienceRef, ThreeSli
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-wide"
               >
-                We solve business problems by tailoring solutions based on a mix of strategy, content and unique
+                We meet challenges by tailoring solutions based on a mix of strategy, content and unique
                 proposition.
               </motion.div>
 

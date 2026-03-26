@@ -2,8 +2,9 @@
 
 import { Handshake, Heart, Microscope, Sprout, Target } from "lucide-react"
 import { motion, type Variants } from "framer-motion"
-import type { MutableRefObject } from "react"
+import { useState, type MutableRefObject } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 type StemProgrammePanelsProps = {
   panelViewport: {
@@ -71,7 +72,7 @@ const stemOutcomeItems = [
 
 const collaboratorLogos: CollaboratorLogo[] = [
   {
-    name: "Aletheia EdTech R&D Singapore",
+    name: "Aletheia",
     src: "/logos/aletheia-logo.png",
     width: 176,
     height: 54,
@@ -94,15 +95,19 @@ const collaboratorLogos: CollaboratorLogo[] = [
     width: 190,
     height: 74,
   },
+  {
+    name: "National Library Board (NLB), Singapore",
+    src: "/logos/nlb-logo.png",
+    width: 300,
+    height: 200,
+  },
 ]
 
 const panelBaseClass =
   "min-h-[100svh] scroll-mt-24 md:scroll-mt-28 flex items-center justify-center py-12 md:py-16"
 
-const panelContentAboutClass = "w-full md:-translate-y-2"
 const panelContentClass = "w-full md:-translate-y-6"
 const panelContentLiftedClass = "w-full md:-translate-y-16"
-const panelContentFeatureClass = "w-full md:-translate-y-16"
 
 function renderCollaboratorCard(collaborator: CollaboratorLogo, key: string) {
   return (
@@ -111,19 +116,77 @@ function renderCollaboratorCard(collaborator: CollaboratorLogo, key: string) {
       className="h-full min-h-[210px] rounded-2xl border border-neutral-300/90 bg-white/95 px-5 py-6 text-center shadow-[0_10px_24px_rgba(0,0,0,0.04)] md:px-6 md:py-7"
       aria-label={collaborator.name}
     >
-      <div className="flex min-h-[108px] items-center justify-center">
+      <div className="flex min-h-[108px] items-center justify-center px-2">
         <Image
           src={collaborator.src}
           alt={`${collaborator.name} logo`}
           width={collaborator.width}
           height={collaborator.height}
-          className="h-auto max-h-20 w-auto object-contain"
+          className="h-auto max-h-28 max-w-full w-auto object-contain"
         />
       </div>
       <p className="mt-4 text-sm md:text-base font-normal leading-relaxed tracking-normal text-neutral-700">
         {collaborator.name}
       </p>
     </article>
+  )
+}
+
+function AboutUsPanel({
+  panelContentClass,
+  revealClip,
+}: {
+  panelContentClass: string
+  revealClip: Variants
+}) {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div className={`mx-auto max-w-3xl space-y-6 md:space-y-8 ${panelContentClass}`}>
+      <div className="flex flex-col items-center justify-center gap-4 text-center">
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
+          <Sprout className="h-5 w-5" />
+        </span>
+        <motion.h3
+          id="stem-about-title"
+          className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900"
+          variants={revealClip}
+        >
+          About Us
+        </motion.h3>
+      </div>
+      <div className="mx-auto max-w-3xl space-y-4 text-center">
+        <p className="text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+          STEM for All delivers STEM programmes that ignite and sustain long term interest in science, technology, engineering, and mathematics. We believe that increasing STEM literacy in our next generation will enable them to better navigate this increasingly digital world.
+        </p>
+        {expanded && (
+          <>
+            <p className="text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+              And so, STEM for All is on a mission to build an ecosystem of opportunities, support and platform that empowers all young people to push boundaries and experiment to find new and better ways of doing things. We celebrate diversity, proactively elevate marginalised voices, and are intentionally inclusive in everything we do.
+            </p>
+            <p className="text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+              That is to create a more equitable world, where no curious mind is left behind.
+            </p>
+          </>
+        )}
+        {!expanded && (
+          <button
+            onClick={() => setExpanded(true)}
+            className="text-base md:text-lg font-normal tracking-wide text-neutral-600 underline underline-offset-4 hover:text-neutral-900 transition-colors duration-200"
+          >
+            Learn More
+          </button>
+        )}
+      </div>
+      <div className="pt-2 flex justify-center">
+        <Link
+          href="/tech4all"
+          className="inline-block py-4 px-8 text-lg font-normal tracking-wide text-neutral-900 border border-neutral-300 hover:bg-neutral-900 hover:text-white transition-all duration-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
+        >
+          Tech4All
+        </Link>
+      </div>
+    </div>
   )
 }
 
@@ -137,46 +200,19 @@ export function StemProgrammePanels({
   return (
     <div className="relative">
       <motion.section
-        ref={(el) => {
-          scopePanelsRef.current[0] = el
-        }}
-        className={`${panelBaseClass} text-center`}
+        className="scroll-mt-24 md:scroll-mt-28 flex items-center justify-center py-20 md:py-28 text-center"
         variants={revealPanel}
         initial="hidden"
         whileInView="show"
-        viewport={panelViewport}
+        viewport={{ once: false, amount: 0.3 }}
         aria-labelledby="stem-about-title"
       >
-        <div className={`mx-auto max-w-3xl space-y-8 md:space-y-10 ${panelContentClass}`}>
-          <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-              <Sprout className="h-5 w-5" />
-            </span>
-            <motion.h3
-              id="stem-about-title"
-              className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900"
-              variants={revealClip}
-            >
-              ABOUT STEMFORALL
-            </motion.h3>
-          </div>
-          <div className="mx-auto max-w-3xl space-y-5">
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
-              STEMforALL is a social impact education initiative initiated by Aletheia EdTech R&amp;D Singapore.
-            </p>
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
-              We believe that education should never be limited by financial background or learning differences.
-            </p>
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
-              In today&apos;s AI-driven world, STEM skills are essential. This programme provides free, inclusive, and child-centred STEM learning to help every child build confidence, curiosity, and future-ready skills.
-            </p>
-          </div>
-        </div>
+        <AboutUsPanel panelContentClass="w-full" revealClip={revealClip} />
       </motion.section>
 
       <motion.section
         ref={(el) => {
-          scopePanelsRef.current[1] = el
+          scopePanelsRef.current[0] = el
         }}
         className={`${panelBaseClass} border-t border-neutral-200`}
         variants={revealPanel}
@@ -185,46 +221,51 @@ export function StemProgrammePanels({
         viewport={panelViewport}
         aria-labelledby="stem-experience-title"
       >
-        <div className={`mx-auto max-w-6xl space-y-9 md:space-y-11 ${panelContentClass}`}>
+        <div className={`mx-auto max-w-6xl space-y-6 md:space-y-8 ${panelContentClass}`}>
           <div className="flex items-center justify-center text-center">
             <motion.h3
               id="stem-experience-title"
-              className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900"
+              className="text-3xl md:text-5xl font-bold tracking-tight leading-normal text-neutral-900"
               variants={revealClip}
             >
-              WHAT CHILDREN WILL EXPERIENCE
+              The STEM for All Programme
             </motion.h3>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 xl:gap-6">
+          <div className="mx-auto max-w-3xl space-y-4 text-center">
+            <p className="text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+              STEM for All offers a set of engaging and technically rigorous programme to all communities. Its curriculum is designed in accordance with the LEARN Roadmap (IMDA Singapore). LEARN Roadmaps are structured, broad-based training courses aim at helping students build basic skills in topics across tech and media domains, such as robotics, artificial intelligence and new media.
+            </p>
+            <p className="text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+              A curriculum that involves hardware, software programming and electronics, STEM for All is encouraging and forging the next generation of makers, coders and creators.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
             {stemExperienceItems.map((item) => {
               const ItemIcon = item.icon
               return (
                 <article
                   key={item.title}
-                  className="flex min-h-[236px] flex-col rounded-2xl border border-neutral-300/90 bg-white/95 p-5 text-center shadow-[0_10px_24px_rgba(0,0,0,0.04)] md:p-6"
+                  className="flex min-h-[160px] flex-col rounded-2xl border border-neutral-300/90 bg-white/95 p-4 text-center shadow-[0_10px_24px_rgba(0,0,0,0.04)] md:p-5"
                 >
-                  <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
+                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
                     <ItemIcon className="h-5 w-5" />
                   </span>
-                  <h4 className="mt-5 text-xl md:text-2xl font-semibold tracking-tight leading-snug text-neutral-900">
+                  <h4 className="mt-4 text-lg md:text-xl font-semibold tracking-tight leading-snug text-neutral-900">
                     {item.title}
                   </h4>
-                  <p className="mt-3 text-base md:text-lg font-normal leading-relaxed tracking-normal text-neutral-700">
+                  <p className="mt-2 text-sm md:text-base font-normal leading-relaxed tracking-normal text-neutral-700">
                     {item.description}
                   </p>
                 </article>
               )
             })}
           </div>
-          <p className="mx-auto max-w-3xl text-center text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
-            Learning designed for different abilities and learning styles
-          </p>
         </div>
       </motion.section>
 
       <motion.section
         ref={(el) => {
-          scopePanelsRef.current[2] = el
+          scopePanelsRef.current[1] = el
         }}
         className={`${panelBaseClass} border-t border-neutral-200`}
         variants={revealPanel}
@@ -243,7 +284,7 @@ export function StemProgrammePanels({
               COLLABORATION PARTNERS
             </motion.h3>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 xl:gap-6">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-5 xl:gap-6">
             {collaboratorLogos.map((collaborator) =>
               renderCollaboratorCard(collaborator, `collaborator-${collaborator.name}`)
             )}
@@ -256,42 +297,7 @@ export function StemProgrammePanels({
 
       <motion.section
         ref={(el) => {
-          scopePanelsRef.current[3] = el
-        }}
-        className={`${panelBaseClass} border-t border-neutral-200`}
-        variants={revealPanel}
-        initial="hidden"
-        whileInView="show"
-        viewport={panelViewport}
-        aria-labelledby="stem-free-title"
-      >
-        <div className={`mx-auto max-w-3xl space-y-8 text-center md:space-y-10 ${panelContentLiftedClass}`}>
-          <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700">
-              <Heart className="h-5 w-5" />
-            </span>
-            <motion.h3
-              id="stem-free-title"
-              className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-neutral-900"
-              variants={revealClip}
-            >
-              WHY THIS PROGRAMME IS FREE
-            </motion.h3>
-          </div>
-          <div className="space-y-6 md:space-y-8">
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
-              We believe every child deserves to be seen, understood, and supported.
-            </p>
-            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-normal text-neutral-700">
-              STEMforALL removes financial and systemic barriers to education, especially for children with special learning needs. This initiative is part of Aletheia&apos;s Tech-for-Good commitment, using technology and education research to create meaningful social impact.
-            </p>
-          </div>
-        </div>
-      </motion.section>
-
-      <motion.section
-        ref={(el) => {
-          scopePanelsRef.current[4] = el
+          scopePanelsRef.current[2] = el
         }}
         className={`${panelBaseClass} border-t border-neutral-200`}
         variants={revealPanel}
@@ -340,30 +346,6 @@ export function StemProgrammePanels({
         </div>
       </motion.section>
 
-      <motion.section
-        ref={(el) => {
-          scopePanelsRef.current[5] = el
-        }}
-        className={`${panelBaseClass} text-center`}
-        variants={revealPanel}
-        initial="hidden"
-        whileInView="show"
-        viewport={panelViewport}
-      >
-        <div className={`mx-auto max-w-4xl space-y-4 text-center md:space-y-5 ${panelContentFeatureClass}`}>
-          <div className="text-neutral-900">
-            <p className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              STEMforALL &mdash; Tech for Good
-            </p>
-            <p className="mt-4 text-2xl md:text-4xl font-semibold tracking-tight leading-tight md:mt-5">
-              Education for All
-            </p>
-          </div>
-          <p className="text-lg md:text-xl font-normal tracking-normal text-neutral-600">
-            Powered by SparkOS Education Ecosystem
-          </p>
-        </div>
-      </motion.section>
     </div>
   )
 }
