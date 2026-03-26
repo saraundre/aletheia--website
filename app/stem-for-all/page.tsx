@@ -133,20 +133,12 @@ export default function StemForAll() {
     }
 
     const handleWheel = (event: WheelEvent) => {
-      const section = scopeRef.current
-      if (!section) {
+      if (scopeWheelLockRef.current) {
+        event.preventDefault()
         return
       }
 
-      const sectionRect = section.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      const isWithinStemPanels =
-        sectionRect.top < viewportHeight * 0.5 && sectionRect.bottom > viewportHeight * 0.5
-
-      if (!isWithinStemPanels) {
-        return
-      }
-
       const panels = scopePanelsRef.current.filter((panel): panel is HTMLElement => panel !== null)
       if (panels.length === 0) {
         return
@@ -157,78 +149,45 @@ export default function StemForAll() {
         return
       }
 
-      const firstPanelRect = panels[0].getBoundingClientRect()
-      const lastPanelRect = panels[panels.length - 1].getBoundingClientRect()
-      const entrySnapOffset = viewportHeight * 0.08
-      const enteringStemFromTop = direction > 0 && firstPanelRect.top > entrySnapOffset
-      const enteringStemFromBottom =
-        direction < 0 && lastPanelRect.bottom < viewportHeight - entrySnapOffset
-
-      if (enteringStemFromTop) {
-        if (scopeWheelLockRef.current) {
-          event.preventDefault()
-          return
-        }
-
-        event.preventDefault()
-        scopeWheelLockRef.current = true
-        panels[0].scrollIntoView({ behavior: "smooth", block: "start" })
-
-        window.setTimeout(() => {
-          scopeWheelLockRef.current = false
-        }, 650)
+      // Check if any snappable panel is visible in the viewport
+      const firstRect = panels[0].getBoundingClientRect()
+      const lastRect = panels[panels.length - 1].getBoundingClientRect()
+      if (firstRect.top >= viewportHeight || lastRect.bottom <= 0) {
         return
       }
 
-      if (enteringStemFromBottom) {
-        if (scopeWheelLockRef.current) {
-          event.preventDefault()
-          return
+      // Find which panel occupies the most viewport space
+      let activeIndex = -1
+      let maxOverlap = 0
+      for (let i = 0; i < panels.length; i++) {
+        const rect = panels[i].getBoundingClientRect()
+        const overlapTop = Math.max(rect.top, 0)
+        const overlapBot = Math.min(rect.bottom, viewportHeight)
+        const overlap = Math.max(0, overlapBot - overlapTop)
+        if (overlap > maxOverlap) {
+          maxOverlap = overlap
+          activeIndex = i
         }
+      }
 
-        event.preventDefault()
-        scopeWheelLockRef.current = true
-        panels[panels.length - 1].scrollIntoView({ behavior: "smooth", block: "start" })
-
-        window.setTimeout(() => {
-          scopeWheelLockRef.current = false
-        }, 650)
+      if (activeIndex === -1 || maxOverlap < viewportHeight * 0.3) {
         return
       }
 
-      let activeIndex = 0
-      let nearestDistance = Number.POSITIVE_INFINITY
-      for (let index = 0; index < panels.length; index += 1) {
-        const rect = panels[index].getBoundingClientRect()
-        const center = rect.top + rect.height / 2
-        const distance = Math.abs(center - viewportHeight / 2)
-        if (distance < nearestDistance) {
-          nearestDistance = distance
-          activeIndex = index
-        }
-      }
-
-      const nextIndex =
-        direction > 0
-          ? Math.min(activeIndex + 1, panels.length - 1)
-          : Math.max(activeIndex - 1, 0)
+      const nextIndex = direction > 0
+        ? Math.min(activeIndex + 1, panels.length - 1)
+        : Math.max(activeIndex - 1, 0)
 
       if (nextIndex === activeIndex) {
-        return
-      }
-
-      if (scopeWheelLockRef.current) {
-        event.preventDefault()
         return
       }
 
       event.preventDefault()
       scopeWheelLockRef.current = true
       panels[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" })
-
       window.setTimeout(() => {
         scopeWheelLockRef.current = false
-      }, 650)
+      }, 700)
     }
 
     window.addEventListener("wheel", handleWheel, { passive: false })
@@ -279,12 +238,11 @@ export default function StemForAll() {
             <div className="pt-8 space-y-2">
               <p className="text-lg font-normal tracking-wide text-neutral-600">John Lennon</p>
               <p className="text-lg font-normal italic tracking-wide text-neutral-500">"Imagine"</p>
+              <p className="text-base font-normal tracking-wide text-neutral-600 pt-2">Imagine, 1971</p>
             </div>
 
-            {/* Attribution */}
-            <div className="pt-8 border-t border-neutral-200">
-              <p className="text-base font-normal tracking-wide text-neutral-600">Imagine, 1971</p>
-            </div>
+            {/* Divider */}
+            <div className="pt-8 border-t border-neutral-200" />
           </div>
         </motion.section>
 
@@ -374,7 +332,7 @@ export default function StemForAll() {
         {/* STEMforALL Programme Details */}
         <section ref={scopeRef} className="mx-auto max-w-7xl px-6">
           <motion.div
-            className="relative overflow-hidden"
+            className="relative"
             style={{ rotate: scopeTilt, scale: scopeScale }}
           >
             <StemProgrammePanels

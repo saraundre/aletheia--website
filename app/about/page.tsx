@@ -212,7 +212,10 @@ export default function About() {
             </div>
 
             <p className="text-lg md:text-2xl font-normal leading-relaxed tracking-normal text-neutral-700 max-w-4xl mx-auto">
-              Aletheia is a government-aligned, research-driven EdTech ecosystem integrating national STEM education, university R&amp;D, charitable impact programmes, and innovation initiatives. We operate as both a technology implementation partner and a national ecosystem enabler&mdash;aligning public institutions, academia, and industry to advance scalable, sustainable innovation.
+              Aletheia is an independent company focused on third sector work that transforms lives for a future that we all share. We are proud to work with youths, communities and our partners, delivering meaningful programmes to help close education gaps.
+            </p>
+            <p className="text-lg md:text-xl font-normal leading-relaxed tracking-wide text-neutral-700 max-w-4xl mx-auto pt-4">
+              Here to unveil potentials.
             </p>
 
             <div className="pt-2 space-y-4">
